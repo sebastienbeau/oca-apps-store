@@ -1,0 +1,59 @@
+<template>
+  <UApp :toaster="{ position: 'top-right', duration: 3000 }">
+    <NuxtPwaManifest />
+    <NuxtLoadingIndicator />
+    <UMain data-vaul-drawer-wrapper>
+      <NuxtLayout>
+        <UPageHero
+          v-if="!isOnline"
+          :title="t('offline.title')"
+          :description="t('offline.description')"
+          :links="[
+            {
+              label: t('offline.retry'),
+              onClick: reloadNuxtApp
+            }
+          ]"
+          class="h-screen"
+        >
+          <template #headline>
+            <UIcon name="offline" class="text-primary size-20" />
+          </template>
+        </UPageHero>
+        <NuxtPage v-else />
+      </NuxtLayout>
+    </UMain>
+  </UApp>
+</template>
+
+<script setup lang="ts">
+import { useNetwork } from '@vueuse/core'
+const { t } = useI18n()
+const network = reactive(useNetwork())
+const isOnline = computed(() => network.isOnline)
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk
+      ? `${titleChunk} - ${t('seo.title')}`
+      : t('seo.title')
+  },
+  meta: [
+    {
+      name: 'description',
+      content: t('seo.description'),
+    },
+  ],
+})
+</script>
+
+<style>
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+</style>

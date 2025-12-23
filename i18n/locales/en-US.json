@@ -1,0 +1,20 @@
+{
+  "nav": {
+    "site": {
+      "home": "Home"
+    },
+    "modules": {
+      "title": "Modules",
+      "all": {
+        "title": "All modules"
+      }
+    },
+    "community": {
+      "title": "Community"
+    },
+    "sponsors": {
+      "title": "Sponsors",
+      "become": "Become a Sponsor"
+    }
+  }
+}

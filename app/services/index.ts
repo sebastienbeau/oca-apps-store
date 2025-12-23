@@ -1,0 +1,7 @@
+export { BaseService } from './BaseService'
+export { BaseServiceLocalized } from './BaseServiceLocalized'
+export { BaseServiceTypeSense } from './BaseServiceTypeSense'
+export { CategoryService } from './CategoryService'
+export { ModuleService } from './ModuleService'
+export { PersonService } from './PersonService'
+export { SponsorService } from './SponsorService'
