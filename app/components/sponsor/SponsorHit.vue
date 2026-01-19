@@ -22,27 +22,27 @@
 
     <template #footer>
       <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-users" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.members }}</span>
             Members
           </span>
         </div>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-user-group" class="text-primary" />
           <span class="text-sm">OCA Collaborator index: 
              <span class="text-secondary">{{ sponsor.collaboratorIndex }}</span>
           </span>
         </div>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-code-bracket" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.collaborators }} </span>
             Contributors
           </span>
         </div>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-building-office" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.industries }}</span> Industries

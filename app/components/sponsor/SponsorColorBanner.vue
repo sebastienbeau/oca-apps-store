@@ -8,11 +8,11 @@
         variant="soft" class=" " :links="links" :ui="{
           root: 'w-full bg-transparent',
           container: ' ',
-          wrapper: 'flex flex-row',
+  wrapper: 'flex flex-col md:flex-row',
           header: 'mr-8',
           title: 'text-left',
           description: 'text-left',
-          links: 'justify-end',
+  links: 'justify-start md:justify-end',
         }">
 
       </UPageCTA>

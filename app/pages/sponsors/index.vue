@@ -1,5 +1,6 @@
 <template>
   <UPageHero description="{{ $t('sponsors.page.description') }}" :links="links" :ui="{
+  root: 'overflow-hidden',
     header: 'text-left',
     footer: 'text-left',
     links: 'justify-start',
