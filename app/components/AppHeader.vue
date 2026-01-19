@@ -1,38 +1,25 @@
 <template>
-    <UHeader :ui="{ root: 'lg:py-2 lg:h-auto' }">
-        <template #left>
-            <Logo />
-        </template>
-        <UNavigationMenu
-            :items="items"
-            :ui="{
-                root: 'hidden lg:flex w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-6 ',
-            }"
-        />
-        <template #right>
-            <UColorModeButton />
+	<UHeader :ui="{ root: 'lg:py-2 lg:h-auto' }">
+		<template #left>
+			<Logo />
+		</template>
+		<UNavigationMenu :items="items" :ui="{
+			root: 'hidden lg:flex w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-6 ',
+		}" />
+		<template #right>
+			<UColorModeButton />
 
-            <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
-                <UButton
-                    color="neutral"
-                    variant="ghost"
-                    to="https://github.com/nuxt/ui"
-                    target="_blank"
-                    icon="i-simple-icons-github"
-                    aria-label="GitHub"
-                />
-            </UTooltip>
-        </template>
-        <template #body>
-            <UNavigationMenu
-                :items="items"
-                orientation="vertical"
-                class="-mx-2.5"
-            />
-            <LocaleSwitcher />
-        </template>
-        <template #bottom> </template>
-    </UHeader>
+			<UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
+				<UButton color="neutral" variant="ghost" to="https://github.com/nuxt/ui" target="_blank"
+					icon="i-simple-icons-github" aria-label="GitHub" />
+			</UTooltip>
+		</template>
+		<template #body>
+			<UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
+			<LocaleSwitcher />
+		</template>
+		<template #bottom> </template>
+	</UHeader>
 </template>
 
 <script setup lang="ts">
@@ -41,64 +28,64 @@ const { locale } = useI18n()
 const localePath = useLocalePath()
 const { t } = useI18n()
 const items: NavigationMenuItem[] = [
-    {
-        label: t('nav.site.home'),
-        to: localePath('/'),
-    },
-    {
-        label: t('nav.modules.title'),
-        to: localePath('/modules'),
-        children: [
-            {
-                label: t('nav.modules.all.title'),
-                description: t('nav.modules.all.description'),
-                to: localePath('/modules'),
-                icon: 'module',
-            },
-            {
-                label: t('nav.modules.categories.title'),
-                description: t('nav.modules.categories.description'),
-                icon: 'category',
-                to: localePath('/categories/modules'),
-            },
-        ],
-    },
-    {
-        label: t('nav.community.title'),
-        to: localePath('/community'),
-        children: [
-            {
-                label: t('nav.community.persons.title'),
-                description: t('nav.community.persons.description'),
-                to: localePath('/persons'),
-                icon: 'person',
-            },
-            {
-                label: t('nav.community.sponsors.title'),
-                description: t('nav.community.sponsors.description'),
-                to: localePath('/sponsors'),
-                icon: 'sponsor',
-            },
-        ],
-    },
-    {
-        label: t('nav.sponsors.title'),
-        to: localePath('/sponsors'),
-    },
-    {
-        label: t('nav.sponsors.become'),
-        to: localePath('/sponsors'),
-    },
+	{
+		label: t('nav.site.home'),
+		to: localePath('/'),
+	},
+	{
+		label: t('nav.modules.title'),
+		to: localePath('/modules'),
+		children: [
+			{
+				label: t('nav.modules.all.title'),
+				description: t('nav.modules.all.description'),
+				to: localePath('/modules'),
+				icon: 'module',
+			},
+			{
+				label: t('nav.modules.categories.title'),
+				description: t('nav.modules.categories.description'),
+				icon: 'category',
+				to: localePath('/categories/modules'),
+			},
+		],
+	},
+	{
+		label: t('nav.community.title'),
+		to: localePath('/community'),
+		children: [
+			{
+				label: t('nav.community.persons.title'),
+				description: t('nav.community.persons.description'),
+				to: localePath('/persons'),
+				icon: 'person',
+			},
+			{
+				label: t('nav.community.sponsors.title'),
+				description: t('nav.community.sponsors.description'),
+				to: localePath('/sponsors'),
+				icon: 'sponsor',
+			},
+		],
+	},
+	{
+		label: t('nav.sponsors.title'),
+		to: localePath('/sponsors'),
+	},
+	{
+		label: t('nav.sponsors.become'),
+		to: localePath('/sponsors'),
+	},
 ]
 
 const scrolled = ref(false)
 const onWindowScroll = () => {
-    scrolled.value = window.scrollY > 0
+	scrolled.value = window.scrollY > 0
 }
 onMounted(() => {
-    window.addEventListener('scroll', onWindowScroll)
+	window.addEventListener('scroll', onWindowScroll)
 })
 onUnmounted(() => {
-    window.removeEventListener('scroll', onWindowScroll)
+	window.removeEventListener('scroll', onWindowScroll)
 })
 </script>

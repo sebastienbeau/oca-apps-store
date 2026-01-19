@@ -8,44 +8,53 @@ import type {
 import type {
   SearchParams,
 } from 'typesense/lib/Typesense/Types'
+import type { LocalizedIndex } from '~/plugins/services/types/config'
 
 export class BaseServiceTypeSense extends BaseServiceLocalized {
   ofetch: $Fetch
   host: string
-  collectionPrefixName: string
-  collection: string
+  key: string
+  collectionByLocales: {
+    [key: string]: string
+  }
+  collection: {
+    [key: string]: string
+  }
   client: Client
   constructor(
     isoLocale: string,
     ofetch: $Fetch,
     host: string,
-    collection: string,
+    key: string,
+    collectionByLocales: LocalizedIndex,
   ) {
     super(isoLocale)
     this.ofetch = ofetch
     this.host = host
-    this.collectionPrefixName = collection
-
-    if (!this.collectionPrefixName) {
+    this.key = key
+    this.collectionByLocales = collectionByLocales
+    if (!this.collectionByLocales) {
       throw new Error('Typesense collection is required')
     }
     this.collection = this.setLocalizedCollectionName()
+    const url = new URL(this.host)
+    let path = url.pathname === '/' ? '' : url.pathname
     this.client = new Client({
       nodes: [
         {
-          host: 'localhost', // For ofetch, host is not used
-          path: '/typesense',
-          port: 3000,
-          protocol: 'http',
+          host: url.hostname,
+          path,
+          port: url.port ? parseInt(url.port) : 443,
+          protocol: url.protocol.replace(':', ''),
         },
       ],
-      apiKey: 'xyz', // Not used with ofetch
+      apiKey: this.key,
       connectionTimeoutSeconds: 2,
     })
   }
 
   setLocalizedCollectionName() {
-    return `${this.collectionPrefixName}_${this.currentIsoLocale}`
+    return this.collectionByLocales?.['en'] || ''
   }
 
   // Change indexes' names to match the current locale
@@ -71,7 +80,7 @@ export class BaseServiceTypeSense extends BaseServiceLocalized {
       const res = await this.client.multiSearch.perform({
         searches,
       })
-      if(res?.results?.[0]?.error) {
+      if (res?.results?.[0]?.error) {
         throw new Error(res.results[0].error)
       }
       return res
@@ -126,29 +135,38 @@ export class BaseServiceTypeSense extends BaseServiceLocalized {
 }
 
 export class BaseServiceTypeSenseUnion extends BaseServiceTypeSense {
-  collectionPrefixNames: { [key: string]: string }
+  collectionsByLocales: {
+    [key: string]: {
+      [key: string]: string
+    }
+  }
   collections: { [key: string]: string }
   constructor(
     isoLocale: string,
     ofetch: $Fetch,
     host: string,
-    collections: { [key: string]: string },
+    key: string,
+    collectionsByLocales: {
+      [key: string]: {
+        [key: string]: string
+      }
+    },
   ) {
-    const firstCollection = Object.values(collections)[0] || ''
-    super(isoLocale, ofetch, host, firstCollection || '')
+    const firstCollection = Object.values(collectionsByLocales)[0]?.['fr'] || ''
+    super(isoLocale, ofetch, host, key, firstCollection || {})
 
-    this.collectionPrefixNames = collections
-    if (!this.collectionPrefixNames) {
-      throw new Error('Typesense collection is required')
+    this.collectionsByLocales = collectionsByLocales
+    if (!this.collectionsByLocales) {
+      throw new Error('Typesense collections is required')
     }
     this.collections = this.setLocalizedCollectionNames()
   }
 
   setLocalizedCollectionNames() {
     return Object.fromEntries(
-      Object.entries(this.collectionPrefixNames).map(([key, prefix]) => [
+      Object.entries(this.collectionsByLocales).map(([key, collectionByLocales]) => [
         key,
-        `${prefix}_${this.currentIsoLocale}`,
+        collectionByLocales?.['fr'] || '',
       ]),
     )
   }
@@ -168,13 +186,13 @@ export class BaseServiceTypeSenseUnion extends BaseServiceTypeSense {
           ...queries,
         }),
       )
-      
+
       const res: SearchResponse<T>[] = await this.client.multiSearch
         .perform({
           searches,
         })
         .then(r => r.results)
-      
+
       const results: { [key: string]: SearchResponse<T> } = {}
       for (const key in this.collections) {
         const collectionName = this.collections[key]

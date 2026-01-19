@@ -7,4 +7,4 @@ export type {
 } from './Category'
 export type { Module } from './Module'
 export type { Person } from './Person'
-export type { Sponsor } from './Sponsor'
+export type { Sponsor, SponsorResultGroupedLevels, SponsorResult } from './Sponsor'

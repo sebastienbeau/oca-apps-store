@@ -1,24 +1,39 @@
 import { useRuntimeConfig } from '#app'
+
 import {
-    CategoryService,
-    ModuleService,
-    PersonService,
-    SponsorService,
+  CategoryService,
+  ModuleService,
+  PersonService,
+  SponsorService
 } from '~/services'
-import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
+
 import { ofetch } from 'ofetch'
-import type { ServiceList, config } from './types/config'
+import type {
+  ServiceList as ServiceList,
+  SearchConfig
+} from './types/config'
+
+declare global {
+  interface Shopinvader {
+    services: ShopinvaderServiceList
+  }
+}
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface ShopinvaderServiceList extends ServiceList { }
+}
 
 declare module '#app' {
-    interface NuxtApp {
-        $services: ServiceList
-    }
+  interface NuxtApp {
+    $shopinvader: Shopinvader
+  }
 }
 
 declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $services: ServiceList
-    }
+  interface ComponentCustomProperties {
+    $shopinvader: Shopinvader
+  }
 }
 
 /*
@@ -26,87 +41,82 @@ declare module '@vue/runtime-core' {
  * It also provides the fetchers to fetch data from the ERP and Search Engine.
  */
 export default defineNuxtPlugin(async (nuxtApp) => {
-    // Get the search config from the runtime config
-    let config = useRuntimeConfig()?.public as config
-    if (!config.search || !config.search.url) {
-        throw new Error('No typesense config found')
-    }
-    config = JSON.parse(JSON.stringify(config))
-    const searchFetch = ofetch.create({})
-    const i18nOptions: any = nuxtApp.$i18n || {}
-    const isoLocale: string =
-        i18nOptions?.localeProperties?.value?.language ||
-        i18nOptions?.localeProperties?.value?.iso ||
-        'en_us'
-    const searchBaseUrl = config.search.url
-    const searchIndexes = config.search.indices
+  let config = useRuntimeConfig()?.public?.search as SearchConfig
 
-    // Create all other services
-    const services: ServiceList = {
-        categories: new CategoryService(
-            isoLocale,
-            searchFetch,
-            searchBaseUrl,
-            searchIndexes.categories
-        ),
-        persons: new PersonService(
-            isoLocale,
-            searchFetch,
-            searchBaseUrl,
-            searchIndexes.persons
-        ),
-        sponsors: new SponsorService(
-            isoLocale,
-            searchFetch,
-            searchBaseUrl,
-            searchIndexes.sponsors
-        ),
-        modules: new ModuleService(
-            isoLocale,
-            searchFetch,
-            searchBaseUrl,
-            searchIndexes.modules
-        ),
-    }
-    // Init all services when the app is mounted
-    // -----------------------------------------
-    if (services) {
-        for (const service of Object.values(services)) {
-            if (service?.init) {
-                await service.init(services)
-            }
-        }
-    }
+  if (
+    !config
+    || !config.url
+  ) {
+    throw new Error('No shopinvader search config found')
+  }
+  const fetchers = {
+    searchFetch: ofetch.create({}),
+    erpFetch: ofetch.create({}),
+  }
 
-    // Manage the language switch
-    // --------------------------
-    nuxtApp.hook('i18n:localeSwitched', async ({ newLocale }) => {
-        // Convert the locale to the iso format (while trying to keep TS typing)
-        // We get 'en' in newLocale but search services want 'en_en' or 'en_us'...
-        const i18n = nuxtApp.$i18n as NuxtI18nOptions
-        const locales = i18n.locales as unknown as Ref<LocaleObject[]>
-        const locale = locales?.value?.find((l) => l.code === newLocale)
-        const newIsoLocale = locale?.language || 'fr_fr'
-        if (services) {
-            for (const service of Object.values(services)) {
-                await service.changeLocale(newIsoLocale)
-            }
-        }
-    })
+  // Shortcuts to data
+  const i18nOptions: any = nuxtApp.$i18n || {}
+  const isoLocale: string
+    = i18nOptions?.localeProperties?.value?.language
+    || i18nOptions?.localeProperties?.value?.iso // For nuxt-i18n < 7
+    || 'en'
 
-    // Provide the services and fetchers to the app
-    return {
-        provide: {
-            services,
-        },
+  const searchBaseUrl = config.url
+  const searchFetch = fetchers.searchFetch
+  const searchIndexes = config.indices
+  const searchKey = config.key
+
+
+  // Create all other services
+  const services: ShopinvaderServiceList = {
+    categories: new CategoryService(
+      isoLocale,
+      searchFetch,
+      searchBaseUrl,
+      searchKey,
+      searchIndexes.categories,
+    ),
+    persons: new PersonService(
+      isoLocale,
+      searchFetch,
+      searchBaseUrl,
+      searchKey,
+      searchIndexes.persons,
+    ),
+    sponsors: new SponsorService(
+      isoLocale,
+      searchFetch,
+      searchBaseUrl,
+      searchKey,
+      searchIndexes.sponsors,
+    ),
+    modules: new ModuleService(
+      isoLocale,
+      searchFetch,
+      searchBaseUrl,
+      searchKey,
+      searchIndexes.modules,
+    )
+  }
+  // Init all services when the app is mounted
+  // -----------------------------------------
+  if (services) {
+    // Init services in the order if the initSeq attribute
+    const orderedServiceList = Object.values(services).sort(
+      (a, b) => a?.initSeq - b?.initSeq,
+    )
+    for (const service of orderedServiceList) {
+      if (service?.init) {
+        await service.init(services)
+      }
     }
+  }
+
+
+  // Provide the services and fetchers to the app
+  return {
+    provide: {
+      services
+    },
+  }
 })
-
-const isValidURL = (url: string): boolean => {
-    try {
-        new URL(url)
-        return true
-    } catch {
-        return false
-    }
-}
