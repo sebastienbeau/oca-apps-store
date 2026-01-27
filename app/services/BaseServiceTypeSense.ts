@@ -81,6 +81,7 @@ export class BaseServiceTypeSense extends BaseServiceLocalized {
         searches,
       })
       if (res?.results?.[0]?.error) {
+        console.error('Typesense error:', res.results[0].error)
         throw new Error(res.results[0].error)
       }
       return res

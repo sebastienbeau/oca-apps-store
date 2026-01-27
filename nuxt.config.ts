@@ -10,10 +10,10 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
-    'nuxt-studio',
+    //'nuxt-studio',
   ],
   plugins: ['~/plugins/services/index'],
-  ssr: true,
+  ssr: false,
   devtools: { enabled: true },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -150,13 +150,6 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  studio: {
-    repository: {
-      provider: 'github', // 'github' or 'gitlab'
-      owner: 'your-username',
-      repo: 'your-repo',
-      branch: 'main'
-    }
-  }
+
 
 })

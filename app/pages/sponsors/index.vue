@@ -1,39 +1,53 @@
 <template>
-  <UPageHero description="{{ $t('sponsors.page.description') }}" :links="links" :ui="{
-    root: 'overflow-hidden',
-    header: 'text-left',
-    footer: 'text-left',
-    links: 'justify-start',
-  }">
-    <template #title>
-      {{ t('sponsors.page.title') }}
+  <SearchBase :query="query" :facets="facets" :sort-options="[]" :infinite-scroll="false"
+    :search-function="searchFunction">
+    <template #header>
+      <UPageHero description="{{ $t('sponsors.page.description') }}" :links="links" :ui="{
+        root: 'overflow-hidden',
+        header: 'text-left',
+        footer: 'text-left',
+        links: 'justify-start',
+      }">
+        <template #title>
+          {{ t('sponsors.page.title') }}
+        </template>
+        <template #description>
+          {{ t('sponsors.page.description') }}
+        </template>
+      </UPageHero>
     </template>
-    <template #description>
-      {{ t('sponsors.page.description') }}
+    <template #actions>
+      <UFormField>
+        <UInput v-model="searchTerms" :placeholder="t('sponsors.search.placeholder')" size="lg"
+          trailing-icon="search" />
+      </UFormField>
     </template>
-  </UPageHero>
-  <template v-for="sponsorship in sponsorShipList" :key="sponsorship.level">
-    <SponsorColorBanner :sponsorship="sponsorship" />
-    <div class="container mx-auto p-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
-        <sponsorHit v-for="sponsor in sponsors[sponsorship.level]" :key="sponsor.id" :sponsor="sponsor" />
+    <template #results="{ results }">
+      <div class="container mx-auto p-4">
+        <SponsorLevelHits :hits-by-level="results.hits" />
       </div>
-    </div>
-  </template>
+    </template>
+  </SearchBase>
 </template>
-
 <script setup lang="ts">
-import { sponsorships } from "~/data/sponsors";
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search';
 import type { Sponsor, SponsorResultGroupedLevels } from "~/models";
-
 
 const { t } = useI18n()
 const perPage = 12
 const page = ref(1)
-const localePath = useLocalePath()
 const sponsorService = useService('sponsors')
 const sponsors = ref<{ [level: string]: Sponsor[] }>({})
 const totalSponsors = ref(0)
+const searchTerms = ref('')
+
+const query = computed(() => {
+  return {
+    q: searchTerms.value,
+    query_by: 'name',
+  }
+})
+
 const links = ref([
   {
     label: t('sponsor.page.become_button'),
@@ -50,6 +64,30 @@ const links = ref([
   }
 ])
 
+const facets: Facet[] = [
+  {
+    field: 'sponsor_level.name',
+    title: t('sponsors.filters.sponsor_level')
+  },
+  {
+    field: 'countries.label',
+    title: t('sponsors.filters.countries')
+  },
+  {
+    field: 'industry.name',
+    title: t('sponsors.filters.industries')
+  },
+]
+
+const searchFunction = async (
+  query: any,
+  facets: FacetSearchParam[]
+): Promise<FacetSearchResult<Sponsor>> => {
+  const res = await sponsorService.facetSearch(query, facets)
+
+  return res
+}
+
 const getSponsors = async () => {
   const res = await sponsorService.getSponsorsGroupedLevels({}, page.value, perPage)
   return res
@@ -60,7 +98,5 @@ if (data.value) {
   sponsors.value = data.value.hits
   totalSponsors.value = data.value.total
 }
-const sponsorShipList = computed(() => {
-  return sponsorships.filter(s => sponsors.value[s.level] && sponsors.value[s.level].length > 0)
-})
+
 </script>

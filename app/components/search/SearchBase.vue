@@ -8,14 +8,17 @@
       </slot>
       <div ref="container">
         <UContainer>
-          <div class="flex justify-between items-center gap-1">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-1">
+            <slot name="actions"></slot>
             <div class="flex-1">
-              <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
-                class="max-md:my-4" @refine="onChangeFilter" />
+              <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
+                :query-facets="queryFacets">
+                <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
+                  class="max-md:my-4" @refine="onChangeFilter" />
+              </slot>
             </div>
             <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
           </div>
-          <USeparator class="mb-4" />
           <div v-if="error" class="mx-auto my-10 max-w-lg">
             <UAlert type="error" color="error" icon="error" variant="outline" orientation="horizontal"
               :title="t('search.error.title')" :description="error?.message ||
@@ -38,17 +41,19 @@
               <div class="text-muted text-xs">
                 {{
                   t('search.results.count', {
-                    count: results.total,
+                    count: results.found,
                   })
                 }}
               </div>
             </div>
-            <SearchProductResult :products="results.hits" :total="results.total" :infinite-scroll="infiniteScroll"
-              :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage">
-              <template #product-hit="{ product, index, total }">
-                <slot name="product-hit" :product="product" :index="index" :total="total" />
-              </template>
-            </SearchProductResult>
+            <slot name="results" :results="results">
+              <SearchResult :hits="results.hits" :total="results.found" :infinite-scroll="infiniteScroll"
+                :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage">
+                <template #hit="{ hit, index, total }">
+                  <slot name="hit" :hit="hit" :index="index" :total="total" />
+                </template>
+              </SearchResult>
+            </slot>
           </template>
           <div v-if="$slots.footer" class="mt-8">
             <slot name="footer" />
@@ -59,21 +64,23 @@
   </UPage>
 </template>
 
-<script lang="ts" setup>
-import type { Product, ProductResult } from '~/models'
+<script lang="ts" setup generic="T">
 import type {
   FacetSearchParam,
   FacetSearchResult,
-  ProductSearchParams,
-} from '~/services/ProductService'
+} from '~/models/Search'
 import type { Facet } from './SearchFacetsList.vue'
 
 const props = withDefaults(
   defineProps<{
     facets?: Facet[]
     sortOptions?: { label: string; value: string }[]
-    query?: ProductSearchParams | null
+    query?: {} | null
     infiniteScroll?: boolean
+    searchFunction?: (
+      query: any,
+      facets: FacetSearchParam[]
+    ) => Promise<FacetSearchResult<T>>
   }>(),
   {
     facets: () => [],
@@ -83,8 +90,7 @@ const props = withDefaults(
   }
 )
 
-const productServices = useService('products')
-const productSearchContainer = useTemplateRef<HTMLDivElement>('container')
+const searchContainer = useTemplateRef<HTMLDivElement>('container')
 const router = useRouter()
 const route = useRoute()
 const { start, finish } = useLoadingIndicator()
@@ -107,7 +113,7 @@ const queryFacets: { [field: string]: string } = {}
 /**
  * Initial search with the current facets from the route only on server side
  */
-const res = await useAsyncData<FacetSearchResult>(
+const res = await useAsyncData<FacetSearchResult<T>>(
   route.fullPath,
   async () => {
     let facetData: FacetSearchParam[] = []
@@ -134,7 +140,7 @@ const res = await useAsyncData<FacetSearchResult>(
       query.page = 1
       query.per_page = perPage.value * page.value
     }
-    return await productServices.facetSearch(query, facetData)
+    return await props.searchFunction?.(query, facetData)
   },
   {
     watch: [query],
@@ -142,10 +148,10 @@ const res = await useAsyncData<FacetSearchResult>(
 )
 const { data } = res
 
-const results = reactive<ProductResult>({
-  hits: data?.value?.hits || ([] as Product[]),
-  total: data?.value?.found || 0,
-  facets: data?.value?.facets || {},
+const results = reactive<FacetSearchResult<T>>({
+  hits: data?.value?.hits || ([] as T[]),
+  found: data?.value?.found || 0,
+  facets: data?.value?.facets || [],
 })
 /**
  * Perform the search with the current facets
@@ -153,63 +159,62 @@ const results = reactive<ProductResult>({
 const search = async () => {
   isLoading.value = true
   error.value = null
-  try {
-    start({ force: true })
-    if (facetHasChanges.value && page.value !== 1) {
-      page.value = 1
-      router.push({
-        query: {
-          ...route.query,
-          page: '1',
-        },
-      })
-    }
-
-    const facetData: FacetSearchParam[] =
-      props.facets.map((f) => {
-        return {
-          field: f.field,
-          query: queryFacets?.[f.field] || '',
-          perPage: f?.perPage || 10,
-        }
-      }) || []
-    const defaultQuery = {
-      query_by: 'name',
-      per_page: perPage.value,
-      q: '*',
-    }
-    const query = {
-      ...defaultQuery,
-      ...(props?.query || {}),
-    }
-
-    const res: FacetSearchResult = await productServices.facetSearch(
-      {
-        ...query,
-        sort_by: sortBy.value,
-        page: page.value,
+  //try {
+  start({ force: true })
+  if (facetHasChanges.value && page.value !== 1) {
+    page.value = 1
+    router.push({
+      query: {
+        ...route.query,
+        page: '1',
       },
-      facetData
-    )
-
-    if (props.infiniteScroll && !facetHasChanges.value) {
-      results.hits = [
-        ...results.hits.slice(0, perPage.value * (page.value - 1)),
-        ...(res?.hits || []),
-      ]
-    } else {
-      results.hits = res?.hits || []
-    }
-    results.facets = res?.facets || []
-    results.total = res?.found || 0
-  } catch (err) {
-    console.error(err)
-    error.value = err
-  } finally {
-    facetHasChanges.value = false
-    isLoading.value = false
-    finish()
+    })
   }
+
+  const facetData: FacetSearchParam[] =
+    props.facets.map((f) => {
+      return {
+        field: f.field,
+        query: queryFacets?.[f.field] || '',
+        perPage: f?.perPage || 10,
+      }
+    }) || []
+  const defaultQuery = {
+    query_by: 'name',
+    per_page: perPage.value,
+    q: '*',
+  }
+  const query = {
+    ...defaultQuery,
+    ...(props?.query || {}),
+  }
+
+  const res: FacetSearchResult<T> = await props.searchFunction?.(
+    {
+      ...query,
+      sort_by: sortBy.value,
+      page: page.value,
+    },
+    facetData
+  )
+  if (props.infiniteScroll && !facetHasChanges.value) {
+    results.hits = [
+      ...results.hits.slice(0, perPage.value * (page.value - 1)),
+      ...(res?.hits || []),
+    ]
+  } else {
+    results.hits = res?.hits || []
+  }
+  results.facets = res?.facets || []
+  results.found = res?.found || 0
+  // } catch (err) {
+  //   console.error(err)
+  //   error.value = err
+  // } finally {
+  facetHasChanges.value = false
+  isLoading.value = false
+  finish()
+  //}
 }
 
 /**
@@ -235,12 +240,12 @@ const onSort = async (value: string) => {
 const changePage = async (p: number) => {
   if (p < 1) {
     p = 1
-  } else if (p > Math.ceil(results.total / perPage.value)) {
-    p = Math.ceil(results.total / perPage.value)
+  } else if (p > Math.ceil(results.found / perPage.value)) {
+    p = Math.ceil(results.found / perPage.value)
   }
   page.value = p
-  if (!props.infiniteScroll && productSearchContainer.value) {
-    productSearchContainer.value.scrollIntoView({
+  if (!props.infiniteScroll && searchContainer.value) {
+    searchContainer.value.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     })

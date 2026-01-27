@@ -18,10 +18,27 @@
     }
   },
   "sponsors" :{
+    "become": "Become a {name} Sponsor",
     "page" : {
       "title": "OCA Sponsors",
       "description": "Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality apps that power modern enterprises. Let’s build the future of open-source, together.",
       "become_button": "Become a Sponsor"
+    },
+    "search": {
+      "placeholder": "Search sponsors..."
+    },
+    "filters": {
+      "sponsor_level": "Sponsor Level",
+      "countries": "Countries",
+      "industries": "Industries"
+    }
+  },
+  "search": {
+    "filters": {
+      "label": "Filters"
+    },
+    "results": {
+      "count": "{count} found | {count} items found"
     }
   }
 }

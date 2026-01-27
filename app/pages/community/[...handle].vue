@@ -17,7 +17,6 @@
 import { persons } from '~/data/persons';
 const person = ref()
 const urlParams = useRoute().params;
-console.log(useRoute().params);
 person.value = persons.find((person) =>
   person.username === urlParams.handle?.[0]
 );

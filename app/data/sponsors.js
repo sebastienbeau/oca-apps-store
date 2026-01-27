@@ -1,6 +1,7 @@
 // ~/data/sponsors.js
 export const sponsorships = [
   {
+    "id": 3,
     "level": "platinum",
     "title": "Become a Platinum Sponsor",
     "description": "We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success.",
@@ -13,6 +14,7 @@ export const sponsorships = [
 
   },
   {
+    "id": 2,
     "level": "gold",
     "title": "Become a Gold Sponsor",
     "description": "We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success.",
@@ -25,6 +27,7 @@ export const sponsorships = [
 
   },
   {
+    "id": 1,
     "level": "silver",
     "title": "Become a Silver Sponsor",
     "description": "We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success.",

@@ -1,0 +1,9 @@
+---
+id: 'platinum'
+level: 0
+name: 'Platinum'
+title: 'Platinum Sponsors'
+color: "#C5C5CE"
+---
+
+Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. 

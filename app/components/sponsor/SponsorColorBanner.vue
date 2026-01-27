@@ -1,42 +1,35 @@
-
-
 <template>
-  <div class="relative" >
-    <div class=" overflow-hidden background-style" :class="`${backgroundImg}-image`">
-      <UPageCTA :title="sponsorship?.title || 'Become a Gold Sponsor'"
-        description="We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success."
-        variant="soft" class=" " :links="links" :ui="{
-          root: 'w-full bg-transparent',
-          container: ' ',
-  wrapper: 'flex flex-col md:flex-row',
-          header: 'mr-8',
-          title: 'text-left',
-          description: 'text-left',
-  links: 'justify-start md:justify-end',
-        }">
-
-      </UPageCTA>
+  <div class="pt-14 pb-1 md:pt-32 md:pb-10 relative">
+    <div class="w-[100vw + 10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3 opacity-5"
+      :style="{
+        backgroundColor: sponsorship?.color || '#FD9182',
+      }" />
+    <div class="flex justify-between gap-1">
+      <div class="text-3xl font-bold mb-2" :style="{
+        color: sponsorship?.color || '#FD9182',
+      }">
+        <slot name="title">
+          {{ sponsorship.title }}
+        </slot>
+      </div>
+      <div class="hidden md:block">
+        <UButton :to="sponsorship?.callToActionUrl || '/sponsor#become-a-sponsor'"
+          :label="t('sponsors.become', { name: sponsorship?.name })" color="neutral" variant="solid"
+          icon="ion:rocket-outline" />
+      </div>
     </div>
-
+    <slot name="description">
+    </slot>
   </div>
-
 </template>
 <script setup lang="ts">
+import type { SponsorLevelsCollectionItem } from '@nuxt/content';
 
-  const props = defineProps<{
-  sponsorship: {
-    level: string | "gold"
-    title: string | "Become a Gold Sponsor"
-    description: string | "We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success."
-    links: [{
-      label: string | 'Become a Sponsor',
-      color: string | 'primary',
-      variant: string | 'solid',
-      trailingIcon: string | 'ion:rocket-outline',
-    }]
-
-  }
+const { t } = useI18n()
+const props = defineProps<{
+  sponsorship: SponsorLevelsCollectionItem
 }>()
+
 const links = ref([
 
   {
@@ -52,31 +45,32 @@ const backgroundImg = computed(() => {
   ]
 })
 </script>
-<style scoped >
-  .background-style::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -50%;
-    right: -50%;
-    bottom: 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-  }
+<style scoped>
+.background-style::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
 
 .platinum-image::before {
   background-color: #fafbfa;
 }
+
 .gold-image::before {
   background-color: #fffbf5;
 }
+
 .silver-image::before {
   background-color: #fafbfa;
 }
+
 .bronze-image::before {
   background-color: #faf7f0;
 }
-
-
 </style>
