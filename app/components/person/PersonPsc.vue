@@ -1,8 +1,8 @@
 <template>
   <UCard reverse class="" :ui="{
-    root: 'ring-0 bg-gray-200 rounded-0 p-4 min-w-1/2',
+  root: 'ring-0 bg-gray-100 shadow-sm rounded-sm p-4 md:w-2/5 h-auto max-h-2/5',
     body: 'sm:px-0 sm:py-2 bg-transparent',
-    header: 'sm:p-0 relative border-0 mt-8',
+  header: 'sm:p-0 relative border-0 ',
     footer: 'flex justify-center'
   }">
     <template #header>

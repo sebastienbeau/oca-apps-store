@@ -14,20 +14,8 @@ export const persons = [
     "pscList": [
       { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
       { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" },
-      { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
-      { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" }, { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
-      { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" },
-      { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
-      { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" },
-      { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
-      { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" }, { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
-      { "id": 2, "name": "PSC Tooling Group", "description": "Group for internal tools, ERP and processes" },
-      { "id": 3, "name": "Functional Group", "description": "Group for functional experts" }
+      
+      
     ],
     "workGroupList": [
       { "id": 1, "name": "PSC Marketing Group", "description": "Group for marketing strategy and improvements" },
