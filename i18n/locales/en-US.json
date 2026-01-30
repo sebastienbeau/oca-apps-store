@@ -40,5 +40,12 @@
     "results": {
       "count": "{count} found | {count} items found"
     }
+  },
+  "company":{
+    "stats": {
+      "members": "Members",
+      "contributors": "Contributors",
+      "modules" : "Modules"
+    }
   }
 }

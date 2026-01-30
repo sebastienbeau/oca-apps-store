@@ -30,10 +30,10 @@ declare module '#app' {
   }
 }
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $shopinvader: Shopinvader
-  }
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $services: ServiceList
+    }
 }
 
 /*

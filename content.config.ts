@@ -15,6 +15,7 @@ export default defineContentConfig({
         name: z.string(),
         title: z.string(),
         color: z.string(),
+        image: z.string().optional(),
         description: z.string().optional(),
       }),
       indexes: [

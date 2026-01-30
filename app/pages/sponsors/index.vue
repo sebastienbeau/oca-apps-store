@@ -95,6 +95,7 @@ const getSponsors = async () => {
 
 const { data } = await useAsyncData<SponsorResultGroupedLevels>('sponsors', getSponsors)
 if (data.value) {
+  console.log(data.value, "data sponsors");
   sponsors.value = data.value.hits
   totalSponsors.value = data.value.total
 }

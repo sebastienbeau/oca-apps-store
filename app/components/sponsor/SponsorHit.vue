@@ -10,7 +10,7 @@
         <img :src="sponsor.logo" alt="Logo" class="h-16 w-auto m-4 ml-0" />
         <div class="flex items-center gap-1 justify-between w-full">
           <div class="text-xl font-semibold flex-1">
-            <nuxt-link v-if="isClickable" :to="`/sponsor/${sponsor.id}`"">
+            <nuxt-link v-if="isClickable" :to="`/sponsors/${sponsor.id}`">
               {{ sponsor.name }}
             </nuxt-link>
             <span v-else>{{ sponsor.name }}</span>
@@ -77,7 +77,7 @@ const isClickable = computed(() => {
 
 const onClick = () => {
   if (isClickable.value) {
-    navigateTo(`/sponsor/${props.sponsor.id}`);
+    navigateTo(`/sponsors/${props.sponsor.id}`);
   }
 };
 </script>

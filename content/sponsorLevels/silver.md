@@ -4,6 +4,7 @@ level: 2
 name: 'Silver'
 title: 'Silver Sponsors'
 color: "#557B68"
+image: "/img/oca_silver"
 ---
 
 Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. 

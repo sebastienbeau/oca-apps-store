@@ -2,6 +2,7 @@ import type { Sponsor, SponsorResult, SponsorResultGroupedLevels, SponsorIndustr
 import { BaseServiceTypeSense } from '~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { SponsorStory } from '~/models/Sponsor'
 
 interface SponsorSchema {
   id: string
@@ -62,6 +63,16 @@ export class SponsorService extends BaseServiceTypeSense {
       }, {}) || []
     }
   }
+  async getSponsorById(query: {}, id: string): Promise<Sponsor> {
+    query = { ...{ q: '*', query_by: 'name' }, ...query }
+    const result = await super.performSearch<SponsorSchema>({
+      ...query, 
+      filter_by: `id:=${id}`,
+    })
+    const hits = this.hits(result?.hits) || []
+    return hits[0] || null
+  }
+
 
   async facetSearch(
     query: any,
@@ -151,7 +162,7 @@ export const SponsorFactory = {
   createSponsor(json: any): Sponsor {
     const Sponsor: Sponsor = {
       id: json.id,
-      logo: json.logo,
+      logo: json.logo_urls.l,
       sponsorLevel: {
         id: json?.sponsor_level?.id,
         name: json?.sponsor_level?.name,
@@ -159,8 +170,9 @@ export const SponsorFactory = {
       name: json.name,
       locations: json.locations,
       shortDescription: json?.description_short || '',
-      description: json?.description || '',
+      description: json?.description_long || '',
       members: json.members,
+      membersCount: json.members_count || '0',
       collaborators: json?.collaborators || [],
       industries: this.createSponsorIndustries(json?.industries),
       collaboratorIndex: json.collaborator_index || 0,
@@ -170,7 +182,11 @@ export const SponsorFactory = {
       phone: json?.phone || '',
       email: json?.email || '',
       sponsorRank: json.sponsor_rank || 0,
+      contributorsCount: json?.contributors_count || '0',
+      modulesCount: json?.modules_count || '0',
+      stories: this.createSponsorStories(json?.stories),
       countries: this.createSponsorCountries(json?.countries),
+      descriptionWhyOca: json?.description_why_oca || '',
     }
     return Sponsor
   },
@@ -180,6 +196,19 @@ export const SponsorFactory = {
     }
     const url = new URL(json?.website)
     return url?.host.replace('www.', '')
+  },
+  createSponsorStories(json: any): SponsorStory[] {
+      if (!Array.isArray(json)) {
+      return []
+    }
+    return json.map((storiesJson: any) => {
+      return {
+        title: storiesJson.title,
+        teaser: storiesJson.teaser,
+        coverUrl: storiesJson.cover_url,
+        relativeUrl: storiesJson.relative_url,
+      }
+    })
   },
   createSponsorIndustries(json: any): SponsorIndustry[] {
     if (!Array.isArray(json)) {
