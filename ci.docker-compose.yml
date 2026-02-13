@@ -1,0 +1,31 @@
+services:
+  nuxt:
+    build: nuxt
+    image: "${BUILD_NAME}_nuxt"
+    environment:
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_URL: https://dev-typesense.akretion.com
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_PRODUCTS: "${TYPESENS_INDEX_PREFIX}_shopinvader_variant"
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_CATEGORIES: "${TYPESENS_INDEX_PREFIX}_shopinvader_category"
+    networks:
+      - local
+  caddy:
+    image: caddy:2.7.2-alpine
+    volumes:
+      - ./Caddyfile-ci:/etc/caddy/Caddyfile
+    environment:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.rule=Host(`${BASE_DOMAIN_NAME}nuxt.${CI_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.tls=false"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.service=${COMPOSE_PROJECT_NAME}_nuxt"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_nuxt.loadbalancer.server.port=80"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.middlewares=${COMPOSE_PROJECT_NAME}_nuxt"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}_nuxt.headers.customrequestheaders.X-Forwarded-Proto=http"
+    networks:
+      local:
+      traefik:
+networks:
+  traefik:
+    external: true
+  local:

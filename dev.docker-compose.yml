@@ -1,0 +1,28 @@
+networks:
+  local:
+  traefik:
+    external: true
+
+services:
+  nuxt:
+    build: nuxt
+    environment:
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_URL: https://dev-typesense.akretion.com
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_SPONSORS: ocastore_sponsors
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_PERSONS: ocastore_persons
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_MODULES: ocastore_modules
+      NUXT_PUBLIC_SHOPINVADER_TYPESENS_INDICES_CATEGORIES: ocastore_categories
+    networks:
+      - local
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.rule=Host(`${NUXT_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.tls=false"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.service=${COMPOSE_PROJECT_NAME}_nuxt"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_nuxt.loadbalancer.server.port=3000"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_nuxt.middlewares=${COMPOSE_PROJECT_NAME}_nuxt"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}_nuxt.headers.customrequestheaders.X-Forwarded-Proto=http"
+    ports:
+      - 3000:3000
