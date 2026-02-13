@@ -31,6 +31,7 @@
     "nuxt": "^4.2.1",
     "nuxt-schema-org": "^5.0.10",
     "nuxt-site-config": "^3.2.14",
+    "nuxt-studio": "1.1.1",
     "pinia": "^3.0.3",
     "ts-morph": "^26.0.0",
     "typesense": "^2.1.0",

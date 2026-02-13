@@ -1,24 +1,28 @@
 import type {
-    CategoryService,
-    ModuleService,
-    PersonService,
-    SponsorService,
+  CategoryService,
+  ModuleService,
+  PersonService,
+  SponsorService,
 } from '~/services'
 
+export interface LocalizedIndex {
+  en: string
+}
 export interface SearchConfig {
-    url: string
-    indices: {
-        persons: string
-        sponsors: string
-        modules: string
-        categories: string
-        [key: string]: string
-    }
+  url: string
+  key: string
+  indices: {
+    persons: LocalizedIndex
+    sponsors: LocalizedIndex
+    modules: LocalizedIndex
+    categories: LocalizedIndex
+    [key: string]: LocalizedIndex
+  }
 }
 
 export interface ServiceList {
-    categories: CategoryService
-    modules: ModuleService
-    persons: PersonService
-    sponsors: SponsorService
+  categories: CategoryService
+  modules: ModuleService
+  persons: PersonService
+  sponsors: SponsorService
 }

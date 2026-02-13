@@ -1,31 +1,17 @@
 <template>
   <UPageGrid>
     <template v-if="!isLoading || infiniteScroll">
-      <template v-for="(product, index) in products" :key="product.id">
-        <div
-          v-if="infiniteScroll && index % perPage === 0"
-          ref="pageDelimiter"
-          class="col-span-full"
-          :data-page="index / perPage"
-        />
-        <slot
-          name="product-hit"
-          :product="product"
-          :index="index"
-          :total="total"
-        >
-          <ProductHit :field="product.id" :product="product" />
+      <template v-for="(hit, index) in hits" :key="hit.id">
+        <div v-if="infiniteScroll && index % perPage === 0" ref="pageDelimiter" class="col-span-full"
+          :data-page="index / perPage" />
+        <slot name="hit" :hit="hit" :index="index" :total="total">
+
         </slot>
       </template>
     </template>
     <template v-if="isLoading">
       <slot name="loading">
-        <UCard
-          v-for="n in perPage"
-          :key="n"
-          :field="n"
-          :ui="{ header: 'p-0 sm:p-0 h-64 sm:h-48 md:h-64' }"
-        >
+        <UCard v-for="n in perPage" :key="n" :field="n" :ui="{ header: 'p-0 sm:p-0 h-64 sm:h-48 md:h-64' }">
           <template #header>
             <USkeleton class="h-64 sm:h-48 md:h-64 w-full" />
           </template>
@@ -38,21 +24,14 @@
     </template>
   </UPageGrid>
   <div ref="paginationElement" class="flex justify-center mt-4">
-    <UPagination
-      v-if="!infiniteScroll && total > perPage"
-      :default-page="page"
-      :per-page="perPage"
-      :total="total"
-      @update:page="changePage"
-    />
+    <UPagination v-if="!infiniteScroll && total > perPage" :default-page="page" :per-page="perPage" :total="total"
+      @update:page="changePage" />
   </div>
 </template>
 
-<script lang="ts" setup>
-import type { Product } from '~/models'
-
+<script lang="ts" setup generic="T">
 interface Props {
-  products?: Product[]
+  hits?: T[]
   total?: number
   infiniteScroll?: boolean
   isLoading?: boolean
@@ -60,7 +39,7 @@ interface Props {
   page?: number
 }
 const props = withDefaults(defineProps<Props>(), {
-  products: () => [],
+  hits: () => [],
   total: () => 0,
   infiniteScroll: () => true,
   isLoading: () => false,
@@ -85,7 +64,7 @@ const setInfiniteScroll = () => {
     {
       distance: 100,
       canLoadMore: () => {
-        return props.products.length < props.total
+        return props.hits.length < props.total
       },
     },
   )
@@ -134,7 +113,7 @@ onBeforeUnmount(() => {
 })
 
 watch(
-  () => props.products,
+  () => props.hits,
   (newVal, oldVal) => {
     if (
       props.infiniteScroll

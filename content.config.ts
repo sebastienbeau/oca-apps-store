@@ -6,15 +6,21 @@ import {
 
 export default defineContentConfig({
   collections: {
-    banners: defineCollection({
+    sponsorLevels: defineCollection({
       type: 'data',
-      source: 'banners/*.md',
+      source: 'sponsorLevels/*.md',
       // Define custom schema for docs collection
       schema: z.object({
-        text: z.string(),
-        icon: z.string().optional(),
-        link: z.string().optional(),
+        level: z.string(),
+        name: z.string(),
+        title: z.string(),
+        color: z.string(),
+        image: z.string().optional(),
+        description: z.string().optional(),
       }),
+      indexes: [
+        { columns: ['level'], unique: true },
+      ],
     }),
     docs: defineCollection({
       // Specify the type of content in this collection
