@@ -47,6 +47,11 @@
       "sponsor_level": "Sponsor Level",
       "countries": "Countries",
       "industries": "Industries"
+    },
+    "sort": {
+      "level": "Sort by Sponsor Level",
+      "name_asc": "Sort by name A-Z",
+      "name_desc": "Sort by name Z-A"
     }
   },
   "community": {

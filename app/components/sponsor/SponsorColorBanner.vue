@@ -1,9 +1,8 @@
 <template>
   <div class="pt-14 pb-1 md:pt-32 md:pb-10 relative">
-    <div class="w-[100vw + 10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3 opacity-5"
-      :style="{
-        backgroundColor: sponsorship?.color || '#FD9182',
-      }" />
+    <div class="w-screen absolute left-1/2 transform -translate-x-1/2 top-0 h-[120%] -skew-y-3 -z-10 opacity-5" :style="{
+      backgroundColor: sponsorship?.color || '#FD9182',
+    }" />
     <div class="flex justify-between gap-1">
       <div class="text-3xl font-bold mb-2" :style="{
         color: sponsorship?.color || '#FD9182',

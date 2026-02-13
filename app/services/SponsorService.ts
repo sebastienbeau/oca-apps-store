@@ -50,7 +50,7 @@ export class SponsorService extends BaseServiceTypeSense {
       group_by: 'sponsor_level.id',
       page,
       per_page: perPage,
-      sort_by: 'sponsor_level.id:desc',
+      sort_by: 'sponsor_level.id:asc',
     })
     return {
       total: result?.found || 0,
@@ -66,7 +66,7 @@ export class SponsorService extends BaseServiceTypeSense {
   async getSponsorById(query: {}, id: string): Promise<Sponsor> {
     query = { ...{ q: '*', query_by: 'name' }, ...query }
     const result = await super.performSearch<SponsorSchema>({
-      ...query, 
+      ...query,
       filter_by: `id:=${id}`,
     })
     const hits = this.hits(result?.hits) || []
@@ -78,10 +78,6 @@ export class SponsorService extends BaseServiceTypeSense {
     query: any,
     facets: FacetSearchParam[],
   ): Promise<FacetSearchResult<Sponsor>> {
-    query = {
-      ...query,
-      group_by: 'sponsor_level.id',
-    }
     if (!query.sort_by) {
       delete query.sort_by
     }
@@ -134,7 +130,7 @@ export class SponsorService extends BaseServiceTypeSense {
     }
     const { results } = await super.performMultiSearch<SponsorSchema>(queries)
     return {
-      hits: this.groupedHits(results[0]?.grouped_hits) || {},
+      hits: this.hits(results[0]?.hits) || [],
       found: results[0]?.found || 0,
       facets: facets.map((facet) => {
         const filterResults = results.findLast(res =>
@@ -198,7 +194,7 @@ export const SponsorFactory = {
     return url?.host.replace('www.', '')
   },
   createSponsorStories(json: any): SponsorStory[] {
-      if (!Array.isArray(json)) {
+    if (!Array.isArray(json)) {
       return []
     }
     return json.map((storiesJson: any) => {

@@ -1,8 +1,6 @@
 <template>
-  <UFormField v-if="options.length > 0" :label="t('search.sort.label')" size="xs">
-    <USelect :model-value="value" :items="options" label-key="label" value-key="value" color="muted" size="sm"
-      variant="outline" @update:model-value="(val) => emits('change', val)" />
-  </UFormField>
+  <USelect :model-value="value" :items="options" label-key="label" value-key="value" size="md" variant="outline"
+    @update:model-value="(val) => emits('change', val)" class="rounded-full" />
 </template>
 <script lang="ts" setup>
 const props =
@@ -14,7 +12,6 @@ const props =
     options: () => [],
     value: '',
   })
-const { t } = useI18n()
 const emits = defineEmits<{
   (e: 'change', value: string): void
 }>()

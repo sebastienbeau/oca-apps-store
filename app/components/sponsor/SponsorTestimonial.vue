@@ -1,6 +1,6 @@
 <template>
   <div class="relative py-8">
-    <div class="w-[100vw + 10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-full -z-10   bg-primary-500" />
+    <div class="w-[100vw+10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-full -z-10   bg-primary-500" />
     <img src="/img/oca_logo_bckg_white.png" alt="Illustration"
       class="z-10 w-full absolute -left-100 top-0 opacity-10 h-full object-none object-left" />
     <UPageCTA :title="$t('sponsor.testimonial.title')" :description="sponsor.descriptionWhyOca" orientation="horizontal"

@@ -10,22 +10,23 @@
         <SponsorHit v-for="sponsor in level.sponsors" :key="sponsor.id" :sponsor="sponsor" />
       </UPageColumns>
     </div>
-
   </div>
 </template>
 <script lang="ts" setup>
-import type { SponsorResultGroupedLevels } from '~/models';
+import type { Sponsor } from '~/models';
 
 const props = defineProps<{
-  hitsByLevel: SponsorResultGroupedLevels;
+  sponsors: Sponsor[];
 }>();
 
-const { data: sponsorLevels } = await useAsyncData(() => {
-  return queryCollection('sponsorLevels').all()
+const { data: sponsorLevels } = await useAsyncData(async () => {
+  const data = await queryCollection('sponsorLevels').all()
+  data.sort((a, b) => parseInt(a.level) - parseInt(b.level))
+  return data
 })
 const levels = computed(() => {
   return sponsorLevels.value?.reduce((acc: { [key: string]: any }, level: any) => {
-    const sponsors = props.hitsByLevel?.[level?.level] || [];
+    const sponsors = props.sponsors?.filter(sponsor => sponsor.sponsorLevel.id == level.level) || [];
     if (sponsors?.length > 0) {
       acc.push({
         ...level,
@@ -33,7 +34,8 @@ const levels = computed(() => {
       })
     }
     return acc;
-  }, []).sort((a: any, b: any) => a.level - b.level) || [];
+  }, []);
 
 })
+
 </script>

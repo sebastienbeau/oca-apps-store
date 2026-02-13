@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
-    //'nuxt-studio',
   ],
   plugins: ['~/plugins/services/index'],
   ssr: false,

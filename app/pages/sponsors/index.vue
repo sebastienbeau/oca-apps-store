@@ -1,6 +1,6 @@
 <template>
-  <SearchBase :query="query" :facets="facets" :sort-options="[]" :infinite-scroll="false"
-    :search-function="searchFunction">
+  <SearchBase v-model:page="page" v-model:sortBy="sortBy" :query="query" :facets="facets" :sort-options="sortOptions"
+    :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage">
     <template #header>
       <UPageHero description="{{ $t('sponsors.page.description') }}" :links="links" :ui="{
         root: 'overflow-hidden',
@@ -23,24 +23,28 @@
           trailing-icon="search" />
       </UFormField>
     </template>
-    <template #results="{ results }">
+    <template #results="{ results, isLoading, total, perPage, infiniteScroll }">
       <div class="container mx-auto p-4">
-        <SponsorLevelHits :hits-by-level="results.hits" />
+        <SponsorLevelHits v-if="sortBy == 'sponsor_level.id:asc'" :sponsors="results.hits" />
+        <SponsorList v-else :sponsors="results.hits" />
+      </div>
+      <div class="flex justify-center mt-4">
+        <UPagination v-if="!infiniteScroll && total > perPage" v-model:page="page" :total="total"
+          :items-per-page="perPage" />
       </div>
     </template>
   </SearchBase>
 </template>
 <script setup lang="ts">
 import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search';
-import type { Sponsor, SponsorResultGroupedLevels } from "~/models";
+import type { Sponsor } from "~/models";
 
 const { t } = useI18n()
+const sponsorService = useService('sponsors')
+
+const searchTerms = ref('')
 const perPage = 12
 const page = ref(1)
-const sponsorService = useService('sponsors')
-const sponsors = ref<{ [level: string]: Sponsor[] }>({})
-const totalSponsors = ref(0)
-const searchTerms = ref('')
 
 const query = computed(() => {
   return {
@@ -48,7 +52,14 @@ const query = computed(() => {
     query_by: 'name',
   }
 })
-
+const sortOptions = computed(() => {
+  return [
+    { label: t('sponsors.sort.level'), value: 'sponsor_level.id:asc' },
+    { label: t('sponsors.sort.name_asc'), value: 'name:asc' },
+    { label: t('sponsors.sort.name_desc'), value: 'name:desc' },
+  ]
+})
+const sortBy = ref('sponsor_level.id:asc')
 const links = ref([
   {
     label: t('sponsors.page.become_button'),
@@ -89,16 +100,6 @@ const searchFunction = async (
   return res
 }
 
-const getSponsors = async () => {
-  const res = await sponsorService.getSponsorsGroupedLevels({}, page.value, perPage)
-  return res
-}
 
-const { data } = await useAsyncData<SponsorResultGroupedLevels>('sponsors', getSponsors)
-if (data.value) {
-  console.log(data.value, "data sponsors");
-  sponsors.value = data.value.hits
-  totalSponsors.value = data.value.total
-}
 
 </script>

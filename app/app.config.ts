@@ -6,6 +6,15 @@ export default defineAppConfig({
       secondary: 'secondary',
       neutral: 'neutral',
     },
+    card: {
+      variants: {
+        variant: {
+          outline: {
+            root: 'ring-1',
+          },
+        },
+      },
+    },
   },
   icon: {
     class: 'icon',

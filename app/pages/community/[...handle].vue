@@ -3,11 +3,11 @@
     <PersonHeroBanner :person="person" />
   </div>
   <div class="py-8 relative ">
-    <div class="w-[100vw + 10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3"
+    <div class="w-[100vw+10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3"
       style="background-color: #fffbf5 " />
-      <div class="d-block mx-w-sm mx-auto">
-        <PersonGroups :person="person" />
-      </div>
+    <div class="d-block mx-w-sm mx-auto">
+      <PersonGroups :person="person" />
+    </div>
 
 
 

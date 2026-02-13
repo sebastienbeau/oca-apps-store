@@ -46,7 +46,8 @@
                 }}
               </div>
             </div>
-            <slot name="results" :results="results">
+            <slot name="results" :per-page="perPage" :results="results" :is-loading="isLoading" :total="results.found"
+              :infinite-scroll="infiniteScroll">
               <SearchResult :hits="results.hits" :total="results.found" :infinite-scroll="infiniteScroll"
                 :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage">
                 <template #hit="{ hit, index, total }">
@@ -77,6 +78,7 @@ const props = withDefaults(
     sortOptions?: { label: string; value: string }[]
     query?: {} | null
     infiniteScroll?: boolean
+    perPage?: number
     searchFunction?: (
       query: any,
       facets: FacetSearchParam[]
@@ -87,6 +89,7 @@ const props = withDefaults(
     sortOptions: () => [],
     query: null,
     infiniteScroll: true,
+    perPage: 10,
   }
 )
 
@@ -97,13 +100,17 @@ const { start, finish } = useLoadingIndicator()
 const facetHasChanges = ref(false)
 const isLoading = ref(false)
 const error = ref(null)
-const sortBy = ref(
-  route.query.sort ? String(route.query.sort) : props.sortOptions?.[0]?.value
-)
-const page = ref(route.query.page ? Number(route.query.page) : 1)
-const perPage = ref(8)
-
+const perPage = ref(props.perPage || 10)
 const { t } = useI18n()
+
+const page = defineModel('page', {
+  type: Number,
+  //default: () => route.query.page ? Number(route.query.page) : 1,
+})
+const sortBy = defineModel('sortBy', {
+  type: String,
+  //default: () => route.query.sort ? String(route.query.sort) : props.sortOptions?.[0]?.value,
+})
 
 const query = computed(() => {
   return props?.query || {}
@@ -271,6 +278,14 @@ watch(
   () => props.query,
   async () => {
     await search()
+  }
+)
+watch(
+  () => page.value,
+  async (newValue, oldValue) => {
+    if (newValue !== oldValue && newValue) {
+      changePage(newValue)
+    }
   }
 )
 </script>

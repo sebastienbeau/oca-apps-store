@@ -63,7 +63,7 @@ const items: NavigationMenuItem[] = [
 			{
 				label: t('nav.community.contributors.title'),
 				description: t('nav.community.contributors.description'),
-				to: localePath('/sponsors'),
+				to: localePath('/contributors'),
 				icon: 'sponsor',
 			},
 		],
@@ -74,7 +74,7 @@ const items: NavigationMenuItem[] = [
 	},
 	{
 		label: t('nav.sponsors.become'),
-		to: localePath('/sponsors'),
+		to: localePath('/become-sponsor'),
 	},
 ]
 

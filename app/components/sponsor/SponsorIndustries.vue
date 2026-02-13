@@ -1,10 +1,8 @@
 <template>
   <div class="py-14  relative ">
-    <div
-      class="w-[100vw + 10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3 opacity-5 "
-      :style="{
-        backgroundColor: sponsorLevel?.color || '#FD9182',
-      }">
+    <div class="w-[100vw+10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3 opacity-5 " :style="{
+      backgroundColor: sponsorLevel?.color || '#FD9182',
+    }">
     </div>
     <h3 class="text-secondary font-bold text-2xl py-4">{{ $t('sponsor.industry.title') }} </h3>
     <div class=" ">

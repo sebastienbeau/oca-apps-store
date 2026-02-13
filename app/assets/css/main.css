@@ -45,7 +45,7 @@
 }
 
 :root {
-  --ui-border: #E2E8F0;
+  --ui-border: #f0f3f7;
   --ui-bg-muted: #F8FAFC;
   --ui-secondary: var(--ui-color-secondary-500);
   --ui-success: var(--ui-color-success-500);
