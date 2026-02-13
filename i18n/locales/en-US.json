@@ -6,11 +6,25 @@
     "modules": {
       "title": "Modules",
       "all": {
-        "title": "All modules"
+        "title": "All Odoo OCA modules",
+        "description": "The catalogue of Odoo community modules in the OCA repo"
+      },
+       "categories": {
+        "title": "Odoo Modules by category",
+        "description": "The catalogue of Odoo community modules ordered by parent category"
       }
     },
     "community": {
-      "title": "Community"
+      "title": "Community",
+      "members": {
+        "title": "OCA members",
+        "description": "The individuals that participate in the OCA"
+      },
+      "contributors": {
+        "title": "OCA contributors",
+        "description": "The creators, maintainers and contributors of the OCA modules"
+      }
+
     },
     "sponsors": {
       "title": "Sponsors",
@@ -20,9 +34,11 @@
   "sponsors" :{
     "become": "Become a {name} Sponsor",
     "page" : {
-      "title": "OCA Sponsors",
+      "title": "OCA",
+      "title_emphasis": "Sponsors",
       "description": "Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality apps that power modern enterprises. Let’s build the future of open-source, together.",
-      "become_button": "Become a Sponsor"
+      "become_button": "Become a Sponsor",
+      "learn_more": "Why to Sponsor ?"
     },
     "search": {
       "placeholder": "Search sponsors..."
@@ -33,6 +49,15 @@
       "industries": "Industries"
     }
   },
+  "community": {
+    "page": {
+      "title": "Discover our community ",
+      "description": "Discover our great community of passionate members and contributors around the globe. ",
+      "become_button": "Become a member",
+      "learn_more": "Discover how to contribute"
+    }
+  },
+  "person"
   "search": {
     "filters": {
       "label": "Filters"

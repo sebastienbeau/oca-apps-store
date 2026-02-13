@@ -1,8 +1,7 @@
-
 <template>
   <UCard :ui="{
     base: 'w-full',
-    body: { base: 'flex flex-col gap-3' },
+  body: '',
     header: { base: '' },
     footer: { base: '' },
   }">
@@ -28,13 +27,23 @@
     <PersonBadges :person="person" />
 
     <UDivider class="my-3" />
-    <div class="space-y-2 ">
+    <div v-if="hasStatisticalInfo" class="space-y-2 ">
       <PersonStats :person="person" />
     </div>
-
-    <template #footer>
+    <template v-if="!hasStatisticalInfo">
       <div class="flex justify-end ">
-        <UButton color="neutral" variant="outline" label="View more" trailing class="ml-auto " />
+        <UButton color="neutral" variant="outline" label="View more" trailing class="ml-auto "
+          :to="`/community/${person.username}`" />
+      </div>
+
+
+
+    </template>
+
+    <template v-if="hasStatisticalInfo" #footer>
+      <div class="flex justify-end ">
+        <UButton color="neutral" variant="outline" label="View more" trailing class="ml-auto "
+          :to="`/community/${person.username}`" />
       </div>
 
     </template>
@@ -49,4 +58,13 @@ const props = defineProps({
     required: true,
   },
 });
+
+const hasStatisticalInfo = computed(() => {
+  if (props.person.collaboratorIndex == '' && props.person.translations == '' && props.person.modulesMaintained == '' && props.person.psc == '') {
+    return false
+  }
+  else {
+    return true
+  }
+})
 </script>

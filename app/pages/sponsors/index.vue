@@ -10,6 +10,7 @@
       }">
         <template #title>
           {{ t('sponsors.page.title') }}
+          <span class="text-secondary-500"> {{ t('sponsors.page.title_emphasis') }}</span>
         </template>
         <template #description>
           {{ t('sponsors.page.description') }}
@@ -50,13 +51,13 @@ const query = computed(() => {
 
 const links = ref([
   {
-    label: t('sponsor.page.become_button'),
+    label: t('sponsors.page.become_button'),
     to: '/docs/getting-started',
     color: 'primary',
     icon: 'i-lucide-square-play'
   },
   {
-    label: t('sponsor.page.learn_more'),
+    label: t('sponsors.page.learn_more'),
     to: '/docs/getting-started/theme/design-system',
     color: 'neutral',
     variant: 'subtle',

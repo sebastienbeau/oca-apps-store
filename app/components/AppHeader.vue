@@ -55,14 +55,14 @@ const items: NavigationMenuItem[] = [
 		to: localePath('/community'),
 		children: [
 			{
-				label: t('nav.community.persons.title'),
-				description: t('nav.community.persons.description'),
+				label: t('nav.community.members.title'),
+				description: t('nav.community.members.description'),
 				to: localePath('/persons'),
 				icon: 'person',
 			},
 			{
-				label: t('nav.community.sponsors.title'),
-				description: t('nav.community.sponsors.description'),
+				label: t('nav.community.contributors.title'),
+				description: t('nav.community.contributors.description'),
 				to: localePath('/sponsors'),
 				icon: 'sponsor',
 			},

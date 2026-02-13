@@ -32,7 +32,7 @@
       </div>
     </template>
   </UPageCard>
-  <div class="md:absolute md:bottom-1/6 md:left-2/3 md:w-1/4 ">
+  <div class="md:absolute md:top-36 md:left-2/3 md:w-1/4 ">
     <PersonCompanyContact :person="person" />
   </div>
 </template>
