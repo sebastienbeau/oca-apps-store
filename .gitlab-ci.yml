@@ -40,25 +40,13 @@ before_script:
   - cp .env-ci .env
   - export BUILD_NAME=${CI_PROJECT_NAME/-/_}_${CI_MERGE_REQUEST_IID:-preprod}
   - export CI_DOMAIN=${CI_DOMAIN}
-  - |
-    if [[ "$CI_MERGE_REQUEST_LABELS" == *"deploy-payload"* ]] || [[ "$CI_COMMIT_BRANCH == 'main'" ]]; then
-      export COMPOSE_FILE="ci.docker-compose.yml:payload.docker-compose.yml:ci-payload.docker-compose.yml:secrets.docker-compose.yml"
-      export NUXT_PUBLIC_PAYLOAD_URL="https://${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID:-preprod}nuxt.ci-akretion.com"
-      export NUXT_PAYLOAD_URL="http://payload:1337"
-    else
-      export COMPOSE_FILE="ci.docker-compose.yml"
-      export NUXT_PUBLIC_PAYLOAD_URL="https://akretion.com"
-    fi
+  - export COMPOSE_FILE="ci.docker-compose.yml"
   - |
     cat << EOF >> .env
     UID=`id -u`
     BUILD_NAME=${BUILD_NAME}
     COMPOSE_FILE=${COMPOSE_FILE}
     COMPOSE_PROJECT_NAME=${BUILD_NAME}
-    NUXT_PUBLIC_PAYLOAD_URL=${NUXT_PUBLIC_PAYLOAD_URL}
-    NUXT_PAYLOAD_URL=${NUXT_PAYLOAD_URL}
-    PGDATABASE=${BUILD_NAME}
-    DB_NAME=${BUILD_NAME}
     CI_DOMAIN=${CI_DOMAIN}
     BASE_DOMAIN_NAME=${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID:-preprod}
     EOF
@@ -145,10 +133,6 @@ docker_push:
     - docker push $CI_REGISTRY_IMAGE/nuxt:latest
     - docker tag ${BUILD_NAME}_nuxt $CI_REGISTRY_IMAGE/nuxt:$TAG
     - docker push $CI_REGISTRY_IMAGE/nuxt:$TAG
-    - docker tag ${BUILD_NAME}_payload $CI_REGISTRY_IMAGE/payload:latest
-    - docker push $CI_REGISTRY_IMAGE/payload:latest
-    - docker tag ${BUILD_NAME}_payload $CI_REGISTRY_IMAGE/payload:$TAG
-    - docker push $CI_REGISTRY_IMAGE/payload:$TAG
   rules:
     - if: $CI_COMMIT_TITLE =~ /^Release/ && $IS_MR == null
 
