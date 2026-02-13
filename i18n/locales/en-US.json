@@ -57,7 +57,14 @@
       "learn_more": "Discover how to contribute"
     }
   },
-  "person"
+  "person": {
+    "psc": {
+      "title": "Project Steering Commetee"
+    },
+    "work_group": {
+      "title": "OCA internal working groups"
+    }
+  },
   "search": {
     "filters": {
       "label": "Filters"
