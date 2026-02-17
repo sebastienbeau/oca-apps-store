@@ -3,7 +3,7 @@ id: 'platinum'
 level: 0
 name: 'Platinum'
 title: 'Platinum Sponsors'
-color: "#C5C5CE"
+color: "#616181"
 image: "/img/oca_platinum.png"
 ---
 
