@@ -1,4 +1,10 @@
 <template>
+  <div class="flex justify-start py-8 ">
+    <UButton color="primary" to="/sponsors" size="sm" class="mr-auto" variant="link">
+      <UIcon name="eva:arrow-back-outline"></UIcon>
+      {{ $t('sponsors.back-btn') }}
+    </UButton>
+  </div>
   <SponsorHeroBanner v-if="sponsor" :sponsor="sponsor" />
   <SponsorIndustries v-if="sponsor && sponsor.industries?.length > 0" :sponsor="sponsor" />
   <SponsorStories v-if="sponsor && sponsor.stories?.length > 0" :sponsor="sponsor" />

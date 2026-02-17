@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "OCA Apps Store",
+    "description": "All the opens source Odoo modules and apps developed by the OCA community"
+  },
   "nav": {
     "site": {
       "home": "Home"
@@ -35,11 +39,14 @@
     "page": {
       "title": "Odoo open source apps",
       "title_emphasis": "by OCA",
-      "description": "Made by the OCA community with love"
+      "description": "Made by the OCA community with love",
+      "become_button": "Become an OCA contributor",
+      "learn_more": "Find out how to get involved"
     }
   },
   "sponsors" :{
     "become": "Become a {name} Sponsor",
+    "back-btn": "Back to sponsors list page",
     "page" : {
       "title": "OCA",
       "title_emphasis": "Sponsors",
