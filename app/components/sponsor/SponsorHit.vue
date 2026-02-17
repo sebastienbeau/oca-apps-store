@@ -71,7 +71,7 @@ const props = defineProps<{
   sponsor: Sponsor;
 }>();
 const isClickable = computed(() => {
-  const levelWithpage = [1, 2, 3];
+  const levelWithpage = [0, 1, 2];
   return levelWithpage.includes(props.sponsor.sponsorLevel.id);
 });
 

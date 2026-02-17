@@ -10,7 +10,7 @@
         "description": "The catalogue of Odoo community modules in the OCA repo"
       },
        "categories": {
-        "title": "Odoo Modules by category",
+        "title": "Browse Modules by category",
         "description": "The catalogue of Odoo community modules ordered by parent category"
       }
     },
@@ -29,6 +29,13 @@
     "sponsors": {
       "title": "Sponsors",
       "become": "Become a Sponsor"
+    }
+  },
+  "modules": {
+    "page": {
+      "title": "Odoo open source apps",
+      "title_emphasis": "by OCA",
+      "description": "Made by the OCA community with love"
     }
   },
   "sponsors" :{
@@ -52,6 +59,9 @@
       "level": "Sort by Sponsor Level",
       "name_asc": "Sort by name A-Z",
       "name_desc": "Sort by name Z-A"
+    },
+    "industry": {
+      "title": "ERP Industries"
     }
   },
   "community": {

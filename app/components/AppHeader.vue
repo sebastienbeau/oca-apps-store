@@ -3,11 +3,16 @@
 		<template #left>
 			<Logo />
 		</template>
-		<UNavigationMenu :items="items" :ui="{
-			root: 'hidden lg:flex w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-6 ',
+		<UNavigationMenu :items="items" color="primary" :ui="{
+			root: 'gap-6 hidden lg:flex w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-6 '
 		}" />
+
 		<template #right>
 			<UColorModeButton />
+			<UButton color="secondary" to="/become-sponsor" size="lg">
+				<UIcon name="vaadin:diamond"></UIcon>
+				{{ $t('nav.sponsors.become') }}
+			</UButton>
 
 			<UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
 				<UButton color="neutral" variant="ghost" to="https://github.com/nuxt/ui" target="_blank"
@@ -57,13 +62,13 @@ const items: NavigationMenuItem[] = [
 			{
 				label: t('nav.community.members.title'),
 				description: t('nav.community.members.description'),
-				to: localePath('/persons'),
+				to: localePath('/community'),
 				icon: 'person',
 			},
 			{
 				label: t('nav.community.contributors.title'),
 				description: t('nav.community.contributors.description'),
-				to: localePath('/contributors'),
+				to: localePath('/community'),
 				icon: 'sponsor',
 			},
 		],
@@ -71,11 +76,7 @@ const items: NavigationMenuItem[] = [
 	{
 		label: t('nav.sponsors.title'),
 		to: localePath('/sponsors'),
-	},
-	{
-		label: t('nav.sponsors.become'),
-		to: localePath('/become-sponsor'),
-	},
+	}
 ]
 
 const scrolled = ref(false)

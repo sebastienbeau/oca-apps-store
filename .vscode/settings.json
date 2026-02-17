@@ -29,14 +29,8 @@
   "eslint.format.enable": true,
   "eslint.useFlatConfig": true,
   "prettier.enable": false,
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
   "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   
 }
