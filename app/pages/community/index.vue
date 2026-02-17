@@ -49,25 +49,25 @@ const sortOptions = computed(() => {
     { label: t('person.sort.name_desc'), value: 'name:desc' },
   ]
 })
-const sortBy = ref()
+const sortBy = ref('name:asc')
 const query = computed(() => {
   return {
     q: searchTerms.value,
-    query_by: 'name',
+    query_by: 'name,username,company',
   }
 })
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
 const searchTerms = ref('')
 const facets: Facet[] = [
-  // {
-  //   field: 'country',
-  //   title: t('person.filters.countries')
-  // },
-  // {
-  //   field: 'roles',
-  //   title: t('person.filters.roles')
-  // },
+  {
+    field: 'country.label',
+    title: t('person.filters.countries')
+  },
+  {
+    field: 'roles.name',
+    title: t('person.filters.roles')
+  },
 ]
 const searchFunction = async (
   query: any,

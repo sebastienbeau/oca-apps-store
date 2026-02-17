@@ -1,10 +1,15 @@
 <template>
-	<UHeader :ui="{ root: 'lg:py-2 lg:h-auto' }">
+	<UHeader :ui="{
+		root: 'lg:py-2 lg:h-auto',
+		left: 'lg:flex-none',
+		right: 'lg:flex-none',
+		center: 'flex-2'
+	}">
 		<template #left>
 			<Logo />
 		</template>
 		<UNavigationMenu :items="items" color="primary" :ui="{
-			root: 'gap-6 hidden lg:flex w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-6 '
+			root: 'gap-6 hidden lg:flex w-full mx-auto px-4 sm:px-6 lg:px-6 justify-center',
 		}" />
 
 		<template #right>
@@ -20,7 +25,7 @@
 			</UTooltip>
 		</template>
 		<template #body>
-			<UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
+			<UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5 " />
 			<LocaleSwitcher />
 		</template>
 		<template #bottom> </template>

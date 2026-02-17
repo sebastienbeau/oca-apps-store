@@ -16,7 +16,7 @@
             <span v-else>{{ sponsor.name }}</span>
           </div>
           <div>
-            <UButton variant=" link" size="sm" :label="sponsor.websiteLabel" icon="website" :to="sponsor.website"
+            <UButton variant="link" size="sm" :label="sponsor.websiteLabel" icon="website" :to="sponsor.website"
               target="_blank" />
           </div>
         </div>

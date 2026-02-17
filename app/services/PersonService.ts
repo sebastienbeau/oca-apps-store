@@ -2,6 +2,7 @@ import type { Person } from '~/models'
 import { BaseServiceTypeSense } from '~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { PersonRole } from '~/models/Person'
 
 interface PersonSchema {
   id: number
@@ -98,11 +99,12 @@ export const PersonFactory = {
     const Person: Person = {
       id: json.id,
       name: json?.name,
+      avatarUrl: json?.avatar_url || null,
       username: json?.username,
       company: json?.company,
       companyId: json?.company_id,
-      country: json?.country,
-      roles: json?.roles || [],
+      country: PersonFactory.createPersonCountry(json),
+      roles: PersonFactory.createPersonRoles(json),
       collaboratorIndex: json?.collaborator_index,
       translations: !isNaN(json?.translations) ? json.translations : 0,
       modulesMaintained: !isNaN(json?.modules_maintained) ? json.modules_maintained : 0,
@@ -112,4 +114,22 @@ export const PersonFactory = {
     }
     return Person
   },
+  createPersonCountry(json: any): { label: string, code: string } | undefined {
+    if (json?.country_label && json?.country_code) {
+      return {
+        label: json.country_label,
+        code: json.country_code,
+      }
+    }
+    return undefined
+  },
+  createPersonRoles(json: any): PersonRole[] {
+    if (json?.roles) {
+      return json.roles.map((role: any) => ({
+        id: role.id,
+        name: role.name,
+      }))
+    }
+    return []
+  }
 }

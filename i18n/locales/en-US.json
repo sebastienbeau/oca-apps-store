@@ -42,6 +42,17 @@
       "description": "Made by the OCA community with love",
       "become_button": "Become an OCA contributor",
       "learn_more": "Find out how to get involved"
+    },
+    "sort":{
+      "name_asc":"Sort by name A-Z",
+      "name_desc":"Sort by name Z-A"
+    },
+    "search": {
+      "placeholder": "Search modules..."
+    },
+    "filters": {
+      "versions": "Versions",
+      "category": "Category"
     }
   },
   "sponsors" :{

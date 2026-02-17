@@ -7,12 +7,10 @@
   }" @click="goToPerson">
     <template #header>
       <div class="flex-1">
-        <UUser :name="person.name" size="lg" :avatar="{
-          src: 'https://avatars.githubusercontent.com/u/1?v=4'
-        }" :ui="{
+        <UUser :name="person.name" size="lg" :avatar="avatar" :ui="{
           description: 'items-center flex gap-0.5'
         }">
-          <template #description>
+          <template #description v-if="person.username">
             <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2" width="16" height="16" />
             <span class=" text-gray-500 dark:text-gray-400"> {{ person.username }}</span>
           </template>
@@ -52,9 +50,9 @@ const props = defineProps<{
 
 const ui = computed(() => {
   const ui = {
-    root: 'w-full shadow divide-none cursor-pointer',
-    body: 'p-3 sm:p-4 py-0 sm:py-0',
-    header: 'flex flex-1 items-center gap-3 p-3 sm:p-4 ',
+    root: 'w-full shadow divide-none cursor-pointer justify-start flex flex-col',
+    header: ' flex items-center gap-3 p-3 sm:p-4 ',
+    body: 'p-3 sm:p-4 py-0 sm:py-0 flex-1 h-full grow ',
     footer: 'p-3 sm:p-4',
   }
   if (props?.variant === 'list') {
@@ -68,6 +66,20 @@ const ui = computed(() => {
     body: twMerge(ui.body, props.ui?.body || ''),
     header: twMerge(ui.header, props.ui?.header || ''),
     footer: twMerge(ui.footer, props.ui?.footer || ''),
+  }
+})
+const avatar = computed(() => {
+  if (props.person.avatarUrl) {
+    return {
+      src: props.person.avatarUrl,
+      alt: props.person.name,
+    }
+  }
+  else {
+    return {
+      src: null,
+      alt: props.person.name,
+    }
   }
 })
 const hasStatisticalInfo = computed(() => {

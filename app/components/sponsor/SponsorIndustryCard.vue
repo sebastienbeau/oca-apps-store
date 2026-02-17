@@ -5,14 +5,14 @@
     header: 'sm:p-0 relative border-0',
   }">
     <template #header>
-      <h3 class="text-primary font-bold text-sm"> 
+      <h3 class="text-primary font-bold text-sm">
         <icon name="streamline:industry-innovation-and-infrastructure"
           class="inline-block mr-2 text-xl align-middle text-gray-600"></icon>
         {{ industry.name }}
-        </h3>
+      </h3>
     </template>
     <template #default>
-      <div class="  ">
+      <div class=" ">
         <div class="space-y-1 text-sm text-gray-500">
           {{ industry.description }}
         </div>
