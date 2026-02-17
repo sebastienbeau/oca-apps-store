@@ -33,3 +33,8 @@ export interface Module {
   popularity: number
   lastUpdate: Date | null
 }
+
+export interface ModuleResult {
+  hits: Module[]
+  total: number
+}

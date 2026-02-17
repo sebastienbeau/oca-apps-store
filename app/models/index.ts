@@ -5,7 +5,7 @@ export type {
     CategoryImageSet,
     CategoryImage,
 } from './Category'
-export type { Module } from './Module'
+export type { Module, ModuleResult } from './Module'
 export type { Person } from './Person'
 export type { Workgroup } from './Workgroup'
 export type { PSC } from './PSC'

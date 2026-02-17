@@ -12,6 +12,25 @@ export class ModuleService extends BaseServiceTypeSense {
   hits(data: SearchResponseHit<ModuleSchema>[]): Module[] {
     return data.map((hit: any) => this.jsonToModel(hit?.document))
   }
+  async findByURLKey(urlKey: string): Promise<Module | null> {
+    const result = await super.performSearch<ModuleSchema>({
+      q: '*',
+      filter_by: `url_key:${urlKey}`,
+    })
+    const hits = this.hits(result?.hits) || []
+    return hits.length > 0 ? hits[0] : null
+  }
+  async search(body: any): Promise<ModuleService> {
+    body = {
+      ...{ q: '*', query_by: 'name' },
+      ...body,
+    }
+    const result = await super.performSearch<ModuleService>(body)
+    const hits = this.hits(result?.hits) || []
+    const total = result?.found || 0
+    const aggregations = null
+    return { hits, total, aggregations }
+  }
   async facetSearch(
     query: any,
     facets: FacetSearchParam[],

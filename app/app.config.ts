@@ -15,6 +15,12 @@ export default defineAppConfig({
         },
       },
     },
+    breadcrumb: {
+      slots: {
+        linkLabel: 'text-primary',
+        linkLeadingIcon: 'text-primary',
+      }
+    }
   },
   icon: {
     class: 'icon',
