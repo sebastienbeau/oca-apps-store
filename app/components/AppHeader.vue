@@ -9,7 +9,7 @@
 
 		<template #right>
 			<UColorModeButton />
-			<UButton color="secondary" to="/become-sponsor" size="lg">
+			<UButton color="secondary" to="/become-sponsor" class="lg:btn-lg btn-md text-sm md:text-base">
 				<UIcon name="vaadin:diamond"></UIcon>
 				{{ $t('nav.sponsors.become') }}
 			</UButton>

@@ -14,17 +14,18 @@
   </UPageHero>
 
   <div class="container mx-auto p-4">
-    <div class="columns-1 md:columns-3 gap-4 space-y-4">
-      <template v-for="person in persons" :key="person.id">
+    <div v-if="persons" class="columns-1 md:columns-3 gap-4 space-y-4">
+      <template v-for="person in personsList" :key="person.id">
         <PersonHit :person="person" />
       </template>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
 import { persons } from "~/data/persons";
+
+const personsList = ref(persons)
 
 const { t } = useI18n()
 const localePath = useLocalePath()

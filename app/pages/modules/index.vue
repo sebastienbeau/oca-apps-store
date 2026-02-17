@@ -14,17 +14,18 @@
         {{ t('modules.page.description') }}
       </template>
     </UPageHero>
-    <UPageGrid>
-      <template v-for="module in modules" :key="module.id">
+    <UPageGrid v-if="modulesList && modulesList.length > 0">
+      <template v-for="module in modulesList" :key="module.id">
         <module-hit :module="module"></module-hit>
       </template>
-
     </UPageGrid>
   </div>
 </template>
 <script setup lang="ts">
 
 import { modules } from "~/data/modules"
+const modulesList = ref(modules)
+
 const { t } = useI18n()
 const links = ref([
   {
