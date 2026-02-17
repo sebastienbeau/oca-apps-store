@@ -81,6 +81,17 @@
     },
     "work_group": {
       "title": "OCA internal working groups"
+    },
+    "sort": {
+      "name_asc": "Sort by name A-Z",
+      "name_desc": "Sort by name Z-A"
+    },
+    "filters": {
+      "countries": "Countries",
+      "roles": "Roles"
+    },
+    "search": {
+      "placeholder": "Search members and contributors..."
     }
   },
   "search": {
@@ -89,7 +100,8 @@
     },
     "results": {
       "count": "{count} found | {count} items found"
-    }
+    },
+    "noresults": "No results found"
   },
   "company":{
     "stats": {

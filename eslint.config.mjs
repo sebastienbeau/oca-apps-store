@@ -49,7 +49,7 @@ export default withNuxt(
         'warn',
         {
           singleline: {
-            max: 3,
+            max: 1,
           },
           multiline: {
             max: 1,

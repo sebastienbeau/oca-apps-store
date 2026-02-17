@@ -38,11 +38,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  person: {
-    type: Object,
-    required: true,
-  },
-});
+import type { Person } from '~/models';
 
+const props = defineProps<{
+  person: Person
+}>()
 </script>

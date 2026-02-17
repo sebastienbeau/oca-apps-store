@@ -3,7 +3,7 @@
     <UNavigationMenu orientation="horizontal" variant="pill" :items="items" class="hidden md:flex"
       content-orientation="vertical" :unmount-on-hide="false" :ui="{
         list: 'gap-2',
-        link: 'bg-neutral-100 hover:bg-neutral-200 rounded-full',
+        link: 'bg-neutral-50 hover:bg-neutral-100 text-neutral-400  rounded-full',
       }">
       <template #item-content="{ item: { facet, component } }">
         <slot name="item-content" :item="{ facet, component }">

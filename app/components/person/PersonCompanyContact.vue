@@ -1,14 +1,12 @@
 <template>
   <UCard reverse class="" :ui="{
-  root: 'ring-0 mt-6 bg-white shadow-md ',
-  default: 'p-4 ',
-  background: '',
-  body: 'bg-transparent',
-  header: { base: 'p-0 relative' },
-  footer: 'flex justify-center'
-}">
-
-
+    root: 'ring-0 mt-6 bg-white shadow-md ',
+    default: 'p-4 ',
+    background: '',
+    body: 'bg-transparent',
+    header: { base: 'p-0 relative' },
+    footer: 'flex justify-center'
+  }">
     <template #default>
       <div class=" p-4 ">
         <div class="space-y-2">

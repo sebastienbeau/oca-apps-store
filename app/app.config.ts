@@ -25,6 +25,8 @@ export default defineAppConfig({
       person: 'i-mdi-account-circle',
       sponsor: 'i-mdi-hand-heart',
       category: 'i-mdi-shape-outline',
+      grid: 'i-mdi-view-grid',
+      list: 'i-mdi-view-list',
     },
   },
 })

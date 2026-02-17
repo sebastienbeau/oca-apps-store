@@ -1,8 +1,8 @@
 <template>
   <UCard reverse class="" :ui="{
-  root: 'ring-0 bg-gray-100 shadow-sm rounded-sm p-4 md:w-2/5 h-auto max-h-2/5',
+    root: 'ring-0 bg-gray-100 shadow-sm rounded-sm p-4 md:w-2/5 h-auto max-h-2/5',
     body: 'sm:px-0 sm:py-2 bg-transparent',
-  header: 'sm:p-0 relative border-0 ',
+    header: 'sm:p-0 relative border-0 ',
     footer: 'flex justify-center'
   }">
     <template #header>
@@ -18,10 +18,9 @@
   </UCard>
 </template>
 <script setup lang="ts">
-const props = defineProps({
-  psc: {
-    type: Object,
-    required: true,
-  },
-});
+import type { PSC } from '~/models';
+
+const props = defineProps<{
+  psc: PSC
+}>();
 </script>

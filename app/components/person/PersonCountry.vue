@@ -1,5 +1,5 @@
 <template>
-  <UBadge v-if="person && person.country" color="primary" variant="solid" class=" rounded-full px-6">
+  <UBadge v-if="person && person.country" color="neutral" variant="outline" size="sm" class=" rounded-full px-6">
     {{ person.country }}
   </UBadge>
 </template>

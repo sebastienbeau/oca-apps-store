@@ -1,34 +1,88 @@
 <template>
-  <UPageHero description="{{ $t('community.page.description') }}" :links="links" :ui="{
-    header: 'text-left',
-    footer: 'text-left',
-    links: 'justify-start',
-  }">
-    <template #title>
-      {{ $t('community.page.title') }}
-    </template>
+  <SearchBase :query="query" :facets="facets" :sort-options="sortOptions" v-model:sort-by="sortBy"
+    :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage" :ui="ui">
+    <template #header>
+      <UPageHero :links="links" :ui="{
+        header: 'text-left',
+        footer: 'text-left',
+        links: 'justify-start',
+      }">
+        <template #title>
+          {{ t('community.page.title') }}
+        </template>
 
-    <template #description>
-      {{ $t('community.page.description') }}
+        <template #description>
+          {{ t('community.page.description') }}
+        </template>
+      </UPageHero>
     </template>
-  </UPageHero>
-
-  <div class="container mx-auto p-4">
-    <div v-if="persons" class="columns-1 md:columns-3 gap-4 space-y-4">
-      <template v-for="person in personsList" :key="person.id">
-        <PersonHit :person="person" />
-      </template>
-    </div>
-  </div>
+    <template #actions>
+      <UFormField>
+        <UInput v-model="searchTerms" :placeholder="t('person.search.placeholder')" size="lg" trailing-icon="search" />
+      </UFormField>
+    </template>
+    <template #sort="{ sortOptions, value, change }">
+      <div class="flex gap-2 items-center">
+        <SearchSortSelector :options="sortOptions" :value="value" class="my-4" @change="change" />
+        <UFieldGroup class="hidden sm:flex">
+          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-list" @click="displayMode = 'list'" />
+          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-grid" @click="displayMode = 'grid'" />
+        </UFieldGroup>
+      </div>
+    </template>
+    <template #hit="{ hit: person, index, total }">
+      <PersonHit :variant="displayMode" :person="person" />
+    </template>
+  </SearchBase>
 </template>
 
 <script setup lang="ts">
-import { persons } from "~/data/persons";
-
-const personsList = ref(persons)
-
+import type { Person } from '~/models'
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search'
 const { t } = useI18n()
-const localePath = useLocalePath()
+const personService = useService('persons')
+const sortOptions = computed(() => {
+  return [
+    { label: t('person.sort.name_asc'), value: 'name:asc' },
+    { label: t('person.sort.name_desc'), value: 'name:desc' },
+  ]
+})
+const sortBy = ref()
+const query = computed(() => {
+  return {
+    q: searchTerms.value,
+    query_by: 'name',
+  }
+})
+const displayMode = ref<'grid' | 'list'>('grid')
+const perPage = 12
+const searchTerms = ref('')
+const facets: Facet[] = [
+  // {
+  //   field: 'country',
+  //   title: t('person.filters.countries')
+  // },
+  // {
+  //   field: 'roles',
+  //   title: t('person.filters.roles')
+  // },
+]
+const searchFunction = async (
+  query: any,
+  facets: FacetSearchParam[]
+): Promise<FacetSearchResult<Person>> => {
+  const res = await personService.facetSearch(query, facets)
+  return res
+}
+
+const ui = computed(() => {
+  return {
+    results: displayMode.value === 'list' ? 'flex flex-col gap-3 sm:gap-4' : 'gap-3 sm:gap-5',
+  }
+})
+
 const links = ref([
   {
     label: t('community.page.become_button'),

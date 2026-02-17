@@ -1,5 +1,5 @@
 <template>
-  <UPageGrid>
+  <UPageGrid :class="ui?.root">
     <template v-if="!isLoading || infiniteScroll">
       <template v-for="(hit, index) in hits" :key="hit.id">
         <div v-if="infiniteScroll && index % perPage === 0" ref="pageDelimiter" class="col-span-full"
@@ -37,6 +37,9 @@ interface Props {
   isLoading?: boolean
   perPage?: number
   page?: number
+  ui?: {
+    root?: string
+  }
 }
 const props = withDefaults(defineProps<Props>(), {
   hits: () => [],
@@ -49,6 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emits = defineEmits<{
   (e: 'change-page', page: number): void
 }>()
+
 const router = useRouter()
 const route = useRoute()
 const pageDelimiter = useTemplateRef<HTMLElement[]>('pageDelimiter')

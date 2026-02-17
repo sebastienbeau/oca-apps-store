@@ -1,3 +1,17 @@
+import type { PSC, Workgroup } from "~/models"
+
 export interface Person {
-    id: number
+  id: number
+  name: string
+  username: string
+  company?: string
+  companyId?: number
+  country?: string
+  roles?: string[]
+  collaboratorIndex?: number
+  translations: number
+  modulesMaintained: number
+  psc: number
+  pscList: PSC[]
+  workGroupList: Workgroup[]
 }

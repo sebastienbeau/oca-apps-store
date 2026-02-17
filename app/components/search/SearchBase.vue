@@ -2,64 +2,66 @@
   <UPage>
     <template #default>
       <slot name="header">
-        <UContainer>
-          <UPageHeader class="" />
-        </UContainer>
+        <UPageHeader class="" />
       </slot>
       <div ref="container">
-        <UContainer>
-          <div class="flex flex-col md:flex-row justify-between items-center gap-1">
-            <slot name="actions"></slot>
-            <div class="flex-1">
-              <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
-                :query-facets="queryFacets">
-                <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
-                  class="max-md:my-4" @refine="onChangeFilter" />
-              </slot>
-            </div>
-            <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
-          </div>
-          <div v-if="error" class="mx-auto my-10 max-w-lg">
-            <UAlert type="error" color="error" icon="error" variant="outline" orientation="horizontal"
-              :title="t('search.error.title')" :description="error?.message ||
-                'An error occurred during the search'
-                " :actions="[
-                  {
-                    label: t('search.error.retry'),
-                    color: 'neutral',
-                    onClick: search,
-                  },
-                ]" />
-          </div>
-          <template v-else-if="results.hits.length === 0">
-            <div class="text-muted py-10 text-center">
-              {{ t('search.noresults') }}
-            </div>
-          </template>
-          <template v-else>
-            <div class="pb-3">
-              <div class="text-muted text-xs">
-                {{
-                  t('search.results.count', {
-                    count: results.found,
-                  })
-                }}
-              </div>
-            </div>
-            <slot name="results" :per-page="perPage" :results="results" :is-loading="isLoading" :total="results.found"
-              :infinite-scroll="infiniteScroll">
-              <SearchResult :hits="results.hits" :total="results.found" :infinite-scroll="infiniteScroll"
-                :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage">
-                <template #hit="{ hit, index, total }">
-                  <slot name="hit" :hit="hit" :index="index" :total="total" />
-                </template>
-              </SearchResult>
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-1">
+          <slot name="actions"></slot>
+          <div class="flex-1">
+            <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
+              :query-facets="queryFacets">
+              <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
+                class="max-md:my-4" @refine="onChangeFilter" />
             </slot>
-          </template>
-          <div v-if="$slots.footer" class="mt-8">
-            <slot name="footer" />
           </div>
-        </UContainer>
+          <slot name="sort" :sort-options="sortOptions" :value="sortBy" :change="onSort">
+            <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
+          </slot>
+        </div>
+        <div v-if="error" class="mx-auto my-10 max-w-lg">
+          <UAlert type="error" color="error" icon="error" variant="outline" orientation="horizontal"
+            :title="t('search.error.title')" :description="error?.message ||
+              'An error occurred during the search'
+              " :actions="[
+                {
+                  label: t('search.error.retry'),
+                  color: 'neutral',
+                  onClick: search,
+                },
+              ]" />
+        </div>
+        <template v-else-if="results.hits.length === 0">
+          <div class="text-muted py-10 text-center">
+            {{ t('search.noresults') }}
+          </div>
+        </template>
+        <template v-else>
+          <div class="pb-3">
+            <div class="text-muted text-xs">
+              {{
+                t('search.results.count', {
+                  count: results.found,
+                })
+              }}
+            </div>
+          </div>
+          <slot name="results" :per-page="perPage" :results="results" :is-loading="isLoading" :total="results.found"
+            :infinite-scroll="infiniteScroll">
+            <SearchResult :hits="results.hits" :total="results.found" :infinite-scroll="infiniteScroll"
+              :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage" :ui="{
+                root: ui?.results
+              }">
+              <template #hit="{ hit, index, total }">
+                <slot name="hit" :hit="hit" :index="index" :total="total" />
+              </template>
+            </SearchResult>
+          </slot>
+        </template>
+        <div v-if="$slots.footer" class="mt-8">
+          <slot name="footer" />
+        </div>
+
       </div>
     </template>
   </UPage>
@@ -83,6 +85,9 @@ const props = withDefaults(
       query: any,
       facets: FacetSearchParam[]
     ) => Promise<FacetSearchResult<T>>
+    ui?: {
+      results?: string
+    }
   }>(),
   {
     facets: () => [],

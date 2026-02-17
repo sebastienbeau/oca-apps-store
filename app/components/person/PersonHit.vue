@@ -1,64 +1,75 @@
 <template>
   <UCard :ui="{
-    base: 'w-full',
-  body: '',
-    header: { base: '' },
-    footer: { base: '' },
-  }">
+    root: ui?.root,
+    body: ui?.body,
+    header: ui?.header,
+    footer: ui?.footer,
+  }" @click="goToPerson">
     <template #header>
-      <div class="flex items-center gap-3">
-        <UAvatar src="https://avatars.githubusercontent.com/u/1?v=4" alt="Avatar" size="md" />
-        <div>
-          <h3 class="font-medium text-gray-900 dark:text-white">
-            {{ person.name }}
-          </h3>
-          <p class="text-sm flex items-center">
-            <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="16" height="16" />
+      <div class="flex-1">
+        <UUser :name="person.name" size="lg" :avatar="{
+          src: 'https://avatars.githubusercontent.com/u/1?v=4'
+        }" :ui="{
+          description: 'items-center flex gap-0.5'
+        }">
+          <template #description>
+            <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2" width="16" height="16" />
             <span class=" text-gray-500 dark:text-gray-400"> {{ person.username }}</span>
-          </p>
-        </div>
-        <div class="flex flex-col ml-auto text-center">
-          <PersonCountry :person="person"></PersonCountry>
-          <PersonCompany :person="person"></PersonCompany>
-        </div>
+          </template>
+        </UUser>
+      </div>
+      <div :class="{
+        'flex flex-col items-end': variant === 'grid',
+        'inline-flex flex-row items-center gap-1': variant == 'list',
+      }">
+        <PersonCountry :person="person" />
+        <PersonCompany :person="person" />
       </div>
     </template>
-
     <PersonBadges :person="person" />
-
-    <UDivider class="my-3" />
-    <div v-if="hasStatisticalInfo" class="space-y-2 ">
-      <PersonStats :person="person" />
-    </div>
-    <template v-if="!hasStatisticalInfo">
+    <PersonStats :person="person" v-if="hasStatisticalInfo" class="space-y-2" />
+    <template #footer>
       <div class="flex justify-end ">
-        <UButton color="neutral" variant="outline" label="View more" trailing class="ml-auto "
+        <UButton color="neutral" variant="outline" label="View more" size="sm" trailing class="ml-auto "
           :to="`/community/${person.username}`" />
       </div>
-
-
-
-    </template>
-
-    <template v-if="hasStatisticalInfo" #footer>
-      <div class="flex justify-end ">
-        <UButton color="neutral" variant="outline" label="View more" trailing class="ml-auto "
-          :to="`/community/${person.username}`" />
-      </div>
-
     </template>
   </UCard>
 </template>
-<script setup>
-import { icon } from '#build/ui/prose';
+<script setup lang="ts">
+import type { Person } from '~/models'
+import { twMerge } from 'tailwind-merge'
+const props = defineProps<{
+  person: Person
+  variant?: 'grid' | 'list'
+  ui?: {
+    root?: string
+    body?: string
+    header?: string
+    footer?: string
+  }
+}>()
 
-const props = defineProps({
-  person: {
-    type: Object,
-    required: true,
-  },
-});
-
+const ui = computed(() => {
+  const ui = {
+    root: 'w-full shadow divide-none cursor-pointer',
+    body: 'p-3 sm:p-4 py-0 sm:py-0',
+    header: 'flex flex-1 items-center gap-3 p-3 sm:p-4 ',
+    footer: 'p-3 sm:p-4',
+  }
+  if (props?.variant === 'list') {
+    ui.root = twMerge(ui.root, 'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 shadow-none rounded-none border-b border-neutral-100')
+    ui.header = twMerge(ui.header, 'col-span-2 flex-col items-start gap-2')
+    ui.body = twMerge(ui.body, 'col-span-3')
+    ui.footer = twMerge(ui.footer, '')
+  }
+  return {
+    root: twMerge(ui.root, props.ui?.root || ''),
+    body: twMerge(ui.body, props.ui?.body || ''),
+    header: twMerge(ui.header, props.ui?.header || ''),
+    footer: twMerge(ui.footer, props.ui?.footer || ''),
+  }
+})
 const hasStatisticalInfo = computed(() => {
   if (props.person.collaboratorIndex == '' && props.person.translations == '' && props.person.modulesMaintained == '' && props.person.psc == '') {
     return false
@@ -67,4 +78,10 @@ const hasStatisticalInfo = computed(() => {
     return true
   }
 })
+
+const goToPerson = () => {
+  if (props?.person?.username) {
+    navigateTo(`/community/${props.person.username}`)
+  }
+}
 </script>
