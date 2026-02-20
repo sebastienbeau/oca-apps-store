@@ -1,4 +1,8 @@
 <template>
+  <UBreadcrumb :items="[
+    { label: t('nav.sponsors.title'), to: '/sponsors', icon: 'i-ph-cube-duotone' },
+  ]" class="mt-8 mb-6" />
+  <USeparator />
   <SearchBase v-model:page="page" v-model:sortBy="sortBy" :query="query" :facets="facets" :sort-options="sortOptions"
     :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage">
     <template #header>
@@ -99,7 +103,4 @@ const searchFunction = async (
 
   return res
 }
-
-
-
 </script>

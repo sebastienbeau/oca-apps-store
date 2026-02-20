@@ -3,14 +3,14 @@
     root: 'ring-0 relative',
     container: 'lg:grid-cols-4 ',
     wrapper: 'col-span-2 ',
-    body: { base: 'p-0' },
-    header: { base: 'p-0 relative' }
+    body: 'p-0',
+    header: 'p-0 relative'
   }">
     <template #title>
-
-      <h3 class="font-bold text-4xl">
-        {{ person.name }} <span class="text-secondary-500">Beau</span>
-      </h3>
+      <ProseH1 class="text-primary">
+        {{ names[0] }}
+        <span class="text-secondary-500"> {{ names[1] }}</span>
+      </ProseH1>
       <PersonBadges v-if="person.roles" :person="person" />
     </template>
     <template #description>
@@ -43,4 +43,8 @@ import type { Person } from '~/models';
 const props = defineProps<{
   person: Person
 }>()
+const names = computed(() => {
+  const names = props.person?.name.split(' ') || []
+  return [names.slice(0, -1).join(' '), names.slice(-1)[0]]
+})
 </script>

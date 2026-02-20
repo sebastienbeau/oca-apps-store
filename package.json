@@ -25,6 +25,7 @@
     "@nuxtjs/sitemap": "^7.6.0",
     "@pinia/nuxt": "^0.11.3",
     "@vite-pwa/nuxt": "1.1.0",
+    "@vueuse/motion": "^3.0.3",
     "@vueuse/nuxt": "14.0.0",
     "better-sqlite3": "^12.6.2",
     "change-case": "^5.4.4",

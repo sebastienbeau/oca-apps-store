@@ -1,4 +1,9 @@
 <template>
+  <UBreadcrumb :items="[
+    { label: t('nav.community.title'), to: '/community', icon: 'i-ph-cube-duotone' },
+    { label: person?.name || '', icon: 'i-ph-cube-duotone' },
+  ]" class="mt-8 mb-6" />
+  <USeparator />
   <div class="py-8">
     <PersonHeroBanner :person="person" />
   </div>
@@ -16,13 +21,12 @@
 </template>
 <script lang="ts" setup>
 import { persons } from '~/data/persons';
+const { t } = useI18n()
 const person = ref()
 const urlParams = useRoute().params;
 person.value = persons.find((person) =>
   person.username === urlParams.handle?.[0]
-);
-
-
+)
 </script>
 <style scoped>
 .background-style::before {

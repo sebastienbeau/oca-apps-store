@@ -2,27 +2,14 @@
   <div>
     <slot name="items" :items="transformedItems" :change="refine">
       <div v-if="transformedItems?.length" class="flex flex-col gap-2">
-        <UCheckbox
-          v-for="item in transformedItems"
-          :key="item.value"
-          :label="item?.label || item?.value"
-          :description="item?.count?.toString()"
-          :model-value="values.includes(item?.value)"
-          :ui="{
+        <UCheckbox v-for="item in transformedItems" :key="item.value" :label="item?.label || item?.value"
+          :description="item?.count?.toString()" :model-value="values.includes(item?.value)" :ui="{
             root: 'min-w-48 pr-2',
             wrapper: 'flex justify-between items-start',
-          }"
-          @change="refine(item?.value)"
-        />
+          }" @change="refine(item?.value)" />
       </div>
       <div v-if="values?.length > 0" class="flex justify-end">
-        <UButton
-          color="neutral"
-          variant="link"
-          size="xs"
-          label="Reset"
-          @click="reset"
-        />
+        <UButton color="neutral" variant="link" size="xs" label="Reset" @click="reset" />
       </div>
     </slot>
   </div>
@@ -69,7 +56,7 @@ const refine = (value?: string) => {
   }
   let query = ''
   if (values.value.length > 0) {
-    query = `${props.field}:=[${values.value.map(i => `'${i}'`).join(',')}]`
+    query = `${props.field}:=[${values.value.map(i => `\`${i}\``).join(',')}]`
   }
   if (values?.value?.length > 1) {
     emit('labelValue', values.value?.length?.toString())
@@ -93,7 +80,7 @@ if (values.value.length === 0 && route.query[props.field]) {
 if (!props.query && values.value.length > 0) {
   emit(
     'init-facet',
-    `${props.field}:=[${values.value.map(i => `'${i}'`).join(',')}]`,
+    `${props.field}:=[${values.value.map(i => `\`${i}\``).join(',')}]`,
   )
 }
 </script>

@@ -13,7 +13,7 @@
         "title": "All Odoo OCA modules",
         "description": "The catalogue of Odoo community modules in the OCA repo"
       },
-       "categories": {
+      "categories": {
         "title": "Browse Modules by category",
         "description": "The catalogue of Odoo community modules ordered by parent category"
       }
@@ -28,7 +28,6 @@
         "title": "OCA contributors",
         "description": "The creators, maintainers and contributors of the OCA modules"
       }
-
     },
     "sponsors": {
       "title": "Sponsors",
@@ -44,9 +43,9 @@
       "learn_more": "Find out how to get involved"
     },
     "technical_name": "Technical name",
-    "sort":{
-      "name_asc":"Sort by name A-Z",
-      "name_desc":"Sort by name Z-A"
+    "sort": {
+      "name_asc": "Sort by name A-Z",
+      "name_desc": "Sort by name Z-A"
     },
     "search": {
       "placeholder": "Search modules..."
@@ -54,12 +53,22 @@
     "filters": {
       "versions": "Versions",
       "category": "Category"
+    },
+    "version": {
+      "label": "Odoo version",
+      "placeholder": "Pick an odoo version"
+    },
+    "settings": {
+      "title": "Module Configuration"
+    },
+    "contributors": {
+      "title": "Contributors"
     }
   },
-  "sponsors" :{
+  "sponsors": {
     "become": "Become a {name} Sponsor",
     "back-btn": "Back to sponsors list page",
-    "page" : {
+    "page": {
       "title": "OCA",
       "title_emphasis": "Sponsors",
       "description": "Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality apps that power modern enterprises. Let’s build the future of open-source, together.",
@@ -122,11 +131,11 @@
     },
     "noresults": "No results found"
   },
-  "company":{
+  "company": {
     "stats": {
       "members": "Members",
       "contributors": "Contributors",
-      "modules" : "Modules"
+      "modules": "Modules"
     }
   }
 }

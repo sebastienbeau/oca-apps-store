@@ -11,8 +11,11 @@
           description: 'items-center flex gap-0.5'
         }">
           <template #description v-if="person.username">
-            <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2" width="16" height="16" />
-            <span class=" text-gray-500 dark:text-gray-400"> {{ person.username }}</span>
+            <UButton variant="ghost" :to="`https://github.com/${person.username}`" leading-icon="line-md:github"
+              size="sm" :label="person.username" target="_blank" :ui="{
+                base: 'p-0 sm:p-0 hover:bg-transparent hover:underline gap-0.5',
+                label: 'text-gray-500 dark:text-gray-600 text-sm',
+              }" />
           </template>
         </UUser>
       </div>
@@ -50,13 +53,13 @@ const props = defineProps<{
 
 const ui = computed(() => {
   const ui = {
-    root: 'w-full shadow divide-none cursor-pointer justify-start flex flex-col',
-    header: ' flex items-center gap-3 p-3 sm:p-4 ',
-    body: 'p-3 sm:p-4 py-0 sm:py-0 flex-1 h-full grow ',
-    footer: 'p-3 sm:p-4',
+    root: 'w-full shadow cursor-pointer justify-start flex flex-col',
+    header: ' flex items-center gap-3 p-3 sm:p-4',
+    body: 'p-3 sm:p-4 py-0 sm:py-0 flex-1 h-full grow border-b-0',
+    footer: 'p-3 sm:p-4 ',
   }
   if (props?.variant === 'list') {
-    ui.root = twMerge(ui.root, 'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 shadow-none rounded-none border-b border-neutral-100')
+    ui.root = twMerge(ui.root, 'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 divide-none shadow-none rounded-none border-b border-neutral-100')
     ui.header = twMerge(ui.header, 'col-span-2 flex-col items-start gap-2')
     ui.body = twMerge(ui.body, 'col-span-3')
     ui.footer = twMerge(ui.footer, '')

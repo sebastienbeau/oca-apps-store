@@ -1,4 +1,8 @@
 <template>
+  <UBreadcrumb :items="[
+    { label: t('nav.community.title'), to: '/community', icon: 'i-ph-cube-duotone' }
+  ]" class="mt-8 mb-6" />
+  <USeparator />
   <SearchBase :query="query" :facets="facets" :sort-options="sortOptions" v-model:sort-by="sortBy"
     :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage" :ui="ui">
     <template #header>

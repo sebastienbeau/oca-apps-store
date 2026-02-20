@@ -1,4 +1,9 @@
 <template>
+  <UBreadcrumb :items="[
+    { label: t('nav.sponsors.title'), to: '/sponsors', icon: 'i-ph-cube-duotone' },
+    { label: sponsor?.name || '', icon: 'i-ph-cube-duotone' },
+  ]" class="mt-8 mb-6" />
+  <USeparator />
   <div class="flex justify-start py-8 ">
     <UButton color="primary" to="/sponsors" size="sm" class="mr-auto" variant="link">
       <UIcon name="eva:arrow-back-outline"></UIcon>
@@ -17,12 +22,10 @@
 import type { Sponsor, SponsorLevelInfo } from '~/models';
 const sponsorService = useService('sponsors')
 const route = useRoute()
+const { t } = useI18n()
 
 const sponsor = ref<Sponsor | null>(null);
-
 const urlParams = useRoute().params;
-
-
 const getSponsor = async () => {
   const res = await sponsorService.getSponsorById({}, urlParams.handle?.[0] as string)
   return res
@@ -39,10 +42,10 @@ if (data.value) {
 }
 sponsor.value = data.value || null;
 
-
 const { data: sponsorLevels } = await useAsyncData(() => {
   return queryCollection('sponsorLevels').all()
 })
+
 const sponsorLevel = computed(() => {
   if (sponsor.value && sponsorLevels.value) {
     return sponsorLevels.value.find((level: any) => level.name.toLowerCase() === sponsor.value?.sponsorLevel.name)
