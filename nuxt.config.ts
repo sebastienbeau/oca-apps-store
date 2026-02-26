@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
-    '@vueuse/motion/nuxt',
+    '@vueuse/motion',
   ],
   plugins: ['~/plugins/services/index'],
   ssr: false,

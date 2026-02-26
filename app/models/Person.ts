@@ -20,6 +20,14 @@ export interface Person {
   translations: number
   modulesMaintained: number
   psc: number
+  urlKey: string
   pscList: PSC[]
   workGroupList: Workgroup[]
+  contact?: {
+    address: string,
+    email: string,
+    phone: string,
+    city: string,
+    website: string
+  } | undefined
 }

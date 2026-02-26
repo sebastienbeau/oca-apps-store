@@ -7,8 +7,8 @@
   <div class="py-8">
     <PersonHeroBanner :person="person" />
   </div>
-  <div class="py-8 relative ">
-    <div class="w-[100vw+10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-[120%] -z-10 -rotate-3"
+  <div class="pt-14 pb-1 md:pt-32 md:pb-10 relative">
+    <div class="w-screen absolute left-1/2 transform -translate-x-1/2 top-0 h-[120%] -skew-y-3 -z-10 "
       style="background-color: #fffbf5 " />
     <div class="d-block mx-w-sm mx-auto">
       <PersonGroups :person="person" />
@@ -20,13 +20,32 @@
 
 </template>
 <script lang="ts" setup>
-import { persons } from '~/data/persons';
-const { t } = useI18n()
-const person = ref()
+
+const person = ref<Person | null>(null)
 const urlParams = useRoute().params;
-person.value = persons.find((person) =>
-  person.username === urlParams.handle?.[0]
+const route = useRoute()
+
+const personService = useService('persons')
+
+const getPersonByUrlKey = async () => {
+  const res = await personService.getPersonByUrlKey({}, urlParams.handle?.[0] as string)
+  return res
+}
+
+const { data } = await useAsyncData<Person>(
+  `person-${route.fullPath}`,
+  getPersonByUrlKey, {
+  watch: [route]
+}
 )
+
+if (data.value) {
+  person.value = data.value
+}
+person.value = data.value || null;
+
+
+
 </script>
 <style scoped>
 .background-style::before {

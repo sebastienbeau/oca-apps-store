@@ -14,20 +14,25 @@
       <PersonBadges v-if="person.roles" :person="person" />
     </template>
     <template #description>
-      <p class="text-sm flex items-center">
+      <div class="text-sm flex items-center">
         <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="16" height="16" />
         <span class=" text-gray-500 dark:text-gray-400"> {{ person.username }}</span>
-      </p>
-      <div class="flex ml-auto py-4 gap-2">
-        <PersonCountry :person="person"></PersonCountry>
-        <PersonCompany :person="person"></PersonCompany>
+      </div>
+      <div class="flex flex-row ml-auto py-4 gap-4 justify-start items-center ">
+        <div>
+          <PersonCountry :person="person"></PersonCountry>
+        </div>
+        <div>
+          <PersonCompany :person="person"></PersonCompany>
+        </div>
+
       </div>
     </template>
-    <img src="https://akretion.com/content/media/file/seb2.jpg" alt="Sébastien Beau"
+    <img :src="person.avatarUrl" alt="Sébastien Beau"
       class=" col-span-1 max-h-48 object-cover rounded-full mx-auto" />
 
     <template #footer>
-      <div class="flex flex-wrap justify-start gap-2">
+      <div class="flex flex-wrap justify-start gap-4">
         <PersonStats :person="person" />
       </div>
     </template>

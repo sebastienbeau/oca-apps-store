@@ -11,7 +11,7 @@
     </UButton>
   </div>
   <SponsorHeroBanner v-if="sponsor" :sponsor="sponsor" />
-  <SponsorIndustries v-if="sponsor && sponsor.industries?.length > 0" :sponsor="sponsor" />
+  <SponsorIndustries v-if="sponsor && sponsor.industries?.length > 0" :sponsor="sponsor" :sponsorLevel="sponsorLevel" />
   <SponsorStories v-if="sponsor && sponsor.stories?.length > 0" :sponsor="sponsor" />
   <SponsorTestimonial v-if="sponsor" :sponsor="sponsor" />
 

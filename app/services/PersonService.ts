@@ -14,6 +14,7 @@ export class PersonService extends BaseServiceTypeSense {
   hits(data: SearchResponseHit<PersonSchema>[]): Person[] {
     return data.map((hit: any) => this.jsonToModel(hit?.document))
   }
+  
   async facetSearch(
     query: any,
     facets: FacetSearchParam[],
@@ -89,10 +90,30 @@ export class PersonService extends BaseServiceTypeSense {
     }
   }
 
-  jsonToModel(json: PersonSchema): Person {
+  
+  async getPersonByUrlKey (query: {}, urlKey: string): Promise<Person>{
+    query = {... {q: '*', query_by: 'url_key'}, ...query }
+
+    const result = await super.performSearch<PersonSchema>({
+      ...query,
+      filter_by: `url_key:=${urlKey}`,
+    })
+    const hits = this.hits(result?.hits) || []
+    
+    return hits[0] ||  null
+    
+  }
+
+   jsonToModel(json: PersonSchema): Person {
     return PersonFactory.createPerson(json)
   }
+    
 }
+
+
+
+ 
+
 
 export const PersonFactory = {
   createPerson(json: any): Person {
@@ -105,20 +126,35 @@ export const PersonFactory = {
       companyId: json?.company_id,
       country: PersonFactory.createPersonCountry(json),
       roles: PersonFactory.createPersonRoles(json),
-      collaboratorIndex: json?.collaborator_index,
+      collaboratorIndex: json?.collaboratorIndex,
       translations: !isNaN(json?.translations) ? json.translations : 0,
-      modulesMaintained: !isNaN(json?.modules_maintained) ? json.modules_maintained : 0,
+      modulesMaintained: !isNaN(json?.modulesMaintained) ? json.modulesMaintained : 0,
       psc: !isNaN(json?.psc) ? json.psc : 0,
       pscList: json?.psc_list || [],
       workGroupList: json?.work_group_list || [],
+      contact: PersonFactory.createPersonContact(json),
+      urlKey: json?.url_key || ''
+
     }
     return Person
   },
-  createPersonCountry(json: any): { label: string, code: string } | undefined {
-    if (json?.country_label && json?.country_code) {
+  createPersonContact(json: any): { address: string, email: string, phone: string, city: string, website: string } | undefined {
+    if(json?.contact) {
       return {
-        label: json.country_label,
-        code: json.country_code,
+        address: json.contact.address || '',
+        email: json.contact.email || '',
+        phone: json.contact.phone || '',
+        city: json.contact.city || '',
+        website: json.contact.website || ''
+      }
+    }
+  },
+
+  createPersonCountry(json: any): { label: string, code: string } | undefined {
+    if (json?.country.label && json?.country.code) {
+      return {
+        label: json.country.label,
+        code: json.country.code,
       }
     }
     return undefined

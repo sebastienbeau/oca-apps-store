@@ -28,11 +28,13 @@
       </div>
     </template>
     <PersonBadges :person="person" />
-    <PersonStats :person="person" v-if="hasStatisticalInfo" class="space-y-2" />
+    <div class="grid grid-cols-2 pt-4 text-xs">
+      <PersonStats :person="person" v-if="hasStatisticalInfo" class="space-y-2" />
+    </div>
     <template #footer>
       <div class="flex justify-end ">
         <UButton color="neutral" variant="outline" label="View more" size="sm" trailing class="ml-auto "
-          :to="`/community/${person.username}`" />
+          :to="`/community/${person.urlKey}`" />
       </div>
     </template>
   </UCard>

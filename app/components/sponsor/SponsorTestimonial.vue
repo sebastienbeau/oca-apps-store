@@ -1,6 +1,6 @@
 <template>
-  <div class="relative py-8">
-    <div class="w-[100vw+10rem] absolute -left-1/2 -right-1/2 mx-auto top-0 h-full -z-10   bg-primary-500" />
+  <div class="relative py-4">
+    <div class="w-screen absolute left-1/2 transform -translate-x-1/2 top-0 h-[120%] -z-10 bg-primary-500" />
     <img src="/img/oca_logo_bckg_white.png" alt="Illustration"
       class="z-10 w-full absolute -left-100 top-0 opacity-10 h-full object-none object-left" />
     <UPageCTA :title="$t('sponsors.testimonial.title')" :description="sponsor.descriptionWhyOca"
@@ -21,15 +21,7 @@
             <p class="text-white text-lg">{{ sponsor.descriptionWhyOca }}</p>
           </div>
         </div>
-        <div class="mt-6 w-full ml-auto">
-          <UUser name="John Doe" description="Software Engineer" size="xl"
-            :ui="{ root: 'justify-end mr-8 mt-8', name: 'text-white', description: 'line-clamp-1' }" :avatar="{
-              src: 'https://i.pravatar.cc/150?u=john-doe2',
-              icon: 'i-lucide-image'
-            }" />
-        </div>
       </template>
-
     </UPageCTA>
   </div>
 

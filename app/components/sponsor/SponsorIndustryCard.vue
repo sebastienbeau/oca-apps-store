@@ -1,13 +1,12 @@
 <template>
   <UCard reverse class="" :ui="{
-    root: 'ring-0 bg-gray-100 rounded-0 p-4 min-w-1/2',
-    body: 'sm:px-0 sm:py-2 bg-transparent',
+  root: 'ring-0 bg-gradient-to-tl from-primary-100 from-0% via-gray-100 via-25% hover:via-40% transition-all duration-75 to-slate-200 to-100%  rounded-none rounded-bl-2xl rounded-tr-2xl lg:p-4 min-w-1/5',
+  body: 'sm:px-0 sm:p-2 sm:py-2 bg-transparent',
     header: 'sm:p-0 relative border-0',
   }">
     <template #header>
+      <icon name="ic:sharp-tag" class="inline-block my-2 text-xl align-middle text-gray-400 "></icon>
       <h3 class="text-primary font-bold text-sm">
-        <icon name="streamline:industry-innovation-and-infrastructure"
-          class="inline-block mr-2 text-xl align-middle text-gray-600"></icon>
         {{ industry.name }}
       </h3>
     </template>
