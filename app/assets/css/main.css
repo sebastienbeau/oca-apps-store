@@ -1,6 +1,6 @@
-@import 'tailwindcss';
-@import '@nuxt/ui';
-@source "../../../content/**/*";
+@import "tailwindcss";
+@import "@nuxt/ui";
+
 
 @theme static {
   --font-heading: 'DM Sans', sans-serif;
