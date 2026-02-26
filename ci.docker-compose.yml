@@ -12,7 +12,6 @@ services:
     image: caddy:2.7.2-alpine
     volumes:
       - ./Caddyfile-ci:/etc/caddy/Caddyfile
-    environment:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
