@@ -50,7 +50,7 @@ before_script:
     CI_DOMAIN=${CI_DOMAIN}
     BASE_DOMAIN_NAME=${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID:-preprod}
     EOF
-  - sops -d secrets.docker-compose.enc.yml > secrets.docker-compose.yml
+  #sops -d secrets.docker-compose.enc.yml > secrets.docker-compose.yml
 
 # Pre-commit lint
 # TODO add linter per project
@@ -70,21 +70,21 @@ build:
     - docker compose build --pull
 
 # Drop the database to restart from a fresh one
-refresh_copy_db:
-  stage: refresh
-  script:
-    - docker compose kill
-    - dropdb --force --if-exists $BUILD_NAME
-    - createdb $BUILD_NAME -T ${CI_PROJECT_NAME/-/_}_template
-  rules:
-    # if keepdb tag is set this job will not run
-    - if: $CI_MERGE_REQUEST_LABELS !~ /keepdb/ && $CI_MERGE_REQUEST_LABELS =~ /deploy-payload/
+# refresh_copy_db:
+#   stage: refresh
+#   script:
+#     - docker compose kill
+#     - dropdb --force --if-exists $BUILD_NAME
+#     - createdb $BUILD_NAME -T ${CI_PROJECT_NAME/-/_}_template
+#   rules:
+#     # if keepdb tag is set this job will not run
+#     - if: $CI_MERGE_REQUEST_LABELS !~ /keepdb/ && $CI_MERGE_REQUEST_LABELS =~ /deploy-payload/
 
 # Run the container used for the review
 review:
   stage: review
   script:
-    - echo "DB_NAME=$BUILD_NAME" >> .env
+#    - echo "DB_NAME=$BUILD_NAME" >> .env
     - docker compose kill
     - docker compose up -d
   environment:
@@ -112,7 +112,7 @@ stop_review:
 review_preprod:
   stage: review_preprod
   script:
-    - echo "DB_NAME=$BUILD_NAME" >> .env
+#    - echo "DB_NAME=$BUILD_NAME" >> .env
     - echo "DOMAIN=${CI_PROJECT_NAME}_preprod.${CI_DOMAIN}"
     - echo "DOMAIN=${CI_PROJECT_NAME}_preprod.${CI_DOMAIN}" >> .env
     - docker compose kill
