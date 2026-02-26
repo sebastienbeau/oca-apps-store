@@ -1,6 +1,7 @@
 services:
   nuxt:
-    build: nuxt
+    build:
+      context: .
     image: "${BUILD_NAME}_nuxt"
     environment:
       NUXT_PUBLIC_SHOPINVADER_TYPESENS_URL: https://dev-typesense.akretion.com
