@@ -7,7 +7,7 @@ WORKDIR /app
 # or if it should be in the project dependency
 RUN npm install -g typescript
 
-COPY package.json pnpm-lock.yaml /app/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc /app/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store corepack enable pnpm && pnpm install
 
 
