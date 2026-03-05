@@ -1,0 +1,72 @@
+<template>
+  <UBreadcrumb :items="[
+    { label: t('nav.company.title'), to: '/companies', icon: 'i-ph-cube-duotone' },
+  ]" class="mt-8 mb-6" />
+  <USeparator />
+  <SearchBase :query="query" :facets="facets" :sort-options="sortOptions" v-model:sort-by="sortBy"
+    :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage" :ui="ui">
+    <template #header>
+      {{ t('nav.company.title') }}
+    </template>
+    <template #actions>
+      <UFormField>
+        <UInput v-model="searchTerms" :placeholder="t('companies.search.placeholder')" size="lg"
+          trailing-icon="search" />
+      </UFormField>
+    </template>
+    <template #sort="{ sortOptions, value, change }">
+      <div class="flex gap-2 items-center">
+        <SearchSortSelector :options="sortOptions" :value="value" class="my-4" @change="change" />
+        <UFieldGroup class="hidden sm:flex">
+          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-list" @click="displayMode = 'list'" />
+          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-grid" @click="displayMode = 'grid'" />
+        </UFieldGroup>
+      </div>
+    </template>
+    <template #hit="{ hit: company, index, total }">
+      <CompanyHit :variant="displayMode" :company="company" />
+    </template>
+  </SearchBase>
+</template>
+
+<script setup lang="ts">
+import type { Company } from '~~/models'
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models'
+const { t } = useI18n()
+const companyService = useService('companies')
+const sortOptions = computed(() => {
+  return [
+    { label: t('companies.sort.name_asc'), value: 'name:asc' },
+    { label: t('companies.sort.name_desc'), value: 'name:desc' },
+  ]
+})
+const sortBy = ref('name:asc')
+const query = computed(() => {
+  return {
+    q: searchTerms.value,
+    query_by: 'name',
+  }
+})
+const displayMode = ref<'grid' | 'list'>('grid')
+const perPage = 12
+const searchTerms = ref('')
+const facets: Facet[] = [
+
+]
+const searchFunction = async (
+  query: any,
+  facets: FacetSearchParam[]
+): Promise<FacetSearchResult<Company>> => {
+  const res = await companyService.facetSearch(query, facets)
+  return res
+}
+
+const ui = computed(() => {
+  return {
+    results: displayMode.value === 'list' ? 'flex flex-col gap-3 sm:gap-4' : 'gap-3 sm:gap-5',
+  }
+})
+
+</script>

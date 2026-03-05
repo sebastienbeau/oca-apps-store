@@ -2,7 +2,7 @@ import type {
   CategoryService,
   ModuleService,
   PersonService,
-  SponsorService,
+  CompanyService,
 } from '~~/services'
 
 export interface LocalizedIndex {
@@ -13,7 +13,7 @@ export interface SearchConfig {
   key: string
   indices: {
     persons: LocalizedIndex
-    sponsors: LocalizedIndex
+    companies: LocalizedIndex
     modules: LocalizedIndex
     categories: LocalizedIndex
     [key: string]: LocalizedIndex
@@ -24,5 +24,5 @@ export interface ServiceList {
   categories: CategoryService
   modules: ModuleService
   persons: PersonService
-  sponsors: SponsorService
+  companies: CompanyService
 }

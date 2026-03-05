@@ -24,10 +24,9 @@ const { data: sponsorLevels } = await useAsyncData(async () => {
   data.sort((a, b) => parseInt(a.level) - parseInt(b.level))
   return data
 })
-console.log(sponsorLevels.value)
 const levels = computed(() => {
   return sponsorLevels.value?.reduce((acc: { [key: string]: any }, level: any) => {
-    const sponsors = props.sponsors?.filter(sponsor => sponsor.sponsorLevel.id == level.level) || [];
+    const sponsors = props.sponsors?.filter(sponsor => sponsor.sponsorship?.level?.id == level.level) || [];
     if (sponsors?.length > 0) {
       acc.push({
         ...level,

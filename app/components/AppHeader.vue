@@ -9,7 +9,7 @@
 			<Logo />
 		</template>
 		<UNavigationMenu :items="items" color="primary" :ui="{
-	root: 'gap-6 hidden lg:flex max-w-full w-full mx-auto px-4 sm:px-6 lg:px-6 justify-center',
+			root: 'gap-6 hidden lg:flex max-w-full w-full mx-auto px-4 sm:px-6 lg:px-6 justify-center',
 		}" />
 
 		<template #right>
@@ -76,6 +76,12 @@ const items: NavigationMenuItem[] = [
 				to: localePath('/community'),
 				icon: 'sponsor',
 			},
+			{
+				label: t('nav.community.companies.title'),
+				description: t('nav.community.companies.description'),
+				to: localePath('/companies'),
+				icon: 'company'
+			}
 		],
 	},
 	{

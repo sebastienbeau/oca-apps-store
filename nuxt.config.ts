@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
     '@vueuse/motion',
+    'nuxt-schema-org',
+    'nuxt-site-config',
   ],
   plugins: ['~/plugins/services/index'],
   ssr: false,
@@ -22,7 +24,7 @@ export default defineNuxtConfig({
       class: 'bg-default',
     },
     head: {
-      meta: [{ name: 'theme-color', content: '#20412c' }],
+      meta: [{ name: 'theme-color', content: '#151B47' }],
     },
   },
   css: ['~/assets/css/main.css'],
@@ -40,24 +42,24 @@ export default defineNuxtConfig({
     // Client-side and server-side configuration
     public: {
       search: {
-        url: process.env.NUXT_PUBLIC_SHOPINVADER_SEARCH_URL || '',
-        key: process.env.NUXT_PUBLIC_SHOPINVADER_SEARCH_KEY || '',
+        url: process.env.NUXT_PUBLIC_SEARCH_URL || '',
+        key: process.env.NUXT_PUBLIC_SEARCH_KEY || '',
         indices: {
           persons: {
             en: process.env
-              .NUXT_PUBLIC_SHOPINVADER_SEARCH_INDICES_PERSONS_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN || ''
           },
-          sponsors: {
+          companies: {
             en: process.env
-              .NUXT_PUBLIC_SHOPINVADER_SEARCH_INDICES_SPONSORS_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN || ''
           },
           modules: {
             en: process.env
-              .NUXT_PUBLIC_SHOPINVADER_SEARCH_INDICES_MODULES_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN || ''
           },
           categories: {
             en: process.env
-              .NUXT_PUBLIC_SHOPINVADER_SEARCH_INDICES_CATEGORIES_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN || ''
           }
         },
       },
@@ -154,6 +156,9 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-
+  site: {
+    title: 'Odoo Community Association Appstore',
+    description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
+  }
 
 })

@@ -4,7 +4,7 @@ import {
   CategoryService,
   ModuleService,
   PersonService,
-  SponsorService
+  CompanyService
 } from '~~/services'
 
 import { ofetch } from 'ofetch'
@@ -41,8 +41,9 @@ declare module 'vue' {
  * It also provides the fetchers to fetch data from the ERP and Search Engine.
  */
 export default defineNuxtPlugin(async (nuxtApp) => {
-  let config = useRuntimeConfig()?.public?.search as SearchConfig
 
+  let config = useRuntimeConfig()?.public?.search as SearchConfig
+  console.log('Search config:', config)
   if (
     !config
     || !config.url
@@ -83,12 +84,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       searchKey,
       searchIndexes.persons,
     ),
-    sponsors: new SponsorService(
+    companies: new CompanyService(
       isoLocale,
       searchFetch,
       searchBaseUrl,
       searchKey,
-      searchIndexes.sponsors,
+      searchIndexes.companies,
     ),
     modules: new ModuleService(
       isoLocale,

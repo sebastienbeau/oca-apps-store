@@ -29,7 +29,7 @@
     </template>
     <template #results="{ results, isLoading, total, perPage, infiniteScroll }">
       <div class="container mx-auto p-4">
-        <SponsorLevelHits v-if="sortBy == 'sponsor_level.id:asc'" :sponsors="results.hits" />
+        <SponsorLevelHits v-if="sortBy == 'sponsorship.level.id:asc'" :sponsors="results.hits" />
         <SponsorList v-else :sponsors="results.hits" />
       </div>
       <div class="flex justify-center mt-4">
@@ -44,7 +44,7 @@ import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models';
 import type { Sponsor } from '~~/models';
 
 const { t } = useI18n()
-const sponsorService = useService('sponsors')
+const companiesService = useService('companies')
 
 const searchTerms = ref('')
 const perPage = 12
@@ -54,16 +54,17 @@ const query = computed(() => {
   return {
     q: searchTerms.value,
     query_by: 'name',
+    filter_by: `sponsorship.level.id:>0`
   }
 })
 const sortOptions = computed(() => {
   return [
-    { label: t('sponsors.sort.level'), value: 'sponsor_level.id:asc' },
+    { label: t('sponsors.sort.level'), value: 'sponsorship.level.id:asc' },
     { label: t('sponsors.sort.name_asc'), value: 'name:asc' },
     { label: t('sponsors.sort.name_desc'), value: 'name:desc' },
   ]
 })
-const sortBy = ref('sponsor_level.id:asc')
+const sortBy = ref('sponsorship.level.id:asc')
 const links = ref([
   {
     label: t('sponsors.page.become_button'),
@@ -82,7 +83,7 @@ const links = ref([
 
 const facets: Facet[] = [
   {
-    field: 'sponsor_level.name',
+    field: 'sponsorship.level.name',
     title: t('sponsors.filters.sponsor_level')
   },
   {
@@ -90,7 +91,7 @@ const facets: Facet[] = [
     title: t('sponsors.filters.countries')
   },
   {
-    field: 'industry.name',
+    field: 'sponsorship.industries.name',
     title: t('sponsors.filters.industries')
   },
 ]
@@ -99,7 +100,7 @@ const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]
 ): Promise<FacetSearchResult<Sponsor>> => {
-  const res = await sponsorService.facetSearch(query, facets)
+  const res = await companiesService.facetSearch(query, facets)
 
   return res
 }

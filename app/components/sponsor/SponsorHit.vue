@@ -7,17 +7,17 @@
   }" @click="onClick">
     <template #header>
       <div class="flex flex-col justify-between items-start">
-        <img :src="sponsor.logo" alt="Logo" class="h-16 w-auto m-4 ml-0" />
+        <img :src="sponsor?.logoUrls?.l" alt="Logo" class="h-16 w-auto m-4 ml-0" />
         <div class="flex items-center gap-1 justify-between w-full">
           <div class="text-xl font-semibold flex-1">
-            <nuxt-link v-if="isClickable" :to="`/sponsors/${sponsor.id}`">
+            <nuxt-link v-if="isClickable" :to="`/sponsors/${sponsor.urlKey}`">
               {{ sponsor.name }}
             </nuxt-link>
             <span v-else>{{ sponsor.name }}</span>
           </div>
-          <div>
-            <UButton variant="link" size="sm" :label="sponsor.websiteLabel" icon="website" :to="sponsor.website"
-              target="_blank" />
+          <div v-if="sponsor.website?.url">
+            <UButton variant="link" size="sm" :label="sponsor.website?.label || sponsor?.website?.url" icon="website"
+              :to="sponsor.website.url" target="_blank" />
           </div>
         </div>
       </div>
@@ -30,14 +30,15 @@
       </UBadge>
     </div>
 
-    <p class="mt-4 text-muted text-sm" v-html="sponsor.shortDescription" />
+    <p v-if="sponsor.sponsorship?.shortDescription" class="mt-4 text-muted text-sm"
+      v-html="sponsor.sponsorship?.shortDescription" />
 
     <template #footer>
       <div class="grid grid-cols-2 gap-4">
         <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-users" class="text-primary" />
           <span class="text-sm">
-            <span class="text-secondary">{{ sponsor.members }}</span>
+            <span class="text-secondary">{{ sponsor.membersCount }}</span>
             Members
           </span>
         </div>
@@ -47,17 +48,17 @@
             <span class="text-secondary">{{ sponsor.collaboratorIndex }}</span>
           </span>
         </div>
-        <div v-if="sponsor?.collaborators?.length > 0" class="flex items-center space-x-1 md:space-x-2">
+        <div v-if="sponsor?.sponsorship?.collaborators?.length > 0" class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-code-bracket" class="text-primary" />
           <span class="text-sm">
-            <span class="text-secondary">{{ sponsor.collaborators?.length }} </span>
+            <span class="text-secondary">{{ sponsor.sponsorship?.collaborators?.length }} </span>
             Contributors
           </span>
         </div>
-        <div v-if="sponsor?.industries?.length > 0" class="flex items-center space-x-1 md:space-x-2">
+        <div v-if="sponsor?.sponsorship?.industries?.length > 0" class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="i-heroicons-building-office" class="text-primary" />
           <span class="text-sm">
-            <span class="text-secondary">{{ sponsor?.industries?.length }}</span> Industries
+            <span class="text-secondary">{{ sponsor?.sponsorship?.industries?.length }}</span> Industries
           </span>
         </div>
       </div>
@@ -72,12 +73,12 @@ const props = defineProps<{
 }>();
 const isClickable = computed(() => {
   const levelWithpage = [0, 1, 2];
-  return levelWithpage.includes(props.sponsor.sponsorLevel.id);
+  return levelWithpage.includes(props.sponsor?.sponsorship?.level?.id);
 });
 
 const onClick = () => {
   if (isClickable.value) {
-    navigateTo(`/sponsors/${props.sponsor.id}`);
+    navigateTo(`/sponsors/${props.sponsor.urlKey}`);
   }
 };
 </script>

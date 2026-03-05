@@ -7,6 +7,7 @@
     "site": {
       "home": "Home"
     },
+    
     "modules": {
       "title": "Modules",
       "all": {
@@ -27,11 +28,24 @@
       "contributors": {
         "title": "OCA contributors",
         "description": "The creators, maintainers and contributors of the OCA modules"
+      },
+      "companies": {
+        "title": "OCA companies",
+        "description": "The companies that support the OCA and its contributors"
       }
     },
     "sponsors": {
       "title": "Sponsors",
       "become": "Become a Sponsor"
+    }
+  },
+  "companies": {
+    "search": {
+      "placeholder": "Search companies..."
+    },
+    "sort": {
+      "name_asc": "Sort by name A-Z",
+      "name_desc": "Sort by name Z-A"
     }
   },
   "modules": {

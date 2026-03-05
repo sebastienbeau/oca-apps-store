@@ -1,35 +1,50 @@
-
-export interface Sponsor {
-  id: number
-  sponsorLevel: SponsorLevel
-  sponsorLevelInfo: SponsorLevelInfo
-  sponsorRank: number
-  logo: string
-  name: string
-  locations: string[]
-  shortDescription: string
-  description: string
-  members: number
-  membersCount: string
-  collaborators: any[]
-  contributorsCount: string
-  modulesCount: string
-  industries: SponsorIndustry[]
-  countries?: SponsorCountry[]
-  collaboratorIndex: number
-  isIntegrator: boolean
-  website: string
-  websiteLabel: string
-  phone: string
-  email: string
-  stories: SponsorStory[]
-  descriptionWhyOca: string
-}
-
-export interface SponsorCountry {
+export interface CompanyCountry {
   label: string
   code: string
 }
+
+export interface Company {
+  id: string
+  name: string
+  email: string
+  countries: CompanyCountry[]
+  phone: string
+  urlKey: string,
+  redirectUrlKey: string[],
+  website: {
+    url: string
+    label: string
+  }
+  isIntegrator: boolean
+  collaboratorIndex: number
+  contributorsCount: string
+  membersCount: string
+  modulesCount: string
+  logoUrls: {
+    alt: string
+    l: string
+    m: string
+    s: string
+  }
+}
+
+export interface CompanyResult {
+  hits: Company[]
+  total: number
+}
+
+export interface Sponsor extends Company {
+  sponsorship: {
+    description: string,
+    shortDescription: string,
+    descriptionWhyOca: string,
+    industries: SponsorIndustry[],
+    level: SponsorLevel,
+    stories: SponsorStory[]
+  }
+}
+
+
 export interface SponsorStory {
   title: string
   teaser: string
@@ -65,7 +80,4 @@ export interface SponsorLevelInfo {
   color: string
   image: string | null
 }
-export interface SponsorLogo {
-  id: number
-  name: string
-}
+
