@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Module } from '~/models';
+import type { Module } from '~~/models';
 
 const props = defineProps<{
   module: Module

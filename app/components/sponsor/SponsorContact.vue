@@ -25,7 +25,7 @@
 
 </template>
 <script setup lang="ts">
-import type { Sponsor } from '~/models';
+import type { Sponsor } from '~~/models';
 const props = defineProps<{
   sponsor: Sponsor;
 }>();

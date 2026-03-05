@@ -48,7 +48,7 @@
 </template>
 <script lang="ts" setup>
 import { version } from 'os';
-import type { Module } from '~/models';
+import type { Module } from '~~/models';
 
 const { t } = useI18n()
 const props = defineProps<{

@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 
-import type { Sponsor, SponsorLevelInfo } from '~/models';
+import type { Sponsor, SponsorLevelInfo } from '~~/models';
 const sponsorService = useService('sponsors')
 const route = useRoute()
 const { t } = useI18n()

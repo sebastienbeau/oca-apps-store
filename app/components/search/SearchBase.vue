@@ -72,7 +72,7 @@ import type {
   Facet,
   FacetSearchParam,
   FacetSearchResult,
-} from '~/models'
+} from '~~/models'
 
 const props = withDefaults(
   defineProps<{

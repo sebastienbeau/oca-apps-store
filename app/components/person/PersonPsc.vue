@@ -18,7 +18,7 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import type { PSC } from '~/models';
+import type { PSC } from '~~/models';
 
 const props = defineProps<{
   psc: PSC

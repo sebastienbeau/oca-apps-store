@@ -23,7 +23,7 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import type { Workgroup } from '~/models';
+import type { Workgroup } from '~~/models';
 
 const props = defineProps<{
   group: Workgroup

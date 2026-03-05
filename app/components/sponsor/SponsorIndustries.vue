@@ -17,8 +17,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Sponsor } from '~/models';
-import type { SponsorLevel } from '~/models';
+import type { Sponsor } from '~~/models';
+import type { SponsorLevel } from '~~/models';
 const props = defineProps<{
   sponsor: Sponsor;
   sponsorLevel: SponsorLevel;

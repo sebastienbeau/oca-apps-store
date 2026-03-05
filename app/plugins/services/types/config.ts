@@ -3,7 +3,7 @@ import type {
   ModuleService,
   PersonService,
   SponsorService,
-} from '~/services'
+} from '~~/services'
 
 export interface LocalizedIndex {
   en: string

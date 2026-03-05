@@ -60,7 +60,7 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import type { Module } from '~/models';
+import type { Module } from '~~/models';
 import { twMerge } from 'tailwind-merge'
 const props = defineProps<{
   module: Module

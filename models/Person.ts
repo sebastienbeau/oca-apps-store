@@ -1,4 +1,4 @@
-import type { PSC, Workgroup } from "~/models"
+import type { PSC, Workgroup } from '~~/models'
 
 export interface PersonRole {
   id: number

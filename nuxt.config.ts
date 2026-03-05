@@ -29,6 +29,10 @@ export default defineNuxtConfig({
   ui: {
     colorMode: false,
   },
+  alias: {
+    '#models': '/models',
+    '#services': '/services',
+  },
   spaLoadingTemplate: 'assets/templates/loading.html',
   runtimeConfig: {
     // Serveur-side only configuration

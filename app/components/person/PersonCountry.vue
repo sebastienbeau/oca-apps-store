@@ -4,7 +4,7 @@
   </UBadge>
 </template>
 <script setup lang="ts">
-import type { Person } from '~/models'
+import type { Person } from '~~/models'
 const props = defineProps<{
   person: Person
 }>();

@@ -40,7 +40,7 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import type { Person } from '~/models'
+import type { Person } from '~~/models'
 import { twMerge } from 'tailwind-merge'
 const props = defineProps<{
   person: Person

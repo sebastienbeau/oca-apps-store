@@ -28,8 +28,7 @@
 
       </div>
     </template>
-    <img :src="person.avatarUrl" alt="Sébastien Beau"
-      class=" col-span-1 max-h-48 object-cover rounded-full mx-auto" />
+    <img :src="person.avatarUrl" alt="Sébastien Beau" class=" col-span-1 max-h-48 object-cover rounded-full mx-auto" />
 
     <template #footer>
       <div class="flex flex-wrap justify-start gap-4">
@@ -43,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Person } from '~/models';
+import type { Person } from '~~/models';
 
 const props = defineProps<{
   person: Person

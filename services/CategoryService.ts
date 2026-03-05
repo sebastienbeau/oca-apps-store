@@ -5,8 +5,8 @@ import type {
   CategoryImageSet,
   CategoryParent,
   CategoryResult,
-} from '~/models'
-import { BaseServiceTypeSense } from '~/services'
+} from '~~/models'
+import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
 interface CategorySchema {
@@ -133,8 +133,8 @@ export const CategoryFactory = {
       mainParent: null,
       images: Array.isArray(json?.images)
         ? json.images.map((imgJson: any) =>
-            CategoryFactory.createCategoryImageSet(imgJson),
-          )
+          CategoryFactory.createCategoryImageSet(imgJson),
+        )
         : null,
       sequence: parseInt(json.sequence || 0),
       entityModel: json.entity_model || 'category',

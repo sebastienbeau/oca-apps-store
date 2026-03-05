@@ -72,7 +72,7 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-import type { Facet, FacetWithResult } from '~/models';
+import type { Facet, FacetWithResult } from '~~/models';
 
 
 const props = defineProps<{

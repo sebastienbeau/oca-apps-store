@@ -1,4 +1,4 @@
-import { BaseServiceLocalized } from '~/services'
+import { BaseServiceLocalized } from '~~/services'
 import type { $Fetch } from 'ofetch'
 import { Client } from 'typesense'
 import type {

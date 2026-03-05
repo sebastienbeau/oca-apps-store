@@ -6,14 +6,15 @@
         root: 'ring-1 rounded-sm shadow-md hover:shadow-lg transition-shadow duration-300 ',
         wrapper: 'mx-auto ',
         body: 'pt-2',
-      }" :title="story.title" :to="story.relativeUrl" :description="story.teaser" orientation="vertical" reverse :image="story.coverUrl">
-        
+      }" :title="story.title" :to="story.relativeUrl" :description="story.teaser" orientation="vertical" reverse
+        :image="story.coverUrl">
+
       </UBlogPost>
     </template>
   </div>
 </template>
 <script setup lang="ts">
-import type { Sponsor } from '~/models';
+import type { Sponsor } from '~~/models';
 const props = defineProps<{
   sponsor: Sponsor;
 }>();

@@ -1,25 +1,34 @@
-FROM node:24.11.1
+# Build Stage 1
 
-# Create app directory
+FROM node:24-alpine AS build
 WORKDIR /app
 
-# TODO see if typescript should be installed globally
-# or if it should be in the project dependency
-RUN npm install -g typescript
+RUN corepack enable
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc /app/
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store corepack enable pnpm && pnpm install
+# Copy package.json and your lockfile, here we add pnpm-lock.yaml for illustration
+COPY package.json pnpm-lock.yaml .npmrc ./
 
+# Install dependencies
+RUN pnpm i
 
-COPY . /app/
+# Copy the entire project
+COPY . ./
 
-# Set environment variables
-ENV NODE_ENV production
-ENV NUXT_HOST 0.0.0.0
-ENV NUXT_PORT 3000
-
+# Build the project
 RUN pnpm run build
-EXPOSE 3000
 
-# start command
-CMD ["node", ".output/server/index.mjs"]
+# Build Stage 2
+
+FROM node:24-alpine
+WORKDIR /app
+
+# Only `.output` folder is needed from the build stage
+COPY --from=build /app/.output/ ./
+
+# Change the port and host
+ENV PORT=80
+ENV HOST=0.0.0.0
+
+EXPOSE 80
+
+CMD ["node", "/app/server/index.mjs"]

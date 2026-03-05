@@ -5,7 +5,7 @@ import {
   ModuleService,
   PersonService,
   SponsorService
-} from '~/services'
+} from '~~/services'
 
 import { ofetch } from 'ofetch'
 import type {
@@ -31,9 +31,9 @@ declare module '#app' {
 }
 
 declare module 'vue' {
-    interface ComponentCustomProperties {
-        $services: ServiceList
-    }
+  interface ComponentCustomProperties {
+    $services: ServiceList
+  }
 }
 
 /*

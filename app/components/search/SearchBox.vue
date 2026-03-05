@@ -1,104 +1,50 @@
 <template>
-    <UDrawer
-        v-model:open="open"
-        :handle="true"
-        direction="top"
-        :ui="{
-            content: 'max-h-[95vh]',
-            body: 'overflow-auto',
-            footer: 'px-4 pt-2 border-t border-t-default',
-        }"
-        @close="searchTerm = ''"
-    >
+    <UDrawer v-model:open="open" :handle="true" direction="top" :ui="{
+        content: 'max-h-[95vh]',
+        body: 'overflow-auto',
+        footer: 'px-4 pt-2 border-t border-t-default',
+    }" @close="searchTerm = ''">
         <div class="flex justify-end">
-            <UButton
-                icon="search"
-                class="rounded-full md:hidden"
-                color="neutral"
-                variant="soft"
-            />
-            <UInput
-                :placeholder="typewriterPlaceholder"
-                color="neutral"
-                variant="soft"
-                icon="search"
-                :ui="{
-                    base: 'rounded-full text-left',
-                    leadingIcon: 'text-gray-900',
-                }"
-                class="hidden md:flex"
-                size="lg"
-                @update:model-value="open = true"
-            />
+            <UButton icon="search" class="rounded-full md:hidden" color="neutral" variant="soft" />
+            <UInput :placeholder="typewriterPlaceholder" color="neutral" variant="soft" icon="search" :ui="{
+                base: 'rounded-full text-left',
+                leadingIcon: 'text-gray-900',
+            }" class="hidden md:flex" size="lg" @update:model-value="open = true" />
         </div>
         <template #header>
             <UForm @submit="goToSearchPage">
-                <UInput
-                    v-model="searchTerm"
-                    :placeholder="typewriterPlaceholder"
-                    color="neutral"
-                    variant="ghost"
-                    icon="search"
-                    :ui="{ root: 'w-full pb-1 border-b border-b-default' }"
-                    size="lg"
-                    :loading="loading"
-                    :autofocus="true"
-                >
+                <UInput v-model="searchTerm" :placeholder="typewriterPlaceholder" color="neutral" variant="ghost"
+                    icon="search" :ui="{ root: 'w-full pb-1 border-b border-b-default' }" size="lg" :loading="loading"
+                    :autofocus="true">
                     <template #trailing>
-                        <UButton
-                            icon="close"
-                            color="neutral"
-                            variant="soft"
-                            class="rounded-full"
-                            @click="open = false"
-                        />
+                        <UButton icon="close" color="neutral" variant="soft" class="rounded-full"
+                            @click="open = false" />
                     </template>
                 </UInput>
             </UForm>
         </template>
         <template v-if="searchTerm" #body>
-            <div
-                v-if="categories.length > 0 || modules.length > 0"
-                class="grid grid-cols-1 md:grid-cols-4"
-            >
-                <div
-                    v-if="categories.length > 0"
-                    class="px-5 pt-4"
-                    :class="
-                        modules.length > 0
-                            ? 'md:col-span-1 md:border-r md:border-r-default'
-                            : 'col-span-full'
-                    "
-                >
+            <div v-if="categories.length > 0 || modules.length > 0" class="grid grid-cols-1 md:grid-cols-4">
+                <div v-if="categories.length > 0" class="px-5 pt-4" :class="modules.length > 0
+                        ? 'md:col-span-1 md:border-r md:border-r-default'
+                        : 'col-span-full'
+                    ">
                     <div class="mb-1">
                         {{ t('search.autocomplete.category') }}
                     </div>
-                    <CategoryMicroHit
-                        v-for="category in categories"
-                        :key="category.id"
-                        :category="category"
-                        class="py-2 border-b border-b-default cursor-pointer"
-                        @click="open = false"
-                    />
+                    <CategoryMicroHit v-for="category in categories" :key="category.id" :category="category"
+                        class="py-2 border-b border-b-default cursor-pointer" @click="open = false" />
                 </div>
-                <div
-                    v-if="modules.length > 0"
-                    class="col-span-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 md:gap-2 px-5 pt-4"
-                >
+                <div v-if="modules.length > 0"
+                    class="col-span-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 md:gap-2 px-5 pt-4">
                     <div class="col-span-full mb-1">
                         {{ t('search.autocomplete.module') }}
                     </div>
                     <template v-for="module in modules" :key="module.id">
-                        <ModuleHit
-                            :module="module"
-                            class="hidden md:block w-full h-full"
-                            @click="open = false"
-                        />
-                        <ModuleMicroHit
-                            :module="module"
+                        <ModuleHit :module="module" class="hidden md:block w-full h-full" @click="open = false" />
+                        <ModuleMicroHit :module="module"
                             class="md:hidden w-full cursor-pointer py-2 border-b border-b-default"
-                            @click="open = false"
-                        />
+                            @click="open = false" />
                     </template>
                 </div>
             </div>
@@ -108,29 +54,21 @@
                 </div>
             </div>
         </template>
-        <template
-            v-if="
-                !loading &&
-                searchTerm &&
-                (categories.length > 0 || modules.length > 0)
-            "
-            #footer
-        >
+        <template v-if="
+            !loading &&
+            searchTerm &&
+            (categories.length > 0 || modules.length > 0)
+        " #footer>
             <div class="flex justify-end">
-                <UButton
-                    :label="t('search.autocomplete.seeall')"
-                    variant="outline"
-                    color="neutral"
-                    size="sm"
-                    @click="goToSearchPage"
-                />
+                <UButton :label="t('search.autocomplete.seeall')" variant="outline" color="neutral" size="sm"
+                    @click="goToSearchPage" />
             </div>
         </template>
     </UDrawer>
 </template>
 
 <script setup lang="ts">
-import type { Category, Module } from '~/models'
+import type { Category, Module } from '~~/models'
 const router = useRouter()
 const route = useRoute()
 const routeQuery = route.query

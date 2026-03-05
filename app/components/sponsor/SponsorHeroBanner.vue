@@ -20,11 +20,12 @@
           <SponsorContact :sponsor="sponsor" />
         </div>
         <div class="pt-4 md:pt-0">
-          <UBadge v-if="sponsor.countries && sponsor.countries.length > 0" v-for="(loc, i) in sponsor.countries" :key="i" variant="solid" class="rounded-full gap-1" color="primary">
-          {{ loc.label }}
-        </UBadge>
+          <UBadge v-if="sponsor.countries && sponsor.countries.length > 0" v-for="(loc, i) in sponsor.countries"
+            :key="i" variant="solid" class="rounded-full gap-1" color="primary">
+            {{ loc.label }}
+          </UBadge>
         </div>
-        
+
       </div>
     </template>
     <template #description>
@@ -46,11 +47,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Sponsor } from '~/models';
-import type { SponsorLevel } from '~/models';
+import type { Sponsor } from '~~/models';
+import type { SponsorLevel } from '~~/models';
 const props = defineProps<{
   sponsor: Sponsor;
- 
+
 }>();
 
 const sponsorLevelLogo = computed(() => {

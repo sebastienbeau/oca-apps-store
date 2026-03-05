@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { Sponsor } from '~/models';
+import type { Sponsor } from '~~/models';
 
 const props = defineProps<{
   sponsors: Sponsor[];
