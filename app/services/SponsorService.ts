@@ -1,7 +1,7 @@
 import type { Sponsor, SponsorResult, SponsorResultGroupedLevels, SponsorIndustry, SponsorCountry } from '~/models'
 import { BaseServiceTypeSense } from '~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { FacetSearchParam, FacetSearchResult } from '~/models'
 import type { SponsorStory } from '~/models/Sponsor'
 
 interface SponsorSchema {

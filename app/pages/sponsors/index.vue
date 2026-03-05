@@ -40,7 +40,7 @@
   </SearchBase>
 </template>
 <script setup lang="ts">
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search';
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models';
 import type { Sponsor } from "~/models";
 
 const { t } = useI18n()

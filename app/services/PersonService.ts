@@ -1,7 +1,7 @@
 import type { Person } from '~/models'
 import { BaseServiceTypeSense } from '~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { FacetSearchParam, FacetSearchResult } from '~/models'
 import type { PersonRole } from '~/models/Person'
 
 interface PersonSchema {
@@ -14,7 +14,7 @@ export class PersonService extends BaseServiceTypeSense {
   hits(data: SearchResponseHit<PersonSchema>[]): Person[] {
     return data.map((hit: any) => this.jsonToModel(hit?.document))
   }
-  
+
   async facetSearch(
     query: any,
     facets: FacetSearchParam[],
@@ -90,29 +90,29 @@ export class PersonService extends BaseServiceTypeSense {
     }
   }
 
-  
-  async getPersonByUrlKey (query: {}, urlKey: string): Promise<Person>{
-    query = {... {q: '*', query_by: 'url_key'}, ...query }
+
+  async getPersonByUrlKey(query: {}, urlKey: string): Promise<Person> {
+    query = { ... { q: '*', query_by: 'url_key' }, ...query }
 
     const result = await super.performSearch<PersonSchema>({
       ...query,
       filter_by: `url_key:=${urlKey}`,
     })
     const hits = this.hits(result?.hits) || []
-    
-    return hits[0] ||  null
-    
+
+    return hits[0] || null
+
   }
 
-   jsonToModel(json: PersonSchema): Person {
+  jsonToModel(json: PersonSchema): Person {
     return PersonFactory.createPerson(json)
   }
-    
+
 }
 
 
 
- 
+
 
 
 export const PersonFactory = {
@@ -139,7 +139,7 @@ export const PersonFactory = {
     return Person
   },
   createPersonContact(json: any): { address: string, email: string, phone: string, city: string, website: string } | undefined {
-    if(json?.contact) {
+    if (json?.contact) {
       return {
         address: json.contact.address || '',
         email: json.contact.email || '',

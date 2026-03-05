@@ -1,7 +1,7 @@
 import type { Module } from '~/models'
 import { BaseServiceTypeSense } from '~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { FacetSearchParam, FacetSearchResult } from '~/models'
 
 interface ModuleSchema {
   id: number
@@ -118,6 +118,7 @@ export const ModuleFactory = {
       urlKey: json.url_key,
       technicalName: json?.technical_name,
       description: json?.description,
+      shortDescription: json?.short_description,
       license: json?.license,
       author: json?.author,
       maintainer: {

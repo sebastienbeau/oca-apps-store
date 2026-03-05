@@ -3,6 +3,7 @@ export interface Module {
   name: string
   urlKey: string
   technicalName: string
+  shortDescription: string
   description: string
   license: string
   author: string

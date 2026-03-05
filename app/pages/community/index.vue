@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import type { Person } from '~/models'
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models'
 const { t } = useI18n()
 const personService = useService('persons')
 const sortOptions = computed(() => {

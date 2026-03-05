@@ -69,10 +69,10 @@
 
 <script lang="ts" setup generic="T">
 import type {
+  Facet,
   FacetSearchParam,
   FacetSearchResult,
-} from '~/models/Search'
-import type { Facet } from './SearchFacetsList.vue'
+} from '~/models'
 
 const props = withDefaults(
   defineProps<{

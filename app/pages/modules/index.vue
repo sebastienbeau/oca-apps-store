@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import type { Module } from '~/models'
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models/Search'
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~/models'
 const { t } = useI18n()
 const moduleService = useService('modules')
 const sortOptions = computed(() => {

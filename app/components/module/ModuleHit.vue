@@ -28,7 +28,7 @@
         </NuxtLink>
       </div>
       <p class="text-gray-500 dark:text-gray-400 text-sm flex-1">
-        {{ module.description }}
+        {{ module.shortDescription }}
       </p>
 
       <div class="flex flex-wrap gap-2">
