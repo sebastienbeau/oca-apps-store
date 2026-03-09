@@ -5,19 +5,20 @@
         <UPageHeader class="" />
       </slot>
       <div ref="container">
-
-        <div class="flex flex-col md:flex-row justify-between items-center gap-1">
+        <div class="flex flex-col md:flex-row justify-between items-end md:items-center gap-2 pb-5">
           <slot name="actions"></slot>
-          <div class="flex-1">
-            <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
-              :query-facets="queryFacets">
-              <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
-                class="max-md:my-4" @refine="onChangeFilter" />
+          <div class="flex items-center flex-1 gap-2">
+            <div class="flex-1">
+              <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
+                :query-facets="queryFacets">
+                <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
+                  class="" @refine="onChangeFilter" />
+              </slot>
+            </div>
+            <slot name="sort" :sort-options="sortOptions" :value="sortBy" :change="onSort">
+              <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
             </slot>
           </div>
-          <slot name="sort" :sort-options="sortOptions" :value="sortBy" :change="onSort">
-            <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
-          </slot>
         </div>
         <div v-if="error" class="mx-auto my-10 max-w-lg">
           <UAlert type="error" color="error" icon="error" variant="outline" orientation="horizontal"
@@ -61,7 +62,6 @@
         <div v-if="$slots.footer" class="mt-8">
           <slot name="footer" />
         </div>
-
       </div>
     </template>
   </UPage>

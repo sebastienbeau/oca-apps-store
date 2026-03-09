@@ -7,7 +7,6 @@
     "site": {
       "home": "Home"
     },
-    
     "modules": {
       "title": "Modules",
       "all": {
@@ -66,7 +65,8 @@
     },
     "filters": {
       "versions": "Versions",
-      "category": "Category"
+      "category": "Category",
+      "repository": "Repository"
     },
     "version": {
       "label": "Odoo version",
@@ -76,7 +76,48 @@
       "title": "Module Configuration"
     },
     "contributors": {
-      "title": "Contributors"
+      "title": "Contributors",
+      "showAll": "View all"
+    },
+    "usage": {
+      "title": "Usages"
+    },
+    "dependencies": {
+      "title": "Module dependencies"
+    },
+    "bugTracker": {
+      "title": "Bug tracker",
+      "goTo": "Report a bug"
+    },
+    "usedBy": {
+      "title": "This module is used by",
+      "globalFilter": "Search a module"
+    },
+    "install": {
+      "title": "Installation"
+    },
+    "github": {
+      "link": "Get it on Github"
+    },
+    "author": {
+      "name": "Authors"
+    },
+    "repository": {
+      "name": "Repository"
+    },
+    "runboat": {
+      "name": "Runboat",
+      "try": "Try in on"
+    },
+    "license": {
+      "label": "Licence"
+    },
+    "maturity": {
+      "label": "Maturity"
+    },
+    "notFound": "OCA Module not found",
+    "maintainer": {
+      "title": "Maintainers"
     }
   },
   "sponsors": {
@@ -143,7 +184,16 @@
     "results": {
       "count": "{count} found | {count} items found"
     },
-    "noresults": "No results found"
+    "noresults": "No results found",
+    "error": {
+      "title": "An error has occurred",
+      "retry": "Try again"
+    },
+    "filter": {
+      "label": "Filters",
+      "clear_all": "Reset filters",
+      "apply": "Apply filters"
+    }
   },
   "company": {
     "stats": {

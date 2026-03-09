@@ -2,40 +2,58 @@ export interface Module {
   id: number
   name: string
   urlKey: string
-  technicalName: string
-  shortDescription: string
-  description: string
-  license: string
-  author: string
-  maintainer: {
-    name: string
-    website: string
-  },
+  iconUrl?: string
+  techname: string
   repository: {
     url: string
-    project: string
+    name: string
+    description: string
   },
-  supportedVersions: string[]
+  category: string
+  version: string
+  dependencies: string[]
+  usedBy: string[]
+  license: string
+  summary: string
+  description: string
+  maturity: string
+  authors: string[]
+  publicURL: string
+  runboatURL: string
+  website: string
+  readmeFragments: {
+    configure?: string
+    context?: string
+    credits?: string
+    history?: string
+    install?: string
+    roadmap?: string
+    usage?: string
+  }
   contributors: [
     {
       name: string
       website: string
     },
   ],
+  maintainer: {
+    name: string
+    website: string
+  },
   bugTracker: {
     url: string
     instructions: string
   },
-  documentation: {
-    userGuide: string
-    contributionGuide: string
-  },
-  category: string
   popularity: number
   lastUpdate: Date | null
 }
 
-export interface ModuleResult {
+export interface ModuleGroupedHit {
+  urlKey: string
   hits: Module[]
+}
+
+export interface ModuleResult {
+  hits: ModuleGroupedHit[]
   total: number
 }

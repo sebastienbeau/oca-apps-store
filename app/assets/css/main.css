@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-
+@plugin '@tailwindcss/typography';
 
 @theme static {
   --font-heading: 'DM Sans', sans-serif;
@@ -67,16 +67,43 @@
         font-family: var(--font-heading);
     }
 }
-
-:root {
-  --ui-text: #314158;
-  --ui-border: #e2e8f0;
-  --ui-border-accented: #cad5e2;
-  --ui-bg-muted: #F8FAFC;
-  --ui-text-muted: #90a1b9
-  --ui-secondary: var(--ui-color-secondary-500);
-  --ui-success: var(--ui-color-success-500);
-  --ui-info: var(--ui-color-info-500);
-  --ui-warning: var(--ui-color-warning-500);
-  --ui-error: var(--ui-color-error-400);
+@layer theme {
+  .light {
+    --ui-text: #314158;
+    --ui-border: #e2e8f0;
+    --ui-border-accented: #cad5e2;
+    --ui-bg-muted: #F8FAFC;
+    --ui-text-muted: #90a1b9
+    --ui-secondary: var(--ui-color-secondary-500);
+    --ui-success: var(--ui-color-success-500);
+    --ui-info: var(--ui-color-info-500);
+    --ui-warning: var(--ui-color-warning-500);
+    --ui-error: var(--ui-color-error-400);
+  }
+}
+@layer theme {
+  .dark {
+    --ui-primary: #F3F4F6;
+    --ui-text-dimmed: var(--ui-color-neutral-500);
+    --ui-text-muted: var(--ui-color-neutral-400);
+    --ui-text-toned: var(--ui-color-neutral-300);
+    --ui-text: var(--ui-color-neutral-200);
+    --ui-text-highlighted: #fff;
+    --ui-text-inverted: var(--ui-color-neutral-900);
+    --ui-bg: var(--ui-color-neutral-900);
+    --ui-bg-muted: var(--ui-color-neutral-800);
+    --ui-bg-elevated: var(--ui-color-neutral-800);
+    --ui-bg-accented: var(--ui-color-neutral-700);
+    --ui-bg-inverted: #fff;
+    --ui-border: var(--ui-color-neutral-800);
+    --ui-border-muted: var(--ui-color-neutral-700);
+    --ui-border-accented: var(--ui-color-neutral-700);
+    --ui-border-inverted: #fff;
+  }
+}
+@utility prose-gray {
+  --tw-prose-bullets: var(--color-secondary-300);
+  --tw-prose-headings: var(--color-primary-500);
+  --tw-prose-counters: var(--color-secondary-300);
+  --tw-prose-body: var(--ui-text);
 }

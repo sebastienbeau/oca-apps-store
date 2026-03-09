@@ -1,40 +1,83 @@
-import type { Module } from '~~/models'
+import type { Module, ModuleGroupedHit, ModuleResult } from '~~/models'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { FacetSearchParam, FacetSearchResult } from '~~/models'
+import { group } from 'console'
 
 interface ModuleSchema {
   id: number
   url_key: string
 }
+
 export class ModuleService extends BaseServiceTypeSense {
   navCategories: Module[] | null = null
   hits(data: SearchResponseHit<ModuleSchema>[]): Module[] {
     return data.map((hit: any) => this.jsonToModel(hit?.document))
   }
-  async findByURLKey(urlKey: string): Promise<Module | null> {
-    const result = await super.performSearch<ModuleSchema>({
+  groupedHits(groupedHits: any[]): ModuleGroupedHit[] {
+    return groupedHits.map((group: any) => ({
+      urlKey: group?.group_key?.[0] || '',
+      hits: group?.hits.map((hit: any) => this.jsonToModel(hit?.document)) || [],
+    }))
+  }
+
+  async findByURLKey(urlKey: string): Promise<ModuleGroupedHit | null> {
+    const result = await super.performSearch({
       q: '*',
       filter_by: `url_key:${urlKey}`,
+      group_by: 'url_key',
     })
-    const hits = this.hits(result?.hits) || []
-    return hits.length > 0 ? hits[0] : null
+
+    const groupedHits = this.groupedHits(result?.grouped_hits) || []
+    return groupedHits?.[0] || null
   }
-  async search(body: any): Promise<ModuleService> {
+
+  async search(body: any): Promise<ModuleResult> {
     body = {
       ...{ q: '*', query_by: 'name' },
       ...body,
+      group_by: 'url_key'
     }
-    const result = await super.performSearch<ModuleService>(body)
-    const hits = this.hits(result?.hits) || []
+    const result = await super.performSearch<any>(body)
+    const hits = this.groupedHits(result?.grouped_hits) || []
     const total = result?.found || 0
-    const aggregations = null
-    return { hits, total, aggregations }
+    return { hits, total }
   }
+  async getModuleDependencies(module: Module): Promise<ModuleGroupedHit[]> {
+    const filter = module?.dependencies.map(dep => `${dep}`).join(',')
+    const res = await this.search({
+      filter_by: `url_key:[${filter}]`
+    })
+    return module?.dependencies.map(dep => {
+      let found = res?.hits.find(hit => hit.urlKey === dep) || {
+        urlKey: dep,
+        hits: [ModuleFactory.createModule({
+          name: dep,
+          urlKey: null,
+        })],
+      }
+      return found
+    }) || []
+  }
+
+  async getModuleUsedBy(module: Module, queryString: string, page: number): Promise<ModuleResult> {
+    const query: any = {
+      filter_by: `dependencies:${module.urlKey}`,
+      group_by: 'url_key',
+      page: page
+    }
+    if (queryString) {
+      query.q = queryString
+      query.query_by = 'name'
+    }
+    const res = await this.search(query)
+    return res
+  }
+
   async facetSearch(
     query: any,
     facets: FacetSearchParam[],
-  ): Promise<FacetSearchResult<Module>> {
+  ): Promise<FacetSearchResult<ModuleGroupedHit>> {
     if (!query.sort_by) {
       delete query.sort_by
     }
@@ -66,10 +109,12 @@ export class ModuleService extends BaseServiceTypeSense {
         ...query,
         facet_by: facetBy.join(','),
         filter_by: filterBy.join(' && '),
+        group_by: 'url_key',
       },
     ]
 
     for (const facet of facets) {
+      console.log(facet)
       if (facet.query) {
         const filterBy
           = queries[0]?.filter_by
@@ -80,14 +125,18 @@ export class ModuleService extends BaseServiceTypeSense {
           ...query,
           filter_by: filterBy,
           facet_by: facet.field,
+          group_by: 'url_key',
+          sort_by: `${facet.field}:desc`,
           per_page: 0,
           max_facet_values: facet.perPage,
         })
       }
     }
     const { results } = await super.performMultiSearch<ModuleSchema>(queries)
+    console.log('Facet search results:', results)
+    const groupedHits = results[0]?.grouped_hits || []
     return {
-      hits: this.hits(results[0]?.hits) || [],
+      hits: this.groupedHits(groupedHits) || [],
       found: results[0]?.found || 0,
       facets: facets.map((facet) => {
         const filterResults = results.findLast(res =>
@@ -116,33 +165,45 @@ export const ModuleFactory = {
       id: json.id,
       name: json.name,
       urlKey: json.url_key,
-      technicalName: json?.technical_name,
+      techname: json?.techname,
+      repository: {
+        url: json?.repository?.url,
+        name: json?.repository?.name,
+        description: json?.repository?.description,
+      },
+      category: json?.category,
+      version: json?.version,
       description: json?.description,
-      shortDescription: json?.short_description,
+      summary: json?.summary,
       license: json?.license,
-      author: json?.author,
+      usedBy: json?.used_by || [],
+      dependencies: json?.dependencies || [],
+      maturity: json?.maturity,
+      authors: json?.author || [],
+      publicURL: json?.public_url,
+      runboatURL: json?.runboat_url,
+      website: json?.website,
+      readmeFragments: {
+        configure: json?.readme_fragments?.configure,
+        context: json?.readme_fragments?.context,
+        credits: json?.readme_fragments?.credits,
+        history: json?.readme_fragments?.history,
+        install: json?.readme_fragments?.install,
+        roadmap: json?.readme_fragments?.roadmap,
+        usage: json?.readme_fragments?.usage,
+      },
+      contributors: json?.contributors || [],
       maintainer: {
         name: json?.maintainer?.name,
         website: json?.maintainer?.website,
       },
-      repository: {
-        url: json?.repository?.url,
-        project: json?.repository?.project,
-      },
-      supportedVersions: json?.supported_versions || [],
-      contributors: json?.contributors || [],
       bugTracker: {
         url: json?.bug_tracker?.url,
         instructions: json?.bug_tracker?.instructions,
       },
-      documentation: {
-        userGuide: json?.documentation?.user_guide,
-        contributionGuide: json?.documentation?.contribution_guide,
-      },
-      category: json?.category,
       popularity: json?.popularity,
       lastUpdate: json?.last_update ? new Date(json.last_update) : null,
     }
     return module
-  },
+  }
 }

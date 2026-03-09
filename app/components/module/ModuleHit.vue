@@ -5,15 +5,15 @@
     body: ui?.body,
     header: ui?.header,
     footer: ui?.footer,
-  }">
+  }" v-if="module">
     <template #header>
       <div class="flex items-center gap-5" @click="goToModule">
-        <img class="max-h-18" src="/img/oca_modules_logo_vertical.png" alt="OCA Logo" />
+        <ModuleImage :module="module" />
         <div class="flex flex-col justify-start items-start gap-1">
           <ProseH3 class="font-semibold font-heading text-primary text-xl my-0">
             {{ module.name }}
           </ProseH3>
-          <UBadge color="secondary" variant="soft" size="sm" class="rounded-full">
+          <UBadge v-if="module?.category" color="secondary" variant="soft" size="sm" class="rounded-full">
             {{ module.category }}
           </UBadge>
         </div>
@@ -21,38 +21,29 @@
     </template>
 
     <div class="flex flex-1 flex-col gap-y-3 pt-4" @click="goToModule">
-      <div class="flex items-center gap-2 text-sm text-primary">
+      <div v-if="module?.repository?.name" class="flex items-center gap-2 text-sm text-primary">
         <UIcon name="qlementine-icons:anchor-top-left-16" class=""></UIcon>
-        <NuxtLink :to="`/modules${props.module.urlKey}`">
-          {{ module.technicalName }}
-        </NuxtLink>
+        <div class="line-clamp-1">
+          {{ module.repository?.name }}
+        </div>
       </div>
-      <p class="text-gray-500 dark:text-gray-400 text-sm flex-1">
-        {{ module.shortDescription }}
+      <p v-if="module?.summary" class="text-gray-500 dark:text-gray-400 text-sm flex-1 line-clamp-4">
+        {{ module.summary }}
       </p>
-
-      <div class="flex flex-wrap gap-2">
-        <UBadge v-for="version in module.supportedVersions" :key="version" color="info" variant="subtle" size="sm"
-          class="rounded-full">
-          {{ version }}
-        </UBadge>
-      </div>
+      <ModuleVersionList :module-grouped="moduleGrouped" />
     </div>
 
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <UAvatarGroup v-for="contributor in module.contributors" size="xs" max="2">
-          <ULink :to="contributor.github" target="_blank" class="hover:ring-info transition" raw>
-            <UAvatar :src="contributor.avatar" alt="Contributor" />
-          </ULink>
+        <UAvatarGroup v-if="module?.contributors?.length" :max="5" size="sm">
+          <UAvatar v-for="contributor in module.contributors" :key="contributor.name" :alt="contributor.name" :avatar="{
+            name: contributor.name
+          }" />
+          />
         </UAvatarGroup>
-        <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">
-          +{{ module.contributors.length }}
-        </span>
       </div>
-      <div class="flex items-center gap-1">
-        <UIcon :name="icon" class="text-gray-500 dark:text-gray-400" />
-        <NuxtLink :to="module.repository.url" class="" target="_blank">
+      <div v-if="module?.website" class="flex items-center gap-1">
+        <NuxtLink :to="module.website" class="" target="_blank">
           <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="32" height="32" />
         </NuxtLink>
       </div>
@@ -60,10 +51,11 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import type { Module } from '~~/models';
+import type { ModuleGroupedHit } from '~~/models';
 import { twMerge } from 'tailwind-merge'
+import type Module from 'module';
 const props = defineProps<{
-  module: Module
+  moduleGrouped: ModuleGroupedHit
   variant?: 'grid' | 'list'
   ui?: {
     root?: string
@@ -72,13 +64,16 @@ const props = defineProps<{
     footer?: string
   }
 }>()
-
+const module = computed(() => props.moduleGrouped.hits[props.moduleGrouped.hits.length - 1] || null)
 const ui = computed(() => {
   const ui = {
-    root: 'w-full divide-none hover:shadow-lg transition-shadow duration-200 cursor-pointer flex flex-col',
+    root: 'w-full divide-none  max-sm:ring-0 max-sm:rounded-none max-sm:border-b max-sm:border-default max-md:pb-3 flex flex-col',
     body: 'p-3 sm:p-4 py-0 sm:py-0 pb-4 sm:pb-4 flex-1 flex flex-col gap-3',
     header: 'flex items-center gap-3 p-3 sm:p-4 ',
     footer: 'p-3 sm:p-4',
+  }
+  if (module.value?.urlKey) {
+    ui.root = twMerge(ui.root, 'hover:shadow-lg transition-shadow duration-200 cursor-pointer')
   }
   if (props?.variant === 'list') {
     ui.root = twMerge(ui.root, 'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 shadow-none  hover:shadow-none hover:bg-neutral-50 rounded-none border-b border-neutral-100')
@@ -94,7 +89,9 @@ const ui = computed(() => {
   }
 })
 
+
 const goToModule = () => {
-  navigateTo(`/modules${props.module.urlKey}`)
+  if (!module.value?.urlKey) return
+  navigateTo(`/modules/${module.value?.urlKey}`)
 }
 </script>

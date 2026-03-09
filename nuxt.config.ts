@@ -25,11 +25,14 @@ export default defineNuxtConfig({
     },
     head: {
       meta: [{ name: 'theme-color', content: '#151B47' }],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+      ],
     },
   },
   css: ['~/assets/css/main.css'],
   ui: {
-    colorMode: false,
+    colorMode: true,
   },
   alias: {
     '#models': '/models',
@@ -122,7 +125,7 @@ export default defineNuxtConfig({
       name: 'OCA Appstore',
       short_name: 'OCA Appstore',
       description: 'OCA Appstore PWA',
-      theme_color: '#20412c',
+      theme_color: '#283687',
       start_url: '/',
       display: 'standalone',
 
@@ -159,6 +162,6 @@ export default defineNuxtConfig({
   site: {
     title: 'Odoo Community Association Appstore',
     description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
-  }
+  },
 
 })

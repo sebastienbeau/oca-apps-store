@@ -4,18 +4,12 @@
     <NuxtLoadingIndicator />
     <UMain data-vaul-drawer-wrapper>
       <NuxtLayout>
-        <UPageHero
-          v-if="!isOnline"
-          :title="t('offline.title')"
-          :description="t('offline.description')"
-          :links="[
-            {
-              label: t('offline.retry'),
-              onClick: reloadNuxtApp
-            }
-          ]"
-          class="h-screen"
-        >
+        <UPageHero v-if="!isOnline" :title="t('offline.title')" :description="t('offline.description')" :links="[
+          {
+            label: t('offline.retry'),
+            onClick: reloadNuxtApp
+          }
+        ]" class="h-screen">
           <template #headline>
             <UIcon name="offline" class="text-primary size-20" />
           </template>
@@ -44,6 +38,19 @@ useHead({
     },
   ],
 })
+useSchemaOrg([
+  defineWebPage({
+    name: t('seo.title')
+  }),
+  defineWebSite({
+    name: t('seo.title')
+  }),
+  defineOrganization({
+    name: 'Odoo Community Association',
+    url: 'https://odoo-community.org',
+    logo: 'https://odoo-community.org/logo.png',
+  }),
+])
 </script>
 
 <style>
@@ -51,6 +58,7 @@ useHead({
 .page-leave-active {
   transition: all 0.4s;
 }
+
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
