@@ -7,9 +7,9 @@
       <div class="flex flex-col lg:flex-row gap-y-3">
         <div class="lg:w-5/8 lg:pr-5">
           <UBreadcrumb :items="[
-            { label: t('nav.modules.title'), to: '/modules', icon: 'i-ph-cube-duotone' },
-            { label: module?.category || '', icon: 'i-ph-cube-duotone' },
-            { label: module?.name || '', icon: 'i-ph-cube-duotone' },
+            { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
+            { label: module?.category || '', icon: 'category' },
+            { label: module?.name || '' },
           ]" class="mt-8 mb-6" />
           <USeparator />
           <div class="lg:max-w-xl xl:max-w-2xl pt-6">
@@ -52,20 +52,8 @@
     <ModuleBugTracker :module="module" />
     <ModuleMaintainer :module="module" />
 
-    <ModuleDependencies :module="module">
-      <template #header>
-        <ProseH2 class="text-secondary text-2xl md:text-3xl my-2">
-          {{ t('modules.dependencies.title') }}
-        </ProseH2>
-      </template>
-    </ModuleDependencies>
-    <ModuleUsedBy :module="module">
-      <template #header>
-        <ProseH2 class="text-primary text-2xl md:text-3xl my-2">
-          {{ t('modules.usedBy.title') }}
-        </ProseH2>
-      </template>
-    </ModuleUsedBy>
+    <ModuleDependencies :module="module" />
+    <ModuleUsedBy :module="module" />
   </div>
 </template>
 

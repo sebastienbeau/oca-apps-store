@@ -1,28 +1,24 @@
 <template>
-  <div class="py-10">
+  <div v-if="total" class="py-10">
     <slot name="header">
       <ProseH2 class="text-primary text-2xl md:text-3xl my-2">
         {{ t('modules.usedBy.title') }}
       </ProseH2>
     </slot>
-    <UCard class="my-4 ring-0">
-
-      <template #header>
-        <UFormField :label="t('modules.usedBy.globalFilter')">
-          <UInput v-model="searchQuery" :placeholder="t('modules.usedBy.globalFilter')" icon="search" size="xl" />
-        </UFormField>
-      </template>
-      <div v-if="loading" class="h-64 flex justify-center items-center">
-        <Spinner />
-      </div>
-      <div v-else-if="dependencies">
-        <ModuleMicroHit v-for="item in dependencies.hits" :key="item.urlKey" :module-grouped="item" class="m-1" />
-      </div>
-    </UCard>
+    <div class="pb-5">
+      <UFormField v-if="total > 1" :label="t('modules.usedBy.globalFilter')">
+        <UInput v-model="searchQuery" :placeholder="t('modules.usedBy.globalFilter')" icon="search" size="xl" />
+      </UFormField>
+    </div>
+    <div v-if="loading" class="h-64 flex justify-center items-center">
+      <Spinner />
+    </div>
+    <div v-else-if="dependencies" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <ModuleMicroHit v-for="item in dependencies.hits" :key="item.urlKey" :module-grouped="item" />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
-import type { header } from '#build/ui';
 import type { Module } from '~~/models';
 
 const props = defineProps<{
@@ -32,6 +28,7 @@ const { start, set } = useLoadingIndicator()
 const moduleService = useService('modules')
 const searchQuery = ref('')
 const page = ref(1)
+const total = ref(0)
 const loading = ref(false)
 const { t } = useI18n()
 
@@ -42,6 +39,7 @@ const { data: dependencies } = await useAsyncData('module-used-by-' + (props.mod
 }, {
   server: false,
 })
+total.value = dependencies.value?.total || 0
 const search = async () => {
   try {
     loading.value = true

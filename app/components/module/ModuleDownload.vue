@@ -7,7 +7,7 @@
   }">
     <template #header>
       <div class="flex items-center text-info gap-2 py-2">
-        <UIcon name="i-ph-package-duotone" class="size-14 md:size-18 " />
+        <UIcon name="module" class="size-14 md:size-18 " />
         <div>
           <div class="text-xl md:text-4xl font-bold">
             Download
@@ -32,7 +32,7 @@
             class="w-32" :disabled="versions.length == 1" />
         </UFormField>
 
-        <UButton color="info" :to="module?.website" leading-icon="i-ph-github-logo" class="px-10"
+        <UButton color="info" :to="module?.website" leading-icon="github" class="px-10"
           :label="t('modules.github.link')" />
       </div>
     </template>

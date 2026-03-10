@@ -31,10 +31,10 @@
       <div class="flex gap-2 items-center">
         <SearchSortSelector :options="sortOptions" :value="value" class="md:my-4" @change="change" />
         <UFieldGroup class="hidden sm:flex">
-          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-list" @click="displayMode = 'list'" />
-          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-grid" @click="displayMode = 'grid'" />
+          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'" leading-icon="list"
+            @click="displayMode = 'list'" />
+          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'" leading-icon="grid"
+            @click="displayMode = 'grid'" />
         </UFieldGroup>
       </div>
     </template>

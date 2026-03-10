@@ -19,10 +19,10 @@
         </div>
       </div>
     </template>
-
+    <Icon name="nuxt" />
     <div class="flex flex-1 flex-col gap-y-3 pt-4" @click="goToModule">
       <div v-if="module?.repository?.name" class="flex items-center gap-2 text-sm text-primary">
-        <UIcon name="qlementine-icons:anchor-top-left-16" class=""></UIcon>
+        <Icon name="repository" class="" />
         <div class="line-clamp-1">
           {{ module.repository?.name }}
         </div>
@@ -94,4 +94,5 @@ const goToModule = () => {
   if (!module.value?.urlKey) return
   navigateTo(`/modules/${module.value?.urlKey}`)
 }
+
 </script>

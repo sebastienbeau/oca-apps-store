@@ -5,7 +5,7 @@
         {{ t('modules.dependencies.title') }}
       </ProseH2>
     </slot>
-    <div v-if="dependencies" class="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div v-if="dependencies" class="my-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
       <ModuleHit v-for="item in dependencies" :key="item.urlKey" :module-grouped="item" class="m-1" />
     </div>
   </div>

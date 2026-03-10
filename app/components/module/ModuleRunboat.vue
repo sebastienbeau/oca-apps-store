@@ -1,7 +1,7 @@
 <template>
   <UButton v-if="module && module?.runboatURL" variant="solid" color="secondary" :href="module?.runboatURL"
     :size="size">
-    <UIcon name="i-ph-rocket-launch" />
+    <UIcon name="runboat" />
     {{ t('modules.runboat.try') }}
     <span class="font-bold">
       {{ t('modules.runboat.name') }}
