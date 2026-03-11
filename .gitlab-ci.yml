@@ -48,7 +48,7 @@ before_script:
     COMPOSE_FILE=${COMPOSE_FILE}
     COMPOSE_PROJECT_NAME=${BUILD_NAME}
     CI_DOMAIN=${CI_DOMAIN}
-    BASE_DOMAIN_NAME=${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID:-preprod}
+    BASE_DOMAIN_NAME=${CI_PROJECT_NAME}--${CI_MERGE_REQUEST_IID:-preprod}
     EOF
   #sops -d secrets.docker-compose.enc.yml > secrets.docker-compose.yml
 
