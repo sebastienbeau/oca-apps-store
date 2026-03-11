@@ -1,13 +1,6 @@
 # Caddy Config that simulate the nginx config on production
 
 :80 {
-    # request starting with "/shopinvader/" are forwarded to odoo api on "/api-krapahute/"
-    uri replace /shopinvader/ /api-services-tenue/
-    reverse_proxy /api-services-tenue/* http://abilis-ci.local {
-    # force the Host to have the url of the backend server
-        header_up Host {$ODOO_DOMAIN}
-    }
-
     # all other request are forwarded to the backend
-    reverse_proxy http://nuxt:3000
+    reverse_proxy http://nuxt:80
 }
