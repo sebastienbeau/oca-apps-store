@@ -28,7 +28,6 @@
       </UTooltip>
     </template>
     <template #body>
-
       <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5 " :ui="{
         list: '',
         item: 'border-b border-default',

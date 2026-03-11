@@ -10,7 +10,7 @@
           <a v-if="item.link" :href="item.link" target="_blank"
             class="text-primary hover:underline flex items-center gap-1">
             {{ item.value }}
-            <UIcon name="i-ph-arrow-square-out" />
+            <UIcon name="external" />
           </a>
           <span v-else>
             {{ item.value }}

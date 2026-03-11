@@ -36,27 +36,27 @@
     <template #footer>
       <div class="grid grid-cols-2 gap-4">
         <div class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-users" class="text-primary" />
+          <UIcon name="group" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.membersCount }}</span>
             Members
           </span>
         </div>
         <div class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-user-group" class="text-primary" />
+          <UIcon name="award" class="text-primary" />
           <span class="text-sm">OCA Collaborator index:
             <span class="text-secondary">{{ sponsor.collaboratorIndex }}</span>
           </span>
         </div>
         <div v-if="sponsor?.sponsorship?.collaborators?.length > 0" class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-code-bracket" class="text-primary" />
+          <UIcon name="code" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.sponsorship?.collaborators?.length }} </span>
             Contributors
           </span>
         </div>
         <div v-if="sponsor?.sponsorship?.industries?.length > 0" class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-building-office" class="text-primary" />
+          <UIcon name="industries" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor?.sponsorship?.industries?.length }}</span> Industries
           </span>

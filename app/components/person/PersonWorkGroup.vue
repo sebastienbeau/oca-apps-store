@@ -7,7 +7,7 @@
   }">
 
     <template #header>
-      <UIcon name="teenyicons:box-outline" class="size-5 text-secondary" />
+      <UIcon name="group" class="size-5 text-secondary" />
       <h3 class="text-primary font-bold text-sm"> {{ group.name }}</h3>
     </template>
 

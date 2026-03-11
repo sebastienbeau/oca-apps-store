@@ -6,7 +6,7 @@
   <USeparator />
   <div class="flex justify-start py-8 ">
     <UButton color="primary" to="/sponsors" size="sm" class="mr-auto" variant="link">
-      <UIcon name="eva:arrow-back-outline"></UIcon>
+      <UIcon name="back"></UIcon>
       {{ $t('sponsors.back-btn') }}
     </UButton>
   </div>

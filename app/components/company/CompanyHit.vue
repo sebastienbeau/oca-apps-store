@@ -30,14 +30,14 @@
     <template #footer>
       <div class="grid grid-cols-2 gap-4">
         <div class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-users" class="text-primary" />
+          <UIcon name="members" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ company.membersCount }}</span>
             Members
           </span>
         </div>
         <div class="flex items-center space-x-1 md:space-x-2">
-          <UIcon name="i-heroicons-user-group" class="text-primary" />
+          <UIcon name="award" class="text-primary" />
           <span class="text-sm">OCA Collaborator index:
             <span class="text-secondary">{{ company.collaboratorIndex }}</span>
           </span>

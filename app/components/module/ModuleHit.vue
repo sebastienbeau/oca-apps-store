@@ -7,10 +7,10 @@
     footer: ui?.footer,
   }" v-if="module">
     <template #header>
-      <div class="flex items-center gap-5" @click="goToModule">
+      <div class="flex items-center gap-4" @click="goToModule">
         <ModuleImage :module="module" />
         <div class="flex flex-col justify-start items-start gap-1">
-          <ProseH3 class="font-semibold font-heading text-primary text-xl my-0">
+          <ProseH3 class="font-semibold font-heading text-primary text-xl my-0 leading-6 line-clamp-2">
             {{ module.name }}
           </ProseH3>
           <UBadge v-if="module?.category" color="secondary" variant="soft" size="sm" class="rounded-full">
@@ -19,17 +19,18 @@
         </div>
       </div>
     </template>
-    <Icon name="nuxt" />
-    <div class="flex flex-1 flex-col gap-y-3 pt-4" @click="goToModule">
-      <div v-if="module?.repository?.name" class="flex items-center gap-2 text-sm text-primary">
-        <Icon name="repository" class="" />
+    <div class="flex flex-1 flex-col gap-y-2 pt-2" @click="goToModule">
+      <div v-if="module?.repository?.name" class="flex items-center gap-1 text-sm text-primary">
+        <UIcon name="repository" class="" />
         <div class="line-clamp-1">
           {{ module.repository?.name }}
         </div>
       </div>
-      <p v-if="module?.summary" class="text-gray-500 dark:text-gray-400 text-sm flex-1 line-clamp-4">
-        {{ module.summary }}
-      </p>
+      <div class="flex-1 h-full">
+        <p v-if="module?.summary" class="text-gray-500 dark:text-gray-400 text-sm line-clamp-4">
+          {{ module.summary }}
+        </p>
+      </div>
       <ModuleVersionList :module-grouped="moduleGrouped" />
     </div>
 
@@ -44,7 +45,7 @@
       </div>
       <div v-if="module?.website" class="flex items-center gap-1">
         <NuxtLink :to="module.website" class="" target="_blank">
-          <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="32" height="32" />
+          <UIcon name="github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="32" height="32" />
         </NuxtLink>
       </div>
     </div>
