@@ -1,24 +1,18 @@
 // @ts-check
-import pluginVue from 'eslint-plugin-vue'
 import withNuxt from './.nuxt/eslint.config.mjs'
-import vueI18n from '@intlify/eslint-plugin-vue-i18n'
+import pluginVue from 'eslint-plugin-vue'
 import tailwind from 'eslint-plugin-tailwindcss'
+import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 
 export default withNuxt(
   // Your custom configs here
   ...pluginVue.configs['flat/recommended'],
-  ...vueI18n.configs.recommended,
   ...tailwind.configs['flat/recommended'],
+  ...vueI18n.configs.recommended,
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-      '@intlify/vue-i18n/no-unused-keys': [
-        'error',
-        {
-          extensions: ['.js', '.vue'],
-        },
-      ],
       'vue/multi-word-component-names': 'off',
       'vue/no-v-html': 'off',
       'vue/html-indent': ['error', 2, {
@@ -56,6 +50,14 @@ export default withNuxt(
           },
         },
       ],
+
+      '@intlify/vue-i18n/no-unused-keys': [
+        'error',
+        {
+          extensions: ['.js', '.vue'],
+        },
+      ],
+
     },
     settings: {
       'vue-i18n': {

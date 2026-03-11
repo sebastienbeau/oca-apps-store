@@ -7,10 +7,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { Module } from '~~/models';
+import type { Module } from '~~/models'
 const { t } = useI18n()
 const props = defineProps<{
   module: Module | null
 }>()
-
 </script>

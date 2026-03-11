@@ -74,14 +74,16 @@ export default defineAppConfig({
     class: 'icon', // default <Icon> class applied
     mode: 'css', // default <Icon> mode applied
     aliases: {
-      'repository': 'ph:squares-four-fill',
+      'repository': 'ph:git-branch',
+      'filter': 'ph:funnel-simple',
       'module': 'ph:package-duotone',
       'sponsor': 'ph:hand-heart-duotone',
       "search": 'ph:magnifying-glass',
       "community": 'ph:users-three',
+      "author": 'ph:user-gear',
       "home": 'ph:house',
       "person": 'ph:user',
-      "category": 'ph:tag',
+      "category": 'ph:squares-four-fill',
       "grid": 'ph:dots-nine',
       "list": 'ph:list-bullets',
       "runboat": 'ph:boat-duotone',

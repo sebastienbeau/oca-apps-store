@@ -1,40 +1,68 @@
 <template>
-  <UCard :ui="{
-    root: ui?.root,
-    body: ui?.body,
-    header: ui?.header,
-    footer: ui?.footer,
-  }" @click="goToPerson">
+  <UCard
+    :ui="{
+      root: ui?.root,
+      body: ui?.body,
+      header: ui?.header,
+      footer: ui?.footer,
+    }"
+    @click="goToPerson"
+  >
     <template #header>
       <div class="flex-1">
-        <UUser :name="person.name" size="lg" :avatar="avatar" :ui="{
-          description: 'items-center flex gap-0.5'
-        }">
+        <UUser
+          :name="person.name"
+          size="lg"
+          :avatar="avatar"
+          :ui="{
+            description: 'items-center flex gap-0.5',
+          }"
+        >
           <template #description v-if="person.username">
-            <UButton variant="ghost" :to="`https://github.com/${person.username}`" leading-icon="line-md:github"
-              size="sm" :label="person.username" target="_blank" :ui="{
+            <UButton
+              variant="ghost"
+              :to="`https://github.com/${person.username}`"
+              leading-icon="line-md:github"
+              size="sm"
+              :label="person.username"
+              target="_blank"
+              :ui="{
                 base: 'p-0 sm:p-0 hover:bg-transparent hover:underline gap-0.5',
                 label: 'text-gray-500 dark:text-gray-600 text-sm',
-              }" />
+              }"
+            />
           </template>
         </UUser>
       </div>
-      <div :class="{
-        'flex flex-col items-end': variant === 'grid',
-        'inline-flex flex-row items-center gap-1': variant == 'list',
-      }">
+      <div
+        :class="{
+          'flex flex-col items-end': variant === 'grid',
+          'inline-flex flex-row items-center gap-1': variant == 'list',
+        }"
+      >
         <PersonCountry :person="person" />
         <PersonCompany :person="person" />
       </div>
     </template>
     <PersonBadges :person="person" />
     <div class="grid grid-cols-2 pt-4 text-xs">
-      <PersonStats :person="person" v-if="hasStatisticalInfo" class="space-y-2" />
+      <PersonStats
+        :person="person"
+        v-if="hasStatisticalInfo"
+        class="space-y-2"
+      />
     </div>
     <template #footer>
-      <div class="flex justify-end ">
-        <UButton color="neutral" variant="outline" label="View more" size="sm" trailing class="ml-auto "
-          :to="`/community/${person.urlKey}`" />
+      <div class="flex justify-end">
+        <UButton
+          color="neutral"
+          variant="outline"
+          label="View more"
+          size="sm"
+          trailing
+          class="ml-auto"
+          :to="`/community/${person.urlKey}`"
+        />
       </div>
     </template>
   </UCard>
@@ -61,7 +89,10 @@ const ui = computed(() => {
     footer: 'p-3 sm:p-4 ',
   }
   if (props?.variant === 'list') {
-    ui.root = twMerge(ui.root, 'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 divide-none shadow-none rounded-none border-b border-neutral-100')
+    ui.root = twMerge(
+      ui.root,
+      'grid grid-cols-1 grid-cols-6 gap-4 p-5 ring-0 divide-none shadow-none rounded-none border-b border-neutral-100'
+    )
     ui.header = twMerge(ui.header, 'col-span-2 flex-col items-start gap-2')
     ui.body = twMerge(ui.body, 'col-span-3')
     ui.footer = twMerge(ui.footer, '')
@@ -79,8 +110,7 @@ const avatar = computed(() => {
       src: props.person.avatarUrl,
       alt: props.person.name,
     }
-  }
-  else {
+  } else {
     return {
       src: null,
       alt: props.person.name,
@@ -88,10 +118,14 @@ const avatar = computed(() => {
   }
 })
 const hasStatisticalInfo = computed(() => {
-  if (props.person.collaboratorIndex == '' && props.person.translations == '' && props.person.modulesMaintained == '' && props.person.psc == '') {
+  if (
+    props.person.collaboratorIndex == '' &&
+    props.person.translations == '' &&
+    props.person.modulesMaintained == '' &&
+    props.person.psc == ''
+  ) {
     return false
-  }
-  else {
+  } else {
     return true
   }
 })

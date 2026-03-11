@@ -61,8 +61,8 @@ const ranges = computed(() => {
 
 const label = computed(() => {
   if (
-    values.value?.[0] !== props.stats?.min
-    || values.value?.[1] !== props.stats?.max
+    values.value?.[0] !== props.stats?.min ||
+    values.value?.[1] !== props.stats?.max
   ) {
     return `${formatCurrency(values.value?.[0])} - ${formatCurrency(values.value?.[1])}`
   }
@@ -79,6 +79,6 @@ watch(
       values.value[1] = newVal.max
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>

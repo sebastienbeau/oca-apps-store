@@ -1,37 +1,65 @@
 <template>
   <div v-if="facets && facets.length > 0">
-    <UNavigationMenu orientation="horizontal" variant="pill" :items="items" class="hidden md:flex"
-      content-orientation="vertical" :unmount-on-hide="false" :ui="{
+    <UNavigationMenu
+      orientation="horizontal"
+      variant="pill"
+      :items="items"
+      class="hidden md:flex"
+      content-orientation="vertical"
+      :unmount-on-hide="false"
+      :ui="{
         list: 'gap-2',
         link: 'bg-neutral-50 hover:bg-neutral-100 text-neutral-400  rounded-full',
-      }">
+      }"
+    >
       <template #item-content="{ item: { facet, component } }">
         <slot name="item-content" :item="{ facet, component }">
           <div class="p-4">
             <div class="pb-4 text-sm font-bold">
               {{ facet.title }}
             </div>
-            <component :is="component || 'SearchStringFacet'" v-bind="facet"
-              @refine="(query: string) => $emit('refine', facet.field, query)" @init-facet="
+            <component
+              :is="component || 'SearchStringFacet'"
+              v-bind="facet"
+              @refine="(query: string) => $emit('refine', facet.field, query)"
+              @init-facet="
                 (query: string) => $emit('init-facet', facet.field, query)
-              " @label-value="
+              "
+              @label-value="
                 (value: string) => setLabelValues(facet.field, value)
-              " />
+              "
+            />
           </div>
         </slot>
       </template>
     </UNavigationMenu>
-    <UDrawer v-model:open="mobileOpen" should-scale-background set-background-color-on-scale
-      :title="t('search.filter.label')" :ui="{ header: 'flex items-center justify-between' }">
+    <UDrawer
+      v-model:open="mobileOpen"
+      should-scale-background
+      set-background-color-on-scale
+      :title="t('search.filter.label')"
+      :ui="{ header: 'flex items-center justify-between' }"
+    >
       <slot name="mobile-item-button" :facets="facets" :open="mobileOpen">
-        <UButton :label="t('search.filter.label')" color="neutral" trailing-icon="filter" variant="outline"
-          class="md:hidden" :ui="{ base: 'rounded-full px-4' }" />
+        <UButton
+          :label="t('search.filter.label')"
+          color="neutral"
+          trailing-icon="filter"
+          variant="outline"
+          class="md:hidden"
+          :ui="{ base: 'rounded-full px-4' }"
+        />
       </slot>
       <template #header>
         <ProseH2 class="grow font-bold">
           {{ t('search.filter.label') }}
         </ProseH2>
-        <UButton color="neutral" variant="ghost" icon="close" @click="mobileOpen = false" />
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="close"
+          @click="mobileOpen = false"
+        />
       </template>
       <template #body>
         <slot name="mobile-body" :facets="facets" :open="mobileOpen" />
@@ -42,27 +70,46 @@
                 <span class="text-base font-medium">
                   {{ facet.title }}
                 </span>
-                <UBadge v-if="labelValues?.[facet.field]" color="neutral" variant="soft"
-                  :label="labelValues[facet.field]?.toString() || ''" />
+                <UBadge
+                  v-if="labelValues?.[facet.field]"
+                  color="neutral"
+                  variant="soft"
+                  :label="labelValues[facet.field]?.toString() || ''"
+                />
               </div>
             </slot>
           </template>
           <template #body="{ item: { facet, component } }">
             <slot name="mobile-item-content" :item="{ facet, component }">
-              <component :is="component || 'SearchStringFacet'" v-bind="facet" class="pb-4"
-                @refine="(query: string) => $emit('refine', facet.field, query)" @label-value="
+              <component
+                :is="component || 'SearchStringFacet'"
+                v-bind="facet"
+                class="pb-4"
+                @refine="(query: string) => $emit('refine', facet.field, query)"
+                @label-value="
                   (value: string) => setLabelValues(facet.field, value)
-                " />
+                "
+              />
             </slot>
           </template>
         </UAccordion>
       </template>
       <template #footer>
         <slot name="mobile-footer" :facets="facets" :open="mobileOpen">
-          <UButton :label="t('search.filter.clear_all')" size="lg" variant="outline" block
-            @click="mobileOpen = false" />
-          <UButton :label="t('search.filter.apply', { count: results.total })" size="lg" leading-icon="filter" block
-            @click="mobileOpen = false" />
+          <UButton
+            :label="t('search.filter.clear_all')"
+            size="lg"
+            variant="outline"
+            block
+            @click="mobileOpen = false"
+          />
+          <UButton
+            :label="t('search.filter.apply', { count: results.total })"
+            size="lg"
+            leading-icon="filter"
+            block
+            @click="mobileOpen = false"
+          />
         </slot>
       </template>
     </UDrawer>
@@ -72,8 +119,7 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-import type { Facet, FacetWithResult } from '~~/models';
-
+import type { Facet, FacetWithResult } from '~~/models'
 
 const props = defineProps<{
   facets: Facet[]
@@ -94,12 +140,12 @@ const items = computed<NavigationMenuItem[]>(() => {
     const { results } = props
     let component = resolveComponent('SearchStringFacet')
     const result = results?.facets?.find?.(
-      (f: FacetWithResult['facets'][number]) => f.field === facet.field,
+      (f: FacetWithResult['facets'][number]) => f.field === facet.field
     )
 
     if (
-      result?.stats
-      && (result.stats.min !== undefined || result.stats.max !== undefined)
+      result?.stats &&
+      (result.stats.min !== undefined || result.stats.max !== undefined)
     ) {
       component = resolveComponent('SearchNumericFacet')
     }

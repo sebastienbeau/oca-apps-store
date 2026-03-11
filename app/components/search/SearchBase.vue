@@ -5,32 +5,63 @@
         <UPageHeader class="" />
       </slot>
       <div ref="container">
-        <div class="flex flex-col md:flex-row justify-between items-end md:items-center gap-2 pb-5">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end md:items-center gap-2 pb-5"
+        >
           <slot name="actions"></slot>
           <div class="flex items-center flex-1 gap-2">
             <div class="flex-1">
-              <slot name="facets" onChangeFilter="onChangeFilter" :facets="facets" :results="results"
-                :query-facets="queryFacets">
-                <SearchFacetsList ref="facetsList" :facets="facets" :results="results" :query-facets="queryFacets"
-                  class="" @refine="onChangeFilter" />
+              <slot
+                name="facets"
+                onChangeFilter="onChangeFilter"
+                :facets="facets"
+                :results="results"
+                :query-facets="queryFacets"
+              >
+                <SearchFacetsList
+                  ref="facetsList"
+                  :facets="facets"
+                  :results="results"
+                  :query-facets="queryFacets"
+                  class=""
+                  @refine="onChangeFilter"
+                />
               </slot>
             </div>
-            <slot name="sort" :sort-options="sortOptions" :value="sortBy" :change="onSort">
-              <SearchSortSelector :options="sortOptions" :value="sortBy" class="my-4" @change="onSort" />
+            <slot
+              name="sort"
+              :sort-options="sortOptions"
+              :value="sortBy"
+              :change="onSort"
+            >
+              <SearchSortSelector
+                :options="sortOptions"
+                :value="sortBy"
+                class="my-4"
+                @change="onSort"
+              />
             </slot>
           </div>
         </div>
         <div v-if="error" class="mx-auto my-10 max-w-lg">
-          <UAlert type="error" color="error" icon="error" variant="outline" orientation="horizontal"
-            :title="t('search.error.title')" :description="error?.message ||
-              'An error occurred during the search'
-              " :actions="[
-                {
-                  label: t('search.error.retry'),
-                  color: 'neutral',
-                  onClick: search,
-                },
-              ]" />
+          <UAlert
+            type="error"
+            color="error"
+            icon="error"
+            variant="outline"
+            orientation="horizontal"
+            :title="t('search.error.title')"
+            :description="
+              error?.message || 'An error occurred during the search'
+            "
+            :actions="[
+              {
+                label: t('search.error.retry'),
+                color: 'neutral',
+                onClick: search,
+              },
+            ]"
+          />
         </div>
         <template v-else-if="results.hits.length === 0">
           <div class="text-muted py-10 text-center">
@@ -47,12 +78,26 @@
               }}
             </div>
           </div>
-          <slot name="results" :per-page="perPage" :results="results" :is-loading="isLoading" :total="results.found"
-            :infinite-scroll="infiniteScroll">
-            <SearchResult :hits="results.hits" :total="results.found" :infinite-scroll="infiniteScroll"
-              :per-page="perPage" :page="page" :is-loading="isLoading" @change-page="changePage" :ui="{
-                root: ui?.results
-              }">
+          <slot
+            name="results"
+            :per-page="perPage"
+            :results="results"
+            :is-loading="isLoading"
+            :total="results.found"
+            :infinite-scroll="infiniteScroll"
+          >
+            <SearchResult
+              :hits="results.hits"
+              :total="results.found"
+              :infinite-scroll="infiniteScroll"
+              :per-page="perPage"
+              :page="page"
+              :is-loading="isLoading"
+              @change-page="changePage"
+              :ui="{
+                root: ui?.results,
+              }"
+            >
               <template #hit="{ hit, index, total }">
                 <slot name="hit" :hit="hit" :index="index" :total="total" />
               </template>
@@ -68,11 +113,7 @@
 </template>
 
 <script lang="ts" setup generic="T">
-import type {
-  Facet,
-  FacetSearchParam,
-  FacetSearchResult,
-} from '~~/models'
+import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models'
 
 const props = withDefaults(
   defineProps<{

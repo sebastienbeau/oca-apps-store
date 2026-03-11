@@ -19,10 +19,10 @@ export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
   app: {
-    //pageTransition: { name: 'page', mode: 'out-in' },
+    // pageTransition: { name: 'page', mode: 'out-in' },
     rootAttrs: {
       'data-vaul-drawer-wrapper': '',
-      class: 'bg-default',
+      'class': 'bg-default',
     },
     head: {
       meta: [{ name: 'theme-color', content: '#151B47' }],
@@ -32,12 +32,12 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
+  site: {
+    title: 'Odoo Community Association Appstore',
+    description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
+  },
   ui: {
     colorMode: true,
-  },
-  alias: {
-    '#models': '/models',
-    '#services': '/services',
   },
   spaLoadingTemplate: 'assets/templates/loading.html',
   runtimeConfig: {
@@ -51,23 +51,27 @@ export default defineNuxtConfig({
         indices: {
           persons: {
             en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN || '',
           },
           companies: {
             en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN || '',
           },
           modules: {
             en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN || ''
+              .NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN || '',
           },
           categories: {
             en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN || ''
-          }
+              .NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN || '',
+          },
         },
       },
     },
+  },
+  alias: {
+    '#models': '/models',
+    '#services': '/services',
   },
   routeRules: {
     '/': {
@@ -75,7 +79,7 @@ export default defineNuxtConfig({
     },
     '/**': {
       ssr: true,
-    }
+    },
   },
   sourcemap: {
     server: true,
@@ -98,8 +102,7 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      stylistic: true,
-      standalone: false,
+      stylistic: false,
     },
   },
   i18n: {
@@ -159,10 +162,6 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
     },
-  },
-  site: {
-    title: 'Odoo Community Association Appstore',
-    description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
   },
 
 })

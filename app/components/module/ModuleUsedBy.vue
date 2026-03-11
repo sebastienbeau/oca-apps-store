@@ -7,19 +7,31 @@
     </slot>
     <div class="pb-5">
       <UFormField v-if="total > 1" :label="t('modules.usedBy.globalFilter')">
-        <UInput v-model="searchQuery" :placeholder="t('modules.usedBy.globalFilter')" icon="search" size="xl" />
+        <UInput
+          v-model="searchQuery"
+          :placeholder="t('modules.usedBy.globalFilter')"
+          icon="search"
+          size="xl"
+        />
       </UFormField>
     </div>
     <div v-if="loading" class="h-64 flex justify-center items-center">
       <Spinner />
     </div>
-    <div v-else-if="dependencies" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <ModuleMicroHit v-for="item in dependencies.hits" :key="item.urlKey" :module-grouped="item" />
+    <div
+      v-else-if="dependencies"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+    >
+      <ModuleMicroHit
+        v-for="item in dependencies.hits"
+        :key="item.urlKey"
+        :module-grouped="item"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import type { Module } from '~~/models';
+import type { Module } from '~~/models'
 
 const props = defineProps<{
   module: Module | null
@@ -32,18 +44,30 @@ const total = ref(0)
 const loading = ref(false)
 const { t } = useI18n()
 
-const { data: dependencies } = await useAsyncData('module-used-by-' + (props.module?.id || ''), async () => {
-  if (!props.module?.dependencies?.length) return null
+const { data: dependencies } = await useAsyncData(
+  'module-used-by-' + (props.module?.id || ''),
+  async () => {
+    if (!props.module?.dependencies?.length) return null
 
-  return await moduleService.getModuleUsedBy(props.module, searchQuery.value, page.value)
-}, {
-  server: false,
-})
+    return await moduleService.getModuleUsedBy(
+      props.module,
+      searchQuery.value,
+      page.value
+    )
+  },
+  {
+    server: false,
+  }
+)
 total.value = dependencies.value?.total || 0
 const search = async () => {
   try {
     loading.value = true
-    dependencies.value = await moduleService.getModuleUsedBy(props.module, searchQuery.value, page.value)
+    dependencies.value = await moduleService.getModuleUsedBy(
+      props.module,
+      searchQuery.value,
+      page.value
+    )
   } catch (error) {
     console.error('Error searching modules:', error)
   } finally {

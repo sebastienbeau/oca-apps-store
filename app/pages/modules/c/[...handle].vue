@@ -8,16 +8,14 @@
         <div class="lg:w-5/8 lg:pr-5">
           <UBreadcrumb :items="[
             { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
-            { label: module?.category || '', to: `/modules?category=${module?.category}`, icon: 'category' },
+            { label: module?.category || '', icon: 'category' },
             { label: module?.name || '' },
           ]" class="mt-8 mb-6" />
           <USeparator />
           <div class="lg:max-w-xl xl:max-w-2xl pt-6">
             <ProseH1 class="text-primary text-2xl md:text-3xl lg:text-5xl xl:text-6xl lg:mt-10 mb-2 sm:mb-5">
-              {{ removeLastWord(module?.name) }}
-              <span class="text-secondary-500">
-                {{ getLastWord(module?.name) }}
-              </span>
+              {{ names[0] }}
+              <span class="text-secondary-500"> {{ names[1] }}</span>
             </ProseH1>
             <ProseP v-if="module?.description" v-html="module.description" />
           </div>
