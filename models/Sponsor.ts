@@ -20,6 +20,7 @@ export interface Company {
   contributorsCount: string
   membersCount: string
   modulesCount: string
+  sponsorship: object | null
   logoUrls: {
     alt: string
     l: string

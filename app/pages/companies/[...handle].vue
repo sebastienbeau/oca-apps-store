@@ -1,64 +1,68 @@
 <template>
-  <UBreadcrumb :items="[
-    { label: t('nav.sponsors.title'), to: '/sponsors', icon: 'i-ph-cube-duotone' },
-    { label: sponsor?.name || '', icon: 'i-ph-cube-duotone' },
-  ]" class="mt-8 mb-6" />
+  <UBreadcrumb :items="breadcrumb" class="mt-8 mb-6" />
   <USeparator />
-  <div class="flex justify-start py-8 ">
-    <UButton color="primary" to="/sponsors" size="sm" class="mr-auto" variant="link">
-      <UIcon name="back"></UIcon>
-      {{ $t('sponsors.back-btn') }}
-    </UButton>
-  </div>
-  <SponsorHeroBanner v-if="sponsor" :sponsor="sponsor" />
-  <SponsorIndustries v-if="sponsor && sponsor.industries?.length > 0" :sponsor="sponsor"
-    :sponsor-level="sponsorLevel" />
-  <SponsorStories v-if="sponsor && sponsor.stories?.length > 0" :sponsor="sponsor" />
-  <SponsorTestimonial v-if="sponsor" :sponsor="sponsor" />
-
+  <CompanyHeroBanner :company="company" />
+  <SponsorDetail v-if="company && company?.sponsorship" :sponsor="company" />
 </template>
 
 <script lang="ts" setup>
-
-import type { Sponsor, SponsorLevelInfo } from '~~/models';
+import type { Company, Sponsor } from '~~/models'
 const companyService = useService('companies')
 const route = useRoute()
 const { t } = useI18n()
 
-const sponsor = ref<Sponsor | null>(null);
-const urlParams = useRoute().params;
-const getSponsor = async () => {
-  const res = await companyService.getSponsorById({}, urlParams.handle?.[0] as string)
-  return res
-}
-
-const { data } = await useAsyncData<Sponsor>(
-  `sponsor-${route.fullPath}`,
-  getSponsor, {
-  watch: [route]
-}
+const { data: company, error } = await useAsyncData<Sponsor | Company | null>(
+  `module-${route.params.handle}`,
+  () => companyService.findByURLKey(route.params.handle as string),
+  {
+    watch: [route],
+  }
 )
-if (data.value) {
-  sponsor.value = data.value
+console.log(error.value)
+if (company.value == null || error.value) {
+  throw createError({
+    statusCode: error?.value ? 500 : 404,
+    statusMessage: error?.value?.message || t('companies.notFound'),
+    fatal: true,
+  })
 }
-sponsor.value = data.value || null;
 
-const { data: sponsorLevels } = await useAsyncData(() => {
-  return queryCollection('sponsorLevels').all()
+const breadcrumb = computed(() => {
+  const items = []
+  if (company.value?.sponsorship) {
+    items.push({
+      label: t('nav.sponsors.title'),
+      to: '/sponsors',
+      icon: 'sponsor',
+    })
+  } else {
+    items.push({
+      label: t('nav.company.title'),
+      to: '/companies',
+      icon: 'companies',
+    })
+  }
+  items.push({ label: company?.value?.name || '', icon: 'company' })
+  return items
 })
 
-const sponsorLevel = computed(() => {
-  if (sponsor.value && sponsorLevels.value) {
-    return sponsorLevels.value.find((level: any) => level.name.toLowerCase() === sponsor.value?.sponsorLevel.name)
-  }
-  return null
+useSeoMeta({
+  title: company.value?.name || '',
+  description:
+    company.value?.sponsorship?.description ||
+    t('company.description.default', { company: company.value?.name }),
+  ogTitle: company.value?.name || '',
+  ogImage: company.value?.logoUrls?.m,
+  ogImageAlt: company.value?.logoUrls?.alt || '',
 })
 
-if (sponsor.value && sponsorLevel.value) {
-  sponsor.value = {
-    ...sponsor.value,
-    sponsorLevelInfo: sponsorLevel.value as SponsorLevelInfo
-  }
-};
-
+useSchemaOrg(
+  defineOrganization({
+    name: company.value?.name || '',
+    logo: company.value?.logoUrls?.m,
+    email: company.value?.email || '',
+    telephone: company.value?.phone || '',
+    url: company.value?.website?.url || '',
+  })
+)
 </script>

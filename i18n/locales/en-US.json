@@ -45,7 +45,8 @@
     "sort": {
       "name_asc": "Sort by name A-Z",
       "name_desc": "Sort by name Z-A"
-    }
+    },
+    "notFound": "Company not found"
   },
   "modules": {
     "page": {
@@ -201,6 +202,9 @@
       "members": "Members",
       "contributors": "Contributors",
       "modules": "Modules"
+    },
+    "description": {
+      "default": "{company} is a company member of  the Odoo Community Association"
     }
   }
 }

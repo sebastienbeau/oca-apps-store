@@ -1,8 +1,7 @@
-import type { Sponsor, SponsorResult, SponsorResultGroupedLevels, SponsorIndustry, SponsorCountry } from '~~/models'
+import type { Sponsor, SponsorResult, SponsorResultGroupedLevels, SponsorIndustry, Company, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type { SponsorStory } from '~~/models/Sponsor'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~~/models'
-import type { SponsorStory } from '~~/models/Sponsor'
 import type { SitemapUrlInput } from '#sitemap/types'
 
 interface CompanySchema {
@@ -64,6 +63,7 @@ export class CompanyService extends BaseServiceTypeSense {
       }, {}) || []
     }
   }
+
   async getCompanyById(query: {}, id: string): Promise<Company> {
     query = { ...{ q: '*', query_by: 'name' }, ...query }
     const result = await super.performSearch<CompanySchema>({
@@ -74,6 +74,21 @@ export class CompanyService extends BaseServiceTypeSense {
     return hits[0] || null
   }
 
+  /**
+   * Get company data by URL Key attribute, used for company page
+   * @param urlKey The URL key of the company, which is a unique identifier used in the URL of the company page
+   * @returns a company or null if not found
+   */
+  async findByURLKey(urlKey: string): Promise<Company | null> {
+    const result = await super.performSearch({
+      q: '*',
+      filter_by: `url_key:${urlKey}`,
+      limit: 1,
+    })
+
+    const hits = this.hits(result?.hits) || []
+    return hits?.[0] || null
+  }
 
   async facetSearch(
     query: any,

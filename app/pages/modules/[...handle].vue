@@ -96,10 +96,10 @@ const { data: moduleGrouped, error } =
       watch: [route],
     }
   )
-if (moduleGrouped.value == null) {
+if (moduleGrouped.value == null || error.value) {
   throw createError({
-    statusCode: 404,
-    statusMessage: t('modules.notFound'),
+    statusCode: error?.value ? 500 : 404,
+    statusMessage: error?.value?.message || t('modules.notFound'),
     fatal: true,
   })
 }
