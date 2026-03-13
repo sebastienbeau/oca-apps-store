@@ -5,27 +5,54 @@
   ]" class="mt-8 mb-6" />
   <USeparator />
   <div class="py-8">
+    
     <PersonHeroBanner :person="person" />
   </div>
-  <div class="pt-14 pb-1 md:pt-32 md:pb-10 relative">
+  <div class="pt-14 pb-1 md:pt-22 md:pb-8 relative">
     <div class="w-screen absolute left-1/2 transform -translate-x-1/2 top-0 h-[120%] -skew-y-3 -z-10 "
       style="background-color: #fffbf5 " />
-    <div class="d-block mx-w-sm mx-auto">
+    <div  v-if="displayPersonGroups" class="d-block mx-w-sm mx-auto">
       <PersonGroups :person="person" />
+      
     </div>
-
-
-
+    <div v-else>
+        <UEmpty
+          title="This person is not yet part of any group"
+          description="Join one  of the OCA working groups and take part of the community"
+          variant="naked"
+          :actions="[{
+            label: 'Join one of the working groups',
+            icon: 'i-lucide-user-plus',
+            color: 'primary',
+            to: 'https://odoo-community.org/working-groups',
+            target: '_blank'
+          }]"
+        >
+          <template #leading>
+            <UAvatarGroup size="xl">
+              <UAvatar src="/logo-192.png" alt="Oca logo" loading="lazy" />
+            </UAvatarGroup>
+          </template>
+        
+        </UEmpty>
+      
+    </div>
   </div>
+
+
+ 
 
 </template>
 <script lang="ts" setup>
+const { t } = useI18n()
+import type { Person, Module } from '~/models'
 
 const person = ref<Person | null>(null)
 const urlParams = useRoute().params;
 const route = useRoute()
 
 const personService = useService('persons')
+const modulesService = useService('modules')
 
 const getPersonByUrlKey = async () => {
   const res = await personService.getPersonByUrlKey({}, urlParams.handle?.[0] as string)
@@ -39,12 +66,29 @@ const { data } = await useAsyncData<Person>(
 }
 )
 
+
+
 if (data.value) {
   person.value = data.value
 }
 person.value = data.value || null;
 
+const modules = ref<Module[]>()
 
+// async function getModulesContributionsHits() {
+//   const hits: Module[] = await modulesService.getByIds(person.value?.modulesContributionsId || [])
+//   return hits
+// }
+
+// modules.value = await getModulesContributionsHits()
+
+const displayPersonGroups = computed(() => {
+  if(person.value.pscList.length > 0 || person.value.workGroupList.length > 0) {
+    return true
+  } else {
+    return false
+  }
+})
 
 </script>
 <style scoped>

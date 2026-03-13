@@ -132,7 +132,7 @@ const hasStatisticalInfo = computed(() => {
 
 const goToPerson = () => {
   if (props?.person?.username) {
-    navigateTo(`/community/${props.person.username}`)
+    navigateTo(`/community${props.person.urlKey}`)
   }
 }
 </script>
