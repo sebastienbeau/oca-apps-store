@@ -19,6 +19,7 @@ export interface Person {
   collaboratorIndex?: number
   translations: number
   modulesMaintained: number
+  modulesContributionsId: number[]
   psc: number
   urlKey: string
   pscList: PSC[]
