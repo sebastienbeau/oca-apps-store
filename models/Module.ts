@@ -36,10 +36,7 @@ export interface Module {
       website: string
     },
   ],
-  maintainer: {
-    name: string
-    website: string
-  },
+  maintainer: string[],
   bugTracker: {
     url: string
     instructions: string

@@ -1,8 +1,7 @@
-import type { Module, ModuleGroupedHit, ModuleResult } from '~~/models'
+import type { Module, ModuleGroupedHit, ModuleResult, FacetSearchParam, FacetSearchResult } from '~~/models'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~~/models'
-import { group } from 'console'
+import type { SitemapUrlInput } from '#sitemap/types'
 
 interface ModuleSchema {
   id: number
@@ -26,6 +25,7 @@ export class ModuleService extends BaseServiceTypeSense {
       q: '*',
       filter_by: `url_key:${urlKey}`,
       group_by: 'url_key',
+      include_fields: "$ocastore_persons_en(*, strategy: merge)"
     })
 
     const groupedHits = this.groupedHits(result?.grouped_hits) || []
@@ -46,7 +46,7 @@ export class ModuleService extends BaseServiceTypeSense {
   async getModuleDependencies(module: Module): Promise<ModuleGroupedHit[]> {
     const filter = module?.dependencies.map(dep => `${dep}`).join(',')
     const res = await this.search({
-      filter_by: `url_key:[${filter}]`
+      filter_by: `techname:=[${filter}]`
     })
     return module?.dependencies.map(dep => {
       let found = res?.hits.find(hit => hit.urlKey === dep) || {
@@ -62,7 +62,7 @@ export class ModuleService extends BaseServiceTypeSense {
 
   async getModuleUsedBy(module: Module, queryString: string, page: number): Promise<ModuleResult> {
     const query: any = {
-      filter_by: `dependencies:${module.urlKey}`,
+      filter_by: `dependencies:="${module.techname}" && version:=${module.version}`,
       group_by: 'url_key',
       page: page
     }
@@ -133,7 +133,6 @@ export class ModuleService extends BaseServiceTypeSense {
       }
     }
     const { results } = await super.performMultiSearch<ModuleSchema>(queries)
-    console.log('Facet search results:', results)
     const groupedHits = results[0]?.grouped_hits || []
     return {
       hits: this.groupedHits(groupedHits) || [],
@@ -153,6 +152,40 @@ export class ModuleService extends BaseServiceTypeSense {
         }
       }),
     }
+  }
+  /**
+   * Return the list of all modules url for sitemap generation
+   * We use a loop with pagination to avoid issues with large number of entries
+   */
+  async sitemapsEntries(): Promise<SitemapUrlInput[]> {
+    const size = 249
+    const urls: SitemapUrlInput[] = []
+    let page = 1
+    let total = 0
+    do {
+      const res = await super.performSearch({
+        q: '*',
+        group_by: "techname",
+        per_page: size,
+        page,
+        group_limit: 1,
+        include_fields: "techname",
+        enable_highlight_v1: false,
+      })
+      total = res?.found || 0
+      const hits = res?.grouped_hits
+      for (const hit of hits || []) {
+        if (hit?.group_key?.[0]) {
+          urls.push({
+            loc: `/modules/${hit.group_key[0]}`
+          })
+        }
+      }
+
+      page++
+    } while ((page - 1) * size < total)
+
+    return urls || []
   }
   jsonToModel(json: ModuleSchema): Module {
     return ModuleFactory.createModule(json)
@@ -193,10 +226,7 @@ export const ModuleFactory = {
         usage: json?.readme_fragments?.usage,
       },
       contributors: json?.contributors || [],
-      maintainer: {
-        name: json?.maintainer?.name,
-        website: json?.maintainer?.website,
-      },
+      maintainer: json?.maintainer,
       bugTracker: {
         url: json?.bug_tracker?.url,
         instructions: json?.bug_tracker?.instructions,

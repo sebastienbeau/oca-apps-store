@@ -1,8 +1,8 @@
-import type { Person } from '~~/models'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { FacetSearchParam, FacetSearchResult } from '~~/models'
-import type { PersonRole } from '~/models/Person'
+import type { Person, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type { PersonRole } from '~~/models/Person'
+import type { SitemapUrlInput } from '#sitemap/types'
 
 interface PersonSchema {
   id: number
@@ -103,7 +103,40 @@ export class PersonService extends BaseServiceTypeSense {
     return hits[0] || null
 
   }
+  /**
+   * Return the list of all persons url for sitemap generation
+   * We use a loop with pagination to avoid issues with large number of entries
+   */
+  async sitemapsEntries(): Promise<SitemapUrlInput[]> {
+    const size = 249
+    const urls: SitemapUrlInput[] = []
+    let page = 1
+    let total = 0
+    do {
+      const res = await super.performSearch({
+        q: '*',
+        group_by: "username",
+        per_page: size,
+        page,
+        group_limit: 1,
+        include_fields: "username",
+        enable_highlight_v1: false,
+      })
+      total = res?.found || 0
+      const hits = res?.grouped_hits
+      for (const hit of hits || []) {
+        if (hit?.group_key?.[0]) {
+          urls.push({
+            loc: `/persons/${hit.group_key[0]}`,
+          })
+        }
+      }
 
+      page++
+    } while ((page - 1) * size < total)
+
+    return urls || []
+  }
   jsonToModel(json: PersonSchema): Person {
     return PersonFactory.createPerson(json)
   }

@@ -1,7 +1,7 @@
 <template>
   <div v-if="total" class="py-10">
     <slot name="header">
-      <ProseH2 class="text-primary text-2xl md:text-3xl my-2">
+      <ProseH2 class="my-2 text-2xl text-primary md:text-3xl">
         {{ t('modules.usedBy.title') }}
       </ProseH2>
     </slot>
@@ -15,12 +15,12 @@
         />
       </UFormField>
     </div>
-    <div v-if="loading" class="h-64 flex justify-center items-center">
+    <div v-if="loading" class="flex h-64 items-center justify-center">
       <Spinner />
     </div>
     <div
       v-else-if="dependencies"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
     >
       <ModuleMicroHit
         v-for="item in dependencies.hits"
@@ -88,5 +88,8 @@ watch(loading, () => {
   } else {
     set(100)
   }
+})
+watch([() => props.module?.version], () => {
+  search()
 })
 </script>

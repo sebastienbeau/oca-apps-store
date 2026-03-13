@@ -118,7 +118,8 @@
     "notFound": "OCA Module not found",
     "maintainer": {
       "title": "Maintainers"
-    }
+    },
+    "link": "View more"
   },
   "sponsors": {
     "become": "Become a {name} Sponsor",

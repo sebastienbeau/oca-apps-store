@@ -2,7 +2,8 @@ import type { Sponsor, SponsorResult, SponsorResultGroupedLevels, SponsorIndustr
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { FacetSearchParam, FacetSearchResult } from '~~/models'
-import type { SponsorStory } from '~/models/Sponsor'
+import type { SponsorStory } from '~~/models/Sponsor'
+import type { SitemapUrlInput } from '#sitemap/types'
 
 interface CompanySchema {
   id: string
@@ -147,6 +148,40 @@ export class CompanyService extends BaseServiceTypeSense {
         }
       }),
     }
+  }
+  /**
+   * Return the list of all companies url for sitemap generation
+   * We use a loop with pagination to avoid issues with large number of entries
+   */
+  async sitemapsEntries(): Promise<SitemapUrlInput[]> {
+    const size = 249
+    const urls: SitemapUrlInput[] = []
+    let page = 1
+    let total = 0
+    do {
+      const res = await super.performSearch({
+        q: '*',
+        group_by: "url_key",
+        per_page: size,
+        page,
+        group_limit: 1,
+        include_fields: "url_key",
+        enable_highlight_v1: false,
+      })
+      total = res?.found || 0
+      const hits = res?.grouped_hits
+      for (const hit of hits || []) {
+        if (hit?.group_key?.[0]) {
+          urls.push({
+            loc: `/companies/${hit.group_key[0]}`,
+          })
+        }
+      }
+
+      page++
+    } while ((page - 1) * size < total)
+
+    return urls || []
   }
   jsonToModel(json: CompanySchema): Company | Sponsor {
     if (json?.sponsorship?.level) {

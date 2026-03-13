@@ -1,19 +1,29 @@
 <template>
-  <div v-if="module" class="flex flex-col ">
+  <div v-if="module" class="flex flex-col">
+    <UButton label="test" @click="test"></UButton>
     <div class="relative py-4 lg:pt-10 lg:pb-32">
       <div
-        class="absolute content-[''] bg-neutral-50/50 h-[120%] w-screen left-1/2 transform -translate-x-1/2 mx-auto top-0 -z-10">
-      </div>
-      <div class="flex flex-col lg:flex-row gap-y-3">
+        class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-neutral-50/50 content-['']"
+      ></div>
+      <div class="flex flex-col gap-y-3 lg:flex-row">
         <div class="lg:w-5/8 lg:pr-5">
-          <UBreadcrumb :items="[
-            { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
-            { label: module?.category || '', to: `/modules?category=${module?.category}`, icon: 'category' },
-            { label: module?.name || '' },
-          ]" class="mt-8 mb-6" />
+          <UBreadcrumb
+            :items="[
+              { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
+              {
+                label: module?.category || '',
+                to: `/modules?category=${module?.category}`,
+                icon: 'category',
+              },
+              { label: module?.name || '' },
+            ]"
+            class="mt-8 mb-6"
+          />
           <USeparator />
-          <div class="lg:max-w-xl xl:max-w-2xl pt-6">
-            <ProseH1 class="text-primary text-2xl md:text-3xl lg:text-5xl xl:text-6xl lg:mt-10 mb-2 sm:mb-5">
+          <div class="pt-6 lg:max-w-xl xl:max-w-2xl">
+            <ProseH1
+              class="mb-2 text-2xl text-primary sm:mb-5 md:text-3xl lg:mt-10 lg:text-5xl xl:text-6xl"
+            >
               {{ removeLastWord(module?.name) }}
               <span class="text-secondary-500">
                 {{ getLastWord(module?.name) }}
@@ -22,27 +32,41 @@
             <ProseP v-if="module?.description" v-html="module.description" />
           </div>
         </div>
-        <div class="lg:w-4/8 xl:w-5/12 relative lg:h-64">
-          <ModuleDownload v-if="moduleGrouped" :module-grouped="moduleGrouped" v-motion-slide-visible-top
-            @version-change="onChangeVersion" class=" w-full max-w-2xl mx-auto translate-y-7 " />
+        <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12">
+          <ModuleDownload
+            v-if="moduleGrouped"
+            :module-grouped="moduleGrouped"
+            v-motion-slide-visible-top
+            @version-change="onChangeVersion"
+            class="mx-auto w-full max-w-2xl translate-y-7"
+          />
         </div>
       </div>
     </div>
-    <div class="relative pt-12 pb-12 mb-24 lg:py-16 xl:pt-18 xl:pb-10">
+    <div class="relative mb-24 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10">
       <div
-        class="w-screen absolute left-1/2 transform -translate-x-1/2 -top-10 h-[120%] -skew-y-3 -z-10 bg-secondary-50 " />
-      <div class="flex flex-col lg:flex-row gap-2">
+        class="absolute -top-10 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
+      />
+      <div class="flex flex-col gap-2 lg:flex-row">
         <div v-if="module?.readmeFragments?.configure" class="flex-1">
-          <ProseH2 class="text-info text-2xl md:text-3xl my-2">
+          <ProseH2 class="my-2 text-2xl text-info md:text-3xl">
             {{ t('modules.settings.title') }}
           </ProseH2>
-          <ProseP v-html="module?.readmeFragments?.configure" class="prose mt-2 lg:mt-6" />
+          <ProseP
+            v-html="module?.readmeFragments?.configure"
+            class="prose mt-2 lg:mt-6"
+          />
         </div>
-        <div v-if="module?.readmeFragments?.configure && module?.contributors?.length" class="hidden lg:flex my-2">
+        <div
+          v-if="
+            module?.readmeFragments?.configure && module?.contributors?.length
+          "
+          class="my-2 hidden lg:flex"
+        >
           <USeparator orientation="vertical" class="mx-10 hidden lg:block" />
         </div>
         <div v-if="module?.contributors?.length" class="min-w-sm lg:p-10">
-          <ProseH2 class=" text-secondary text-2xl md:text-3xl my-2">
+          <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
             {{ t('modules.contributors.title') }}
           </ProseH2>
           <ModuleContributorList :module="module" class="mt-4 lg:mt-7" />
@@ -53,7 +77,6 @@
     <ModuleInstall :module="module" />
     <ModuleBugTracker :module="module" />
     <ModuleMaintainer :module="module" />
-
     <ModuleDependencies :module="module" />
     <ModuleUsedBy :module="module" />
   </div>
@@ -64,15 +87,22 @@ import { type ModuleGroupedHit } from '~~/models'
 
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const moduleService = useService('modules')
-const { data: moduleGrouped, error } = await useAsyncData<ModuleGroupedHit | null>(
-  `module-${route.params.handle}`,
-  () => moduleService.findByURLKey(route.params.handle as string), {
-  watch: [route],
-
-})
+const { data: moduleGrouped, error } =
+  await useAsyncData<ModuleGroupedHit | null>(
+    `module-${route.params.handle}`,
+    () => moduleService.findByURLKey(route.params.handle as string),
+    {
+      watch: [route],
+    }
+  )
 if (moduleGrouped.value == null) {
-  throw createError({ statusCode: 404, statusMessage: t('modules.notFound'), fatal: true })
+  throw createError({
+    statusCode: 404,
+    statusMessage: t('modules.notFound'),
+    fatal: true,
+  })
 }
 const module = ref(moduleGrouped.value?.hits[0])
 const image = computed(() => module.value?.iconUrl || '/oca-logo.png')
@@ -95,20 +125,19 @@ useSchemaOrg(
     softwareHelp: module.value?.website || '',
     url: module.value?.website || '',
     softwareVersion: module.value?.version || '',
-    downloadUrl: module.value?.website || ''
+    downloadUrl: module.value?.website || '',
   })
 )
 
-const names = computed(() => {
-  const names = moduleGrouped.value?.hits[0]?.name.split(' ') || []
-  return [names.slice(0, -1).join(' '), names.slice(-1)[0]]
-})
-
 const onChangeVersion = (version: string) => {
-  const found = moduleGrouped.value?.hits.find(hit => hit.version === version)
+  const found = moduleGrouped.value?.hits.find((hit) => hit.version === version)
   if (found) {
     module.value = found
   }
 }
 
+const test = async () => {
+  const res = await moduleService.findByURLKey(route.params.handle as string)
+  console.log('res', res?.hits?.[0])
+}
 </script>

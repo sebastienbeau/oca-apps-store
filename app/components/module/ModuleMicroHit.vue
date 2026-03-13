@@ -2,7 +2,7 @@
   <UCard v-if="moduleGrouped" :ui="ui" @click="onClick">
     <ModuleImage :module="module" size="sm" class="w-12" />
     <div>
-      <div class="text-lg font-bold line-clamp-2 leading-5 pb-3">
+      <div class="line-clamp-2 pb-3 text-lg leading-5 font-bold">
         <nuxt-link
           v-if="module?.urlKey"
           :to="`/modules/${module.urlKey}`"
@@ -11,27 +11,27 @@
           {{ module?.name }}
         </nuxt-link>
       </div>
-      <div class="flex gap-3 items-center">
-        <div class="text-muted text-sm flex items-center gap-1">
-          <UIcon name="category" class="text-primary" />
-          {{ module?.category }}
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1 text-sm text-muted">
+          <UIcon name="repository" class="text-primary" />
+          {{ module?.repository?.name }}
         </div>
         <ModuleVersionList :module-grouped="moduleGrouped" />
       </div>
-      <div class="text-muted text-sm">
+      <div class="text-sm text-muted">
         {{ module?.summary }}
       </div>
-    </div>
-    <div class="flex justify-end">
-      <UButton
-        v-if="module?.urlKey"
-        color="neutral"
-        variant="outline"
-        size="sm"
-        leading-icon="repository"
-        :to="`/modules/${module.urlKey}`"
-        target="_blank"
-      />
+      <div class="flex justify-end pt-4">
+        <UButton
+          v-if="module?.urlKey"
+          color="neutral"
+          variant="outline"
+          size="sm"
+          leading-icon="module"
+          :label="t('modules.link')"
+          :to="`/modules/${module.urlKey}`"
+        />
+      </div>
     </div>
   </UCard>
 </template>
@@ -41,7 +41,7 @@ import type { ModuleGroupedHit } from '~~/models'
 const props = defineProps<{
   moduleGrouped: ModuleGroupedHit | null
 }>()
-
+const { t } = useI18n()
 const modules = computed(() => props.moduleGrouped?.hits || [])
 const module = computed(() => modules.value[modules.value.length - 1] || null)
 const ui = computed(() => {

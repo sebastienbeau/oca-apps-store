@@ -14,9 +14,11 @@ export default defineNuxtConfig({
     '@vueuse/motion',
     'nuxt-schema-org',
     'nuxt-site-config',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
   ],
   plugins: ['~/plugins/services/index'],
-  ssr: false,
+  ssr: true,
   devtools: { enabled: true },
   app: {
     // pageTransition: { name: 'page', mode: 'out-in' },
@@ -35,6 +37,12 @@ export default defineNuxtConfig({
   site: {
     title: 'Odoo Community Association Appstore',
     description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
+  },
+  sitemap: {
+    sources: [
+      '/api/__sitemap__/urls',
+    ],
+    autoI18n: false,
   },
   ui: {
     colorMode: true,
