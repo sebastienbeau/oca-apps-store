@@ -43,7 +43,6 @@ declare module 'vue' {
 export default defineNuxtPlugin(async (nuxtApp) => {
 
   let config = useRuntimeConfig()?.public?.search as SearchConfig
-  console.log('Search config:', config)
   if (
     !config
     || !config.url

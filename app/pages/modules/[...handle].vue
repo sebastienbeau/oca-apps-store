@@ -1,6 +1,5 @@
 <template>
   <div v-if="module" class="flex flex-col">
-    <UButton label="test" @click="test"></UButton>
     <div class="relative py-4 lg:pt-10 lg:pb-32">
       <div
         class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-neutral-50/50 content-['']"
@@ -134,10 +133,5 @@ const onChangeVersion = (version: string) => {
   if (found) {
     module.value = found
   }
-}
-
-const test = async () => {
-  const res = await moduleService.findByURLKey(route.params.handle as string)
-  console.log('res', res?.hits?.[0])
 }
 </script>

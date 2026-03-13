@@ -114,7 +114,6 @@ export class ModuleService extends BaseServiceTypeSense {
     ]
 
     for (const facet of facets) {
-      console.log(facet)
       if (facet.query) {
         const filterBy
           = queries[0]?.filter_by
