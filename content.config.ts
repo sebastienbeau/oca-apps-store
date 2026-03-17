@@ -22,6 +22,12 @@ export default defineContentConfig({
         { columns: ['level'], unique: true },
       ],
     }),
+    global: defineCollection({
+      // Specify the type of content in this collection
+      type: 'data',
+      // Load every file inside the `content` directory
+      source: 'global/*.mdc',
+    }),
     docs: defineCollection({
       // Specify the type of content in this collection
       type: 'page',

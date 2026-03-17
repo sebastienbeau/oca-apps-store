@@ -1,0 +1,25 @@
+---
+title: OCA Sponsors
+description: Explore open-source Odoo modules actively maintained by the Odoo Community Association (OCA).
+---
+
+::u-page-section
+---
+icon: 'sponsor'
+description: 
+  Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. 
+  Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality apps that power modern enterprises. 
+
+  Let’s build the future of open-source, together.
+links:
+  - label: 'Become a sponsor'
+    to: 'https://odoo-community.org/page/Contribute'
+    target: '_blank'
+    icon: 'sponsor'
+ui: 
+  title: 'flex items-center justify-center'
+  description: 'flex flex-col items-center max-w-5xl mx-auto'
+---
+#title
+[Odoo Community Association [sponsors]{.text-secondary}]{.text-primary.text-5xl}
+::

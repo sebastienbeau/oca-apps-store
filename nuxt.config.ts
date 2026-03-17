@@ -19,10 +19,10 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
   ],
   plugins: ['~/plugins/services/index'],
-  ssr: false,
+  ssr: true,
   devtools: { enabled: true },
   app: {
-    // pageTransition: { name: 'page', mode: 'out-in' },
+    pageTransition: { name: 'page', mode: 'out-in' },
     rootAttrs: {
       'data-vaul-drawer-wrapper': '',
       'class': 'bg-default',
@@ -88,6 +88,12 @@ export default defineNuxtConfig({
     },
     '/**': {
       ssr: true,
+    },
+    'modules/**': {
+      ssr: false,
+    },
+    'modules': {
+      ssr: false,
     },
   },
   sourcemap: {
@@ -171,6 +177,5 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
     },
-  },
-
+  }
 })

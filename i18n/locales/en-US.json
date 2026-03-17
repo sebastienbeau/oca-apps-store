@@ -62,7 +62,10 @@
       "name_desc": "Sort by name Z-A"
     },
     "search": {
-      "placeholder": "Search modules..."
+      "placeholder": "Search modules...",
+      "placeholder1": "Search a module by name...",
+      "placeholder2": "Search a module by description...",
+      "placeholder3": "Search a OCA Github Repository"
     },
     "filters": {
       "versions": "Versions",

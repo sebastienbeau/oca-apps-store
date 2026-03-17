@@ -1,38 +1,46 @@
 <template>
-  <UBreadcrumb :items="[
-    { label: t('nav.community.title'), to: '/community', icon: 'i-ph-cube-duotone' }
-  ]" class="mt-8 mb-6" />
-  <USeparator />
-  <SearchBase :query="query" :facets="facets" :sort-options="sortOptions" v-model:sort-by="sortBy"
-    :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage" :ui="ui">
+  <SearchBase
+    :query="query"
+    :facets="facets"
+    :sort-options="sortOptions"
+    v-model:sort-by="sortBy"
+    :infinite-scroll="false"
+    :search-function="searchFunction"
+    :perPage="perPage"
+    :ui="ui"
+  >
     <template #header>
-      <UPageHero :links="links" :ui="{
-        header: 'text-left',
-        footer: 'text-left',
-        links: 'justify-start',
-      }">
-        <template #title>
-          {{ t('community.page.title') }}
-        </template>
-
-        <template #description>
-          {{ t('community.page.description') }}
-        </template>
-      </UPageHero>
+      <ContentRenderer v-if="content" :value="content" />
     </template>
     <template #actions>
-      <UFormField>
-        <UInput v-model="searchTerms" :placeholder="t('person.search.placeholder')" size="lg" trailing-icon="search" />
+      <UFormField class="min-w-72">
+        <SearchBox
+          v-model="searchTerms"
+          :placeholder="[t('person.search.placeholder')]"
+        />
       </UFormField>
     </template>
     <template #sort="{ sortOptions, value, change }">
-      <div class="flex gap-2 items-center">
-        <SearchSortSelector :options="sortOptions" :value="value" class="my-4" @change="change" />
+      <div class="flex items-center gap-2">
+        <SearchSortSelector
+          :options="sortOptions"
+          :value="value"
+          class="my-4"
+          @change="change"
+        />
         <UFieldGroup class="hidden sm:flex">
-          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-list" @click="displayMode = 'list'" />
-          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-grid" @click="displayMode = 'grid'" />
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'list' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-list"
+            @click="displayMode = 'list'"
+          />
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-grid"
+            @click="displayMode = 'grid'"
+          />
         </UFieldGroup>
       </div>
     </template>
@@ -43,9 +51,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Person } from '~~/models'
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type {
+  Facet,
+  FacetSearchParam,
+  FacetSearchResult,
+  Person,
+} from '~~/models'
 const { t } = useI18n()
+const route = useRoute()
+
+const { data: content } = await useAsyncData(`community-modules`, () => {
+  return queryCollection('docs').path(route.path).first()
+})
 const personService = useService('persons')
 const sortOptions = computed(() => {
   return [
@@ -66,11 +83,11 @@ const searchTerms = ref('')
 const facets: Facet[] = [
   {
     field: 'country.label',
-    title: t('person.filters.countries')
+    title: t('person.filters.countries'),
   },
   {
     field: 'roles.name',
-    title: t('person.filters.roles')
+    title: t('person.filters.roles'),
   },
 ]
 const searchFunction = async (
@@ -83,7 +100,10 @@ const searchFunction = async (
 
 const ui = computed(() => {
   return {
-    results: displayMode.value === 'list' ? 'flex flex-col gap-3 sm:gap-4' : 'gap-3 sm:gap-5',
+    results:
+      displayMode.value === 'list'
+        ? 'flex flex-col gap-3 sm:gap-4'
+        : 'gap-3 sm:gap-5',
   }
 })
 
@@ -92,14 +112,14 @@ const links = ref([
     label: t('community.page.become_button'),
     to: '/docs/getting-started',
     color: 'primary',
-    icon: 'i-lucide-square-play'
+    icon: 'i-lucide-square-play',
   },
   {
     label: t('community.page.learn_more'),
     to: '/docs/getting-started/theme/design-system',
     color: 'neutral',
     variant: 'subtle',
-    trailingIcon: 'i-lucide-arrow-right'
-  }
+    trailingIcon: 'i-lucide-arrow-right',
+  },
 ])
 </script>

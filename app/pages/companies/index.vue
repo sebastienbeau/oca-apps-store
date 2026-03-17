@@ -1,27 +1,48 @@
 <template>
-  <UBreadcrumb :items="[
-    { label: t('nav.company.title'), to: '/companies', icon: 'i-ph-cube-duotone' },
-  ]" class="mt-8 mb-6" />
-  <USeparator />
-  <SearchBase :query="query" :facets="facets" :sort-options="sortOptions" v-model:sort-by="sortBy"
-    :infinite-scroll="false" :search-function="searchFunction" :perPage="perPage" :ui="ui">
+  <SearchBase
+    :query="query"
+    :facets="facets"
+    :sort-options="sortOptions"
+    v-model:sort-by="sortBy"
+    :infinite-scroll="false"
+    :search-function="searchFunction"
+    :perPage="perPage"
+    :ui="ui"
+  >
     <template #header>
-      {{ t('nav.company.title') }}
+      <ContentRenderer v-if="content" :value="content" />
     </template>
     <template #actions>
       <UFormField>
-        <UInput v-model="searchTerms" :placeholder="t('companies.search.placeholder')" size="lg"
-          trailing-icon="search" />
+        <UInput
+          v-model="searchTerms"
+          :placeholder="t('companies.search.placeholder')"
+          size="lg"
+          trailing-icon="search"
+        />
       </UFormField>
     </template>
     <template #sort="{ sortOptions, value, change }">
-      <div class="flex gap-2 items-center">
-        <SearchSortSelector :options="sortOptions" :value="value" class="my-4" @change="change" />
+      <div class="flex items-center gap-2">
+        <SearchSortSelector
+          :options="sortOptions"
+          :value="value"
+          class="my-4"
+          @change="change"
+        />
         <UFieldGroup class="hidden sm:flex">
-          <UButton color="neutral" :variant="displayMode === 'list' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-list" @click="displayMode = 'list'" />
-          <UButton color="neutral" :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
-            leading-icon="i-mdi-view-grid" @click="displayMode = 'grid'" />
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'list' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-list"
+            @click="displayMode = 'list'"
+          />
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-grid"
+            @click="displayMode = 'grid'"
+          />
         </UFieldGroup>
       </div>
     </template>
@@ -32,9 +53,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Company } from '~~/models'
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type {
+  Facet,
+  FacetSearchParam,
+  FacetSearchResult,
+  Company,
+} from '~~/models'
+
 const { t } = useI18n()
+const route = useRoute()
+
+const { data: content } = await useAsyncData(`companies-modules`, () => {
+  return queryCollection('docs').path(route.path).first()
+})
+
 const companyService = useService('companies')
 const sortOptions = computed(() => {
   return [
@@ -52,9 +84,7 @@ const query = computed(() => {
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
 const searchTerms = ref('')
-const facets: Facet[] = [
-
-]
+const facets: Facet[] = []
 const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]
@@ -65,8 +95,10 @@ const searchFunction = async (
 
 const ui = computed(() => {
   return {
-    results: displayMode.value === 'list' ? 'flex flex-col gap-3 sm:gap-4' : 'gap-3 sm:gap-5',
+    results:
+      displayMode.value === 'list'
+        ? 'flex flex-col gap-3 sm:gap-4'
+        : 'gap-3 sm:gap-5',
   }
 })
-
 </script>

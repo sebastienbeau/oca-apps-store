@@ -1,17 +1,23 @@
 <template>
   <UApp :toaster="{ position: 'top-right', duration: 3000 }">
     <NuxtPwaManifest />
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator color="#151B47" />
     <UMain data-vaul-drawer-wrapper>
       <NuxtLayout>
-        <UPageHero v-if="!isOnline" :title="t('offline.title')" :description="t('offline.description')" :links="[
-          {
-            label: t('offline.retry'),
-            onClick: reloadNuxtApp
-          }
-        ]" class="h-screen">
+        <UPageHero
+          v-if="!isOnline"
+          :title="t('offline.title')"
+          :description="t('offline.description')"
+          :links="[
+            {
+              label: t('offline.retry'),
+              onClick: reloadNuxtApp,
+            },
+          ]"
+          class="h-screen"
+        >
           <template #headline>
-            <UIcon name="offline" class="text-primary size-20" />
+            <UIcon name="offline" class="size-20 text-primary" />
           </template>
         </UPageHero>
         <NuxtPage v-else />
@@ -27,9 +33,7 @@ const network = reactive(useNetwork())
 const isOnline = computed(() => network.isOnline)
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk
-      ? `${titleChunk} - ${t('seo.title')}`
-      : t('seo.title')
+    return titleChunk ? `${titleChunk} - ${t('seo.title')}` : t('seo.title')
   },
   meta: [
     {
@@ -40,10 +44,10 @@ useHead({
 })
 useSchemaOrg([
   defineWebPage({
-    name: t('seo.title')
+    name: t('seo.title'),
   }),
   defineWebSite({
-    name: t('seo.title')
+    name: t('seo.title'),
   }),
   defineOrganization({
     name: 'Odoo Community Association',

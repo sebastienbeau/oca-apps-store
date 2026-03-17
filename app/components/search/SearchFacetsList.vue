@@ -4,7 +4,7 @@
       orientation="horizontal"
       variant="pill"
       :items="items"
-      class="hidden md:flex"
+      class="hidden lg:flex"
       content-orientation="vertical"
       :unmount-on-hide="false"
       :ui="{
@@ -46,7 +46,7 @@
           color="neutral"
           trailing-icon="filter"
           variant="outline"
-          class="md:hidden"
+          class="lg:hidden"
           :ui="{ base: 'rounded-full px-4' }"
         />
       </slot>

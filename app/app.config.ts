@@ -22,7 +22,7 @@ export default defineAppConfig({
       }
     },
     prose: {
-      p: { base: 'prose prose-gray leading-relaxed prose-a:text-primary prose-li:leading-tight prose-li:mt-0 prose-ul:mt-1 prose-ul:mb-4' },
+      p: { base: 'leading-relaxed prose-a:text-primary prose-li:leading-tight prose-li:mt-0 prose-ul:mt-1 prose-ul:mb-4' },
     },
     icons: {
       arrowDown: 'i-ph-arrow-down',
@@ -75,6 +75,24 @@ export default defineAppConfig({
         dot: 'ring-secondary/30',
         title: 'text-secondary',
         header: 'bg-muted/50 py-5 px-6 rounded-xl rounded-tl-none ring-1 ring-muted/40',
+      }
+    },
+    pageSection: {
+      slots: {
+        container: 'lg:py-24',
+        leadingIcon: 'size-16 text-primary',
+        links: 'justify-end'
+      }
+    },
+    pageFeature: {
+      slots: {
+        leadingIcon: 'text-secondary',
+        title: 'text-primary-500',
+      }
+    },
+    pageHero: {
+      slots: {
+        title: 'text-primary-500',
       }
     }
   },

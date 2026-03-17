@@ -1,55 +1,26 @@
 <template>
-  <UBreadcrumb
-    :items="[
-      {
-        label: t('nav.modules.title'),
-        to: '/modules',
-        icon: 'i-ph-cube-duotone',
-      },
-    ]"
-    class="mt-8 mb-6"
-  />
-  <USeparator />
   <SearchBase
+    v-model:sort-by="sortBy"
     :query="query"
     :facets="facets"
     :sort-options="sortOptions"
-    v-model:sort-by="sortBy"
     :infinite-scroll="false"
     :search-function="searchFunction"
-    :perPage="perPage"
+    :per-page="perPage"
     :ui="ui"
   >
     <template #header>
-      <UPageHero
-        description="{{ $t('modules.page.description') }}"
-        :links="links"
-        :ui="{
-          root: 'overflow-hidden',
-          header: 'text-left',
-          footer: 'text-left',
-          links: 'justify-start',
-        }"
-      >
-        <template #title>
-          {{ t('modules.page.title') }}
-          <span class="text-secondary-500">
-            {{ t('modules.page.title_emphasis') }}</span
-          >
-        </template>
-        <template #description>
-          {{ t('modules.page.description') }}
-        </template>
-      </UPageHero>
+      <ContentRenderer v-if="content" :value="content" />
     </template>
     <template #actions>
-      <UFormField :ui="{ root: 'flex-2 w-full md:max-w-64 mb-0 pb-0' }">
-        <UInput
+      <UFormField class="min-w-72">
+        <SearchBox
           v-model="searchTerms"
-          :placeholder="t('modules.search.placeholder')"
-          size="lg"
-          trailing-icon="search"
-          class="w-full"
+          :placeholder="[
+            t('modules.search.placeholder1'),
+            t('modules.search.placeholder2'),
+            t('modules.search.placeholder3'),
+          ]"
         />
       </UFormField>
     </template>
@@ -77,7 +48,7 @@
         </UFieldGroup>
       </div>
     </template>
-    <template #hit="{ hit, index, total }">
+    <template #hit="{ hit }">
       <ModuleHit :variant="displayMode" :module-grouped="hit" />
     </template>
     <template #empty>
@@ -85,6 +56,7 @@
         <UEmpty
           variant="naked"
           icon="module"
+          class="mb-24"
           :title="t('modules.empty.title')"
           :description="t('modules.empty.description')"
         />
@@ -94,9 +66,18 @@
 </template>
 
 <script setup lang="ts">
-import type { ModuleGroupedHit } from '~~/models'
-import type { Facet, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type {
+  ModuleGroupedHit,
+  Facet,
+  FacetSearchParam,
+  FacetSearchResult,
+} from '~~/models'
 const { t } = useI18n()
+const route = useRoute()
+const { data: content } = await useAsyncData(`content-modules`, () => {
+  return queryCollection('docs').path(route.path).first()
+})
+
 const moduleService = useService('modules')
 const sortOptions = computed(() => {
   return [
@@ -104,6 +85,7 @@ const sortOptions = computed(() => {
     { label: t('modules.sort.name_desc'), value: 'name:desc' },
   ]
 })
+
 const sortBy = ref('name:asc')
 const query = computed(() => {
   return {
@@ -138,26 +120,11 @@ const searchFunction = async (
 
 const ui = computed(() => {
   return {
+    root: 'pb-6',
     results:
       displayMode.value === 'list'
         ? 'flex flex-col gap-3 sm:gap-4'
         : 'gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3',
   }
 })
-
-const links = ref([
-  {
-    label: t('modules.page.become_button'),
-    to: '/docs/getting-started',
-    color: 'primary',
-    icon: 'i-lucide-square-play',
-  },
-  {
-    label: t('modules.page.learn_more'),
-    to: '/docs/getting-started/theme/design-system',
-    color: 'neutral',
-    variant: 'subtle',
-    trailingIcon: 'i-lucide-arrow-right',
-  },
-])
 </script>
