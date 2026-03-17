@@ -201,8 +201,12 @@ export const ModuleFactory = {
         url: json?.repository?.url,
         name: json?.repository?.name,
         description: json?.repository?.description,
+        category: {
+          name: json?.category,
+          urlKey: json?.category
+        },
       },
-      category: json?.category,
+
       version: json?.version,
       description: json?.description,
       summary: json?.summary,

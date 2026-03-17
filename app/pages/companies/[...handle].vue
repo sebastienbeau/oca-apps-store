@@ -18,7 +18,6 @@ const { data: company, error } = await useAsyncData<Sponsor | Company | null>(
     watch: [route],
   }
 )
-console.log(error.value)
 if (company.value == null || error.value) {
   throw createError({
     statusCode: error?.value ? 500 : 404,

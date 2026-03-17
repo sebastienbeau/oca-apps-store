@@ -42,14 +42,19 @@
     <ModuleInfo v-if="module" :module="module" />
     <template #footer>
       <div class="flex items-end justify-between gap-4">
-        <UFormField :label="t('modules.version.label')">
-          <USelect
-            v-model="selectedVersion"
-            :items="versions"
-            :placeholder="t('modules.version.placeholder')"
-            class="w-32"
-            :disabled="versions.length == 1"
-          />
+        <UFormField
+          :label="t('modules.version.label')"
+          :help="versions?.length == 1 ? selectedVersion : ''"
+        >
+          <template v-if="versions && versions?.length > 1">
+            <USelect
+              v-model="selectedVersion"
+              :items="versions"
+              :placeholder="t('modules.version.placeholder')"
+              class="w-32"
+              @change="() => emits('versionChange', selectedVersion!)"
+            />
+          </template>
         </UFormField>
 
         <UButton
@@ -64,7 +69,7 @@
   </UCard>
 </template>
 <script lang="ts" setup>
-import type { ModuleGroupedHit } from '~~/models'
+import type { ModuleGroupedHit, Module } from '~~/models'
 
 const { t } = useI18n()
 const emits = defineEmits<{
@@ -72,19 +77,36 @@ const emits = defineEmits<{
 }>()
 const props = defineProps<{
   moduleGrouped: ModuleGroupedHit | null
+  selectedModule?: Module | null
 }>()
 const modules = computed(() => props.moduleGrouped?.hits || [])
-const module = computed(() => modules.value[modules.value.length - 1] || null)
-
-const lastVersion = computed(() => module.value?.version || null)
-const selectedVersion = ref<string | null>(lastVersion.value)
-const versions = computed(
-  () => modules.value?.map(({ version }) => version) || []
+const lastVersion = computed(() => modules.value?.[0]?.version || null)
+const selectedVersion = ref<string | null>(
+  props?.selectedModule?.version || lastVersion.value
+)
+const module = computed(
+  () =>
+    modules.value.find(
+      ({ version }) => version == props.selectedModule?.version
+    ) || null
 )
 
-watch(selectedVersion, (newValue) => {
-  if (newValue) {
-    emits('versionChange', newValue)
-  }
+const versions = computed(() => {
+  return props.moduleGrouped?.hits
+    ?.reduce((acc: string[], hit) => {
+      if (hit.version && !acc.includes(hit.version)) {
+        acc.push(hit.version)
+      }
+      return acc
+    }, [])
+    .sort((a, b) => parseFloat(a) - parseFloat(b))
 })
+
+watch(
+  () => props.selectedModule,
+  () => {
+    selectedVersion.value =
+      props.selectedModule?.version || modules.value?.[0]?.version
+  }
+)
 </script>

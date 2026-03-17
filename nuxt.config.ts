@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
   ],
   plugins: ['~/plugins/services/index'],
-  ssr: true,
+  ssr: false,
   devtools: { enabled: true },
   app: {
     // pageTransition: { name: 'page', mode: 'out-in' },

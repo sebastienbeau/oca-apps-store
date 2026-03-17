@@ -50,7 +50,7 @@
           {{ module.summary }}
         </p>
       </div>
-      <ModuleVersionList :module-grouped="moduleGrouped" />
+      <ModuleVersionList :module-grouped="moduleGrouped" size="sm" />
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center">

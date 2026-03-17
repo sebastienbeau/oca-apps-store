@@ -91,6 +91,7 @@ export default defineAppConfig({
       "company": 'ph:building',
       "search": 'ph:magnifying-glass',
       "community": 'ph:users-three',
+      "contribute": 'ph:rocket-launch',
       "author": 'ph:user-gear',
       "home": 'ph:house',
       "person": 'ph:user',

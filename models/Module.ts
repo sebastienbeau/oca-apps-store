@@ -8,8 +8,11 @@ export interface Module {
     url: string
     name: string
     description: string
+    category: {
+      name: string
+      urlKey: string
+    }
   },
-  category: string
   version: string
   dependencies: string[]
   usedBy: string[]
@@ -22,13 +25,13 @@ export interface Module {
   runboatURL: string
   website: string
   readmeFragments: {
-    configure?: string
-    context?: string
+    configure?: string //
+    context?: string //ModuleContext
     credits?: string
     history?: string
-    install?: string
-    roadmap?: string
-    usage?: string
+    install?: string //ModuleInstall
+    roadmap?: string //ModuleRoadMap
+    usage?: string //ModuleUsage
   }
   contributors: [
     {

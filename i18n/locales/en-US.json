@@ -88,7 +88,8 @@
     },
     "bugTracker": {
       "title": "Bug tracker",
-      "goTo": "Report a bug"
+      "goTo": "Report a bug",
+      "description": "Bugs are tracked on GitHub Issues. In case of trouble, please check there if your issue has already been reported. If you spotted it first, help us to smash it by providing a detailed and welcomed feedback.  Do not contact contributors directly about support or help with technical issues."
     },
     "usedBy": {
       "title": "This module is used by",
@@ -132,6 +133,13 @@
     },
     "context": {
       "title": "Context"
+    },
+    "versions": {
+      "available": "Available module versions"
+    },
+    "empty": {
+      "title": "No modules found",
+      "description": "It appears that no modules match your search. Please adjust your search criteria to continue."
     }
   },
   "sponsors": {

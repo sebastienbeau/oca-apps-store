@@ -15,9 +15,13 @@
             {{ t('modules.bugTracker.title') }}
           </ProseH2>
           <MDC
-            v-if="module?.bugTracker.instructions"
+            v-if="module?.bugTracker?.instructions"
             :value="module.bugTracker.instructions"
+            class="text-white"
           />
+          <ProseP v-else class="text-white">
+            {{ t('modules.bugTracker.description') }}
+          </ProseP>
           <div class="flex justify-end py-3">
             <UButton
               v-if="module?.bugTracker?.url"

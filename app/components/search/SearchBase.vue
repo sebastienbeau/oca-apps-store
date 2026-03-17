@@ -64,9 +64,11 @@
           />
         </div>
         <template v-else-if="results.hits.length === 0">
-          <div class="text-muted py-10 text-center">
-            {{ t('search.noresults') }}
-          </div>
+          <slot name="empty">
+            <div class="text-muted py-10 text-center">
+              {{ t('search.noresults') }}
+            </div>
+          </slot>
         </template>
         <template v-else>
           <div class="pb-3">

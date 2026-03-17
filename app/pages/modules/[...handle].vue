@@ -1,23 +1,12 @@
 <template>
-  <div v-if="module" class="flex flex-col">
+  <div v-if="module?.id" class="flex flex-col">
     <div class="relative py-4 lg:pt-10 lg:pb-32">
       <div
         class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-neutral-50/50 content-['']"
       ></div>
       <div class="flex flex-col gap-y-3 lg:flex-row">
         <div class="lg:w-5/8 lg:pr-5">
-          <UBreadcrumb
-            :items="[
-              { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
-              {
-                label: module?.category || '',
-                to: `/modules?category=${module?.category}`,
-                icon: 'category',
-              },
-              { label: module?.name || '' },
-            ]"
-            class="mt-8 mb-6"
-          />
+          <UBreadcrumb :items="breadCrumb" class="mt-8 mb-6" />
           <USeparator />
           <div class="pt-6 lg:max-w-xl xl:max-w-2xl">
             <ProseH1
@@ -28,7 +17,18 @@
                 {{ getLastWord(module?.name) }}
               </span>
             </ProseH1>
+
             <MDC v-if="module?.description" :value="module.description" />
+            <USeparator v-if="module?.description" class="my-6" />
+            <UFormField :label="t('modules.versions.available')">
+              <ModuleVersionList
+                v-if="moduleGrouped"
+                :module-grouped="moduleGrouped"
+                :selected-module="module"
+                size="md"
+                @select="onChangeVersion"
+              />
+            </UFormField>
           </div>
         </div>
         <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12">
@@ -36,6 +36,7 @@
             v-if="moduleGrouped"
             v-motion-slide-visible-top
             :module-grouped="moduleGrouped"
+            :selected-module="module"
             class="mx-auto w-full max-w-2xl translate-y-7"
             @version-change="onChangeVersion"
           />
@@ -90,17 +91,18 @@
 </template>
 
 <script lang="ts" setup>
-import { type ModuleGroupedHit } from '~~/models'
+import type { ModuleGroupedHit, Module } from '~~/models'
 
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const moduleService = useService('modules')
 const { data: moduleGrouped, error } =
   await useAsyncData<ModuleGroupedHit | null>(
     `module-${route.params.handle}`,
     () => moduleService.findByURLKey(route.params.handle as string),
     {
-      watch: [route],
+      watch: [route.path],
     }
   )
 
@@ -111,8 +113,33 @@ if (moduleGrouped.value == null || error.value) {
     fatal: true,
   })
 }
-const module = ref(moduleGrouped.value?.hits[0])
+
+let selectedVersion = moduleGrouped.value?.hits?.[0]
+if (route?.query?.version) {
+  selectedVersion =
+    moduleGrouped.value?.hits.find(
+      (hit) => hit.version === route.query.version
+    ) || selectedVersion
+}
+
+const module = ref<Module | null>(selectedVersion)
 const image = computed(() => module.value?.iconUrl || '/oca-logo.png')
+const breadCrumb = computed(() => {
+  const items = [
+    { label: t('nav.modules.title'), to: '/modules', icon: 'module' },
+  ]
+  if (module.value?.repository?.category?.name) {
+    items.push({
+      icon: 'category',
+      label: module.value.repository.category.name,
+      to: `/categories/${module.value.repository.category.urlKey}`,
+    })
+  }
+  items.push({
+    label: module.value.name,
+  })
+  return items
+})
 
 useSeoMeta({
   title: module.value?.name || '',
@@ -133,6 +160,7 @@ useSchemaOrg(
     url: module.value?.website || '',
     softwareVersion: module.value?.version || '',
     downloadUrl: module.value?.website || '',
+    version: module.value?.version || '',
   })
 )
 
@@ -140,6 +168,11 @@ const onChangeVersion = (version: string) => {
   const found = moduleGrouped.value?.hits.find((hit) => hit.version === version)
   if (found) {
     module.value = found
+    router.replace({
+      query: {
+        version: found.version,
+      },
+    })
   }
 }
 </script>

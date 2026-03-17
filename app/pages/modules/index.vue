@@ -80,6 +80,16 @@
     <template #hit="{ hit, index, total }">
       <ModuleHit :variant="displayMode" :module-grouped="hit" />
     </template>
+    <template #empty>
+      <div>
+        <UEmpty
+          variant="naked"
+          icon="module"
+          :title="t('modules.empty.title')"
+          :description="t('modules.empty.description')"
+        />
+      </div>
+    </template>
   </SearchBase>
 </template>
 

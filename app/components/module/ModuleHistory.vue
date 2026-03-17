@@ -3,6 +3,7 @@
     <ProseH2 class="my-2 text-2xl text-primary md:text-3xl">
       {{ t('modules.history.title') }}
     </ProseH2>
+    <slot name="header" />
     <UChangelogVersions
       v-if="versions?.length"
       :ui="{
