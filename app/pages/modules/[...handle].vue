@@ -28,16 +28,16 @@
                 {{ getLastWord(module?.name) }}
               </span>
             </ProseH1>
-            <ProseP v-if="module?.description" v-html="module.description" />
+            <MDC v-if="module?.description" :value="module.description" />
           </div>
         </div>
         <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12">
           <ModuleDownload
             v-if="moduleGrouped"
-            :module-grouped="moduleGrouped"
             v-motion-slide-visible-top
-            @version-change="onChangeVersion"
+            :module-grouped="moduleGrouped"
             class="mx-auto w-full max-w-2xl translate-y-7"
+            @version-change="onChangeVersion"
           />
         </div>
       </div>
@@ -47,14 +47,19 @@
         class="absolute -top-10 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
       />
       <div class="flex flex-col gap-2 lg:flex-row">
-        <div v-if="module?.readmeFragments?.configure" class="flex-1">
-          <ProseH2 class="my-2 text-2xl text-info md:text-3xl">
-            {{ t('modules.settings.title') }}
-          </ProseH2>
-          <ProseP
-            v-html="module?.readmeFragments?.configure"
-            class="prose mt-2 lg:mt-6"
-          />
+        <div class="flex flex-col gap-4">
+          <div v-if="module?.readmeFragments?.install" class="flex-1">
+            <ProseH2 class="mt-2 text-2xl text-secondary md:text-3xl">
+              {{ t('modules.install.title') }}
+            </ProseH2>
+            <MDC :value="module.readmeFragments.install" />
+          </div>
+          <div v-if="module?.readmeFragments?.configure" class="flex-1">
+            <ProseH2 class="mt-2 text-2xl text-info md:text-3xl">
+              {{ t('modules.settings.title') }}
+            </ProseH2>
+            <MDC :value="module.readmeFragments.configure" />
+          </div>
         </div>
         <div
           v-if="
@@ -72,8 +77,11 @@
         </div>
       </div>
     </div>
+
     <ModuleUsage :module="module" />
-    <ModuleInstall :module="module" />
+    <ModuleContext :module="module" />
+    <ModuleHistory :module="module" />
+    <ModuleRoadMap :module="module" />
     <ModuleBugTracker :module="module" />
     <ModuleMaintainer :module="module" />
     <ModuleDependencies :module="module" />
@@ -86,7 +94,6 @@ import { type ModuleGroupedHit } from '~~/models'
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
 const moduleService = useService('modules')
 const { data: moduleGrouped, error } =
   await useAsyncData<ModuleGroupedHit | null>(
@@ -96,6 +103,7 @@ const { data: moduleGrouped, error } =
       watch: [route],
     }
   )
+
 if (moduleGrouped.value == null || error.value) {
   throw createError({
     statusCode: error?.value ? 500 : 404,

@@ -67,6 +67,15 @@ export default defineAppConfig({
       tip: 'i-ph-lightbulb',
       upload: 'i-ph-upload',
       warning: 'i-ph-warning'
+    },
+    changelogVersion: {
+      slots: {
+        container: 'max-w-3xl',
+        dotInner: 'bg-secondary',
+        dot: 'ring-secondary/30',
+        title: 'text-secondary',
+        header: 'bg-muted/50 py-5 px-6 rounded-xl rounded-tl-none ring-1 ring-muted/40',
+      }
     }
   },
 

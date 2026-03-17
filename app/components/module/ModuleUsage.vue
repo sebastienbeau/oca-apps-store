@@ -1,20 +1,18 @@
 <template>
   <div
     v-if="module?.readmeFragments?.usage"
-    class="relative flex justify-end py-10 md:py-16 mb-14 md:mb-20"
+    class="relative flex justify-end py-10 md:py-16"
   >
     <div
       style="background-image: url(/logo-bg.png)"
-      class="hidden md:block w-screen absolute bg-no-repeat bg-bottom-left max-lg:bg-size-[150px] opacity-20 left-1/2 transform -translate-x-1/2 h-[130%] top-0 -z-10"
+      class="max-lg:bg-size-full absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 transform bg-muted bg-size-[200px_auto] bg-no-repeat opacity-20 lg:block lg:bg-size-[400px_auto] lg:bg-position-[left_-200px_bottom_2rem]"
     />
 
-    <div
-      class="w-full md:max-w-[85vw] lg:max-w-[70vw] xl:max-w-[75vw] 2xl:max-w-none"
-    >
-      <ProseH2 class="text-secondary text-2xl md:text-3xl my-2">
+    <div class="w-full lg:max-w-[75vw] xl:max-w-[75vw] 2xl:max-w-none">
+      <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
         {{ t('modules.usage.title') }}
       </ProseH2>
-      <ProseP v-html="module?.readmeFragments?.usage" class="pt-3 prose" />
+      <MDC :value="module.readmeFragments.usage" />
       <div class="text-right">
         <ModuleRunboat :module="module" size="lg" />
       </div>

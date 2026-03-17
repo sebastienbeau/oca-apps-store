@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in info"
       :key="item.label"
-      class="flex gap-2 items-center"
+      class="flex items-center gap-2"
     >
       <UAvatar :icon="item.icon" />
       <div class="flex-1">
@@ -12,10 +12,10 @@
         </div>
         <div class="text-sm">
           <a
-            v-if="item.link"
+            v-if="item?.link"
             :href="item.link"
             target="_blank"
-            class="text-primary hover:underline flex items-center gap-1"
+            class="flex items-center gap-1 text-primary hover:underline"
           >
             {{ item.value }}
             <UIcon name="external" />

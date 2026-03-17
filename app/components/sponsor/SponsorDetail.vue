@@ -1,6 +1,6 @@
 <template>
   <div v-if="sponsor">
-    <SponsorHeroBanner :sponsor="sponsor" />
+    
     <SponsorIndustries
       v-if="sponsorLevel"
       :sponsor="sponsor"

@@ -125,7 +125,6 @@ export class ModuleService extends BaseServiceTypeSense {
           filter_by: filterBy,
           facet_by: facet.field,
           group_by: 'url_key',
-          sort_by: `${facet.field}:desc`,
           per_page: 0,
           max_facet_values: facet.perPage,
         })

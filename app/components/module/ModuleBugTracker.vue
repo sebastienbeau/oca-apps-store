@@ -1,30 +1,42 @@
 <template>
   <div class="">
-
-    <div v-if="module" class="relative py-16 lg:py-20 xl:py-24 -mt-15">
+    <div v-if="module" class="relative -mt-15 py-16 lg:py-20 xl:py-24">
       <div
-        class="w-screen absolute left-1/2 transform -translate-x-1/2 h-full top-0 -z-[5] bg-primary-500 bg-linear-to-r from-primary-500 via-primary-600  to-secondary-900/50  overflow-hidden">
-        <UIcon name="i-solar-bug-bold"
-          class="hidden absolute -right-20 top-5 xl:right-10 xl:top-10 2xl:right-20 2xl:top-10 md:flex size-64 text-white opacity-15 -rotate-45 border" />
+        class="absolute top-0 left-1/2 -z-[5] h-full w-screen -translate-x-1/2 transform overflow-hidden bg-primary-500 bg-linear-to-r from-primary-500 via-primary-600 to-secondary-900/50"
+      >
+        <UIcon
+          name="i-solar-bug-bold"
+          class="absolute top-5 -right-20 hidden size-64 -rotate-45 border text-white opacity-15 md:flex xl:top-10 xl:right-10 2xl:top-10 2xl:right-20"
+        />
       </div>
-      <div class="flex gap-16 items-center md:px-10 relative ">
+      <div class="relative flex items-center gap-16 md:px-10">
         <div class="w-full md:w-10/12">
-          <ProseH2 class="text-secondary text-2xl md:text-3xl my-2">
+          <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
             {{ t('modules.bugTracker.title') }}
           </ProseH2>
-          <ProseP v-html="module.bugTracker.instructions" class="pt-3 text-white prose" />
+          <MDC
+            v-if="module?.bugTracker.instructions"
+            :value="module.bugTracker.instructions"
+          />
           <div class="flex justify-end py-3">
-            <UButton v-if="module?.bugTracker?.url" :href="module.bugTracker.url" variant="solid" size="lg"
-              color="secondary" target="_blank" class="mt-4" :label="t('modules.bugTracker.goTo')" />
+            <UButton
+              v-if="module?.bugTracker?.url"
+              :href="module.bugTracker.url"
+              variant="solid"
+              size="lg"
+              color="secondary"
+              target="_blank"
+              class="mt-4"
+              :label="t('modules.bugTracker.goTo')"
+            />
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import type { Module } from '~~/models';
+import type { Module } from '~~/models'
 
 const props = defineProps<{
   module: Module | null

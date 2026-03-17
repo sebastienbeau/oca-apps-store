@@ -8,10 +8,10 @@
     }"
   >
     <template #header>
-      <div class="flex items-center text-info gap-2 py-2">
+      <div class="flex items-center gap-2 py-2 text-info">
         <UIcon name="module" class="size-14 md:size-18" />
         <div>
-          <div class="text-xl md:text-4xl font-bold">
+          <div class="text-xl font-bold md:text-4xl">
             Download
             <span class="text-secondary">it</span>
           </div>
@@ -41,7 +41,7 @@
     </template>
     <ModuleInfo v-if="module" :module="module" />
     <template #footer>
-      <div class="flex justify-between items-end gap-4">
+      <div class="flex items-end justify-between gap-4">
         <UFormField :label="t('modules.version.label')">
           <USelect
             v-model="selectedVersion"

@@ -1,13 +1,11 @@
 // @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs'
 import pluginVue from 'eslint-plugin-vue'
-import tailwind from 'eslint-plugin-tailwindcss'
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 
 export default withNuxt(
   // Your custom configs here
   ...pluginVue.configs['flat/recommended'],
-  ...tailwind.configs['flat/recommended'],
   ...vueI18n.configs.recommended,
   {
     rules: {

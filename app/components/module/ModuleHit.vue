@@ -11,9 +11,9 @@
     <template #header>
       <div class="flex items-center gap-4" @click="goToModule">
         <ModuleImage :module="module" />
-        <div class="flex flex-col justify-start items-start gap-1">
+        <div class="flex flex-col items-start justify-start gap-1">
           <ProseH3
-            class="font-semibold font-heading text-primary text-xl my-0 leading-6 line-clamp-2"
+            class="my-0 line-clamp-2 font-heading text-xl leading-6 font-semibold text-primary"
           >
             {{ removeLastWord(module.name) }}
             <span class="text-secondary-500">
@@ -42,10 +42,10 @@
           {{ module.repository?.name }}
         </div>
       </div>
-      <div class="flex-1 h-full">
+      <div class="h-full flex-1">
         <p
           v-if="module?.summary"
-          class="text-gray-500 dark:text-gray-400 text-sm line-clamp-4"
+          class="line-clamp-4 text-sm text-gray-500 dark:text-gray-400"
         >
           {{ module.summary }}
         </p>
@@ -69,7 +69,7 @@
         <NuxtLink :to="module.website" class="" target="_blank">
           <UIcon
             name="github"
-            class="text-gray-900 not-only:inline-block p-2 mr-1"
+            class="mr-1 p-2 text-gray-900 not-only:inline-block"
             width="32"
             height="32"
           />
