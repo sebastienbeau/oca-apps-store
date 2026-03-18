@@ -90,10 +90,10 @@ export default defineNuxtConfig({
       ssr: true,
     },
     'modules/**': {
-      ssr: false,
+      ssr: true,
     },
     'modules': {
-      ssr: false,
+      ssr: true,
     },
   },
   sourcemap: {
@@ -102,12 +102,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-16',
   nitro: {
-    prerender: {
-      // Pre-render the homepage
-      routes: ['/'],
-      // Then crawl all the links on the page
-      crawlLinks: false,
-    },
     storage: {
       db: {
         driver: 'fs',
