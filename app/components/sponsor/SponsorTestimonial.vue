@@ -1,7 +1,7 @@
 <template>
   <div v-if="sponsor.sponsorship?.descriptionWhyOca" class="relative py-4">
     <div
-      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 transform bg-primary-500"
+      class="absolute -top-12 left-1/2 -z-10 h-[110%] w-screen -translate-x-1/2 transform bg-primary-500"
     />
     <img
       src="/img/oca_logo_bckg_white.png"
@@ -15,7 +15,7 @@
       :ui="{
         root: 'ring-0 bg-primary-500',
         header: 'flex flex-col justify-center ',
-        container: 'md:flex lg:flex',
+        container: 'md:flex lg:flex py-6 sm:py-10 lg:py-16',
         title: 'text-white sm:text-6xl font-extralight py-10',
         description: 'text-white mx-auto text-lg mt-4',
       }"
@@ -26,9 +26,10 @@
             <icon name="fe:quote-left" class="mb-4 text-6xl text-white" />
           </div>
           <div class="md:col-span-9">
-            <p class="text-lg text-white">
-              {{ sponsor.sponsorship.descriptionWhyOca }}
-            </p>
+            <MDC
+              :value="sponsor.sponsorship.descriptionWhyOca"
+              class="text-white"
+            />
           </div>
         </div>
       </template>

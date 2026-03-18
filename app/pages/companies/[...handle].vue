@@ -1,8 +1,11 @@
 <template>
-  <UBreadcrumb :items="breadcrumb" class="mt-8 mb-6" />
-  <USeparator />
-  <CompanyHeroBanner :company="company" />
-  <SponsorDetail v-if="company && company?.sponsorship" :sponsor="company" />
+  <div v-if="company">
+    <UBreadcrumb :items="breadcrumb" class="mt-8 mb-6" />
+    <USeparator />
+    <SponsorDetail v-if="company && company?.sponsorship" :sponsor="company" />
+    <CompanyHeroBanner v-else :company="company" />
+    <CompanyContributor :company="company" />
+  </div>
 </template>
 
 <script lang="ts" setup>

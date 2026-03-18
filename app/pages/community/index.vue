@@ -6,7 +6,7 @@
     v-model:sort-by="sortBy"
     :infinite-scroll="false"
     :search-function="searchFunction"
-    :perPage="perPage"
+    :per-page="perPage"
     :ui="ui"
   >
     <template #header>
@@ -106,20 +106,4 @@ const ui = computed(() => {
         : 'gap-3 sm:gap-5',
   }
 })
-
-const links = ref([
-  {
-    label: t('community.page.become_button'),
-    to: '/docs/getting-started',
-    color: 'primary',
-    icon: 'i-lucide-square-play',
-  },
-  {
-    label: t('community.page.learn_more'),
-    to: '/docs/getting-started/theme/design-system',
-    color: 'neutral',
-    variant: 'subtle',
-    trailingIcon: 'i-lucide-arrow-right',
-  },
-])
 </script>

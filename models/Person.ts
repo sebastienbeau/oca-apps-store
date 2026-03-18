@@ -32,3 +32,8 @@ export interface Person {
     website: string
   } | undefined
 }
+
+export interface PersonResult {
+  hits: Person[]
+  total: number
+}

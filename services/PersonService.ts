@@ -1,7 +1,6 @@
 import { BaseServiceTypeSense } from '~~/services'
+import type { Person, PersonResult, PersonRole, FacetSearchParam, FacetSearchResult } from '~~/models'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { Person, FacetSearchParam, FacetSearchResult } from '~~/models'
-import type { PersonRole } from '~~/models/Person'
 import type { SitemapUrlInput } from '#sitemap/types'
 
 interface PersonSchema {
@@ -137,16 +136,28 @@ export class PersonService extends BaseServiceTypeSense {
 
     return urls || []
   }
+  async getPersonsByCompanyId(companyId: number, searchTerms: string, page: number): Promise<PersonRole> {
+    const query = { 
+      q: searchTerms || '*', 
+      query_by: 'name',
+      page,
+      per_page: 9
+    }
+
+    const result = await super.performSearch<PersonSchema>({
+      ...query,
+      //filter_by: `company_id:=${companyId}`,
+    })
+    return {
+      hits: this.hits(result?.hits) || [],
+      found: result?.found || 0,
+    }
+  }
   jsonToModel(json: PersonSchema): Person {
     return PersonFactory.createPerson(json)
   }
 
 }
-
-
-
-
-
 
 export const PersonFactory = {
   createPerson(json: any): Person {

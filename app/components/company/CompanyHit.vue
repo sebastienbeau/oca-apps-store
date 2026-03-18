@@ -1,9 +1,9 @@
 <template>
   <UCard
     :ui="{
-      root: 'hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer',
-      header: 'border-b-0 sm:px-4',
-      body: 'py-2 sm:py-3 sm:px-4 border-b-0',
+      root: 'cursor-pointer ring ring-default hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer',
+      header: 'border-b-0 sm:px-4 pb-0 sm:pb-0',
+      body: 'pb-2 sm:pb-3 pt-0 sm:pt-1 sm:px-4 border-b-0',
     }"
     @click="onClick"
   >
@@ -16,7 +16,7 @@
         />
         <div class="flex w-full items-center justify-between gap-1">
           <div class="flex-1 text-xl font-semibold">
-            <nuxt-link :to="`/companies/${company.id}`">
+            <nuxt-link :to="`/companies/${company.urlKey}`">
               {{ company.name }}
             </nuxt-link>
           </div>
