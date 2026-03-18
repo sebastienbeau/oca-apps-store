@@ -1,5 +1,7 @@
+import { version } from '../package.json'
 export default defineAppConfig({
   // https://ui.nuxt.com/getting-started/theme#design-system
+  version,
   ui: {
     colors: {
       primary: 'primary',

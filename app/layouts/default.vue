@@ -1,7 +1,7 @@
 <template>
   <div class="subpixel-antialiased">
     <AppHeader />
-    <UContainer class="">
+    <UContainer>
       <slot />
       <AppBottomNav />
     </UContainer>

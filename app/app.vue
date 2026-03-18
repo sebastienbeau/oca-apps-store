@@ -31,6 +31,7 @@ import { useNetwork } from '@vueuse/core'
 const { t } = useI18n()
 const network = reactive(useNetwork())
 const isOnline = computed(() => network.isOnline)
+
 useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} - ${t('seo.title')}` : t('seo.title')

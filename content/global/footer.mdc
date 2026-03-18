@@ -1,10 +1,49 @@
+::u-footer-columns
 ---
-hello: world
+columns:
+  - label: 'Community'
+    children:
+      - label: 'Join the Community'
+        to: 'https://odoo-community.org/get-involved/become-a-member'
+        target: '_blank'
+        icon: 'community'
+      - label: 'Our members'
+        to: '/community'
+        icon: 'members'
+      - label: 'OCA on GitHub'
+        to: 'https://github.com/OCA'
+        target: '_blank'
+        icon: 'github'
+  - label: 'Sponsors'
+    children:
+      - label: 'Become a Sponsor'
+        to: 'https://odoo-community.org/get-involved/become-a-sponsor'
+        icon: 'sponsor'
+      - label: 'Our Sponsors'
+        to: '/sponsors'
+        icon: 'sponsor'
+  - label: 'Our open source Odoo App'
+    children:
+      - label: 'Browse Modules'
+        to: '/apps'
+        icon: 'module'
+      - label: 'Module by Category'
+        to: '/apps/categories'
+        icon: 'category'
+      - label: 'Contribute a Module'
+        to: 'https://odoo-community.org/get-involved/become-a-contributor'
+        icon: 'community'
+  
+
 ---
 
+#left
+![OCA Logo](/logo-light.png){.w-32.pb-5}
 The **Odoo Community Association (OCA)** is a non-profit organization
 that brings together developers, integrators, and users to collaborate
 on open-source modules for Odoo. Our **members** are the backbone of
 this community, contributing code, expertise, and resources to ensure
 the growth and sustainability of the OCA ecosystem.
+
+::
 

@@ -229,5 +229,9 @@
     "description": {
       "default": "{company} is a company member of  the Odoo Community Association"
     }
+  },
+  "footer": {
+    "version": "Version { version }",
+    "copyright": "Copyright © Odoo Community Association"
   }
 }
