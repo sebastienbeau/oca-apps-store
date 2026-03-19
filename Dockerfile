@@ -2,7 +2,7 @@
 
 FROM node:24-alpine AS build
 WORKDIR /app
-
+ENV NODE_OPTIONS="--max-old-space-size=8192"
 RUN corepack enable
 
 # Copy package.json and your lockfile, here we add pnpm-lock.yaml for illustration
