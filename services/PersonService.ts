@@ -137,9 +137,10 @@ export class PersonService extends BaseServiceTypeSense {
     return urls || []
   }
   async getPersonsByCompanyId(companyId: number, searchTerms: string, page: number): Promise<PersonRole> {
-    const query = { 
-      q: searchTerms || '*', 
+    const query = {
+      q: searchTerms || '*',
       query_by: 'name',
+      filter_by: `company_id:=${companyId}`,
       page,
       per_page: 9
     }

@@ -36,7 +36,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
 import type { Company, PersonRole } from '~~/models'
 const props = defineProps<{
   company: Company
@@ -48,7 +47,7 @@ const personService = useService('persons')
 const { data: contributors } = useAsyncData<PersonRole>(
   () => {
     return personService.getPersonsByCompanyId(
-      props.company.id,
+      parseInt(props.company.id),
       searchTerms.value,
       page.value
     )

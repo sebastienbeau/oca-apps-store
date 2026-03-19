@@ -2,7 +2,7 @@
   <UBadge
     v-if="person && person.country?.label"
     color="primary"
-    variant="solid"
+    variant="subtle"
     size="sm"
     class="rounded-full px-4"
   >

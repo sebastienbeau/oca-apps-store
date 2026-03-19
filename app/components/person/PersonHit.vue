@@ -23,7 +23,7 @@
               variant="ghost"
               :to="`https://github.com/${person.username}`"
               leading-icon="line-md:github"
-              size="sm"
+              size="xs"
               :label="person.username"
               target="_blank"
               :ui="{
@@ -36,15 +36,15 @@
       </div>
       <div
         :class="{
-          'flex flex-col items-end': variant === 'grid',
+          'flex flex-col items-start': variant === 'grid',
           'inline-flex flex-row items-center gap-1': variant == 'list',
         }"
       >
         <PersonCountry :person="person" />
-        <PersonCompany :person="person" />
       </div>
     </template>
     <PersonBadges :person="person" />
+    <PersonCompany :person="person" />
     <div class="grid grid-cols-2 pt-4 text-xs">
       <PersonStats
         :person="person"
@@ -85,7 +85,7 @@ const ui = computed(() => {
   const ui = {
     root: 'w-full shadow cursor-pointer justify-start flex flex-col',
     header: ' flex items-center gap-3 p-3 sm:p-4',
-    body: 'p-3 sm:p-4 py-0 sm:py-0 flex-1 h-full grow border-b-0',
+    body: 'p-3 sm:p-4 py-2 sm:py-2 flex-1 h-full grow border-b-0',
     footer: 'p-3 sm:p-4 ',
   }
   if (props?.variant === 'list') {

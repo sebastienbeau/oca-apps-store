@@ -2,18 +2,25 @@
   <UPageGrid :class="ui?.root">
     <template v-if="!isLoading || infiniteScroll">
       <template v-for="(hit, index) in hits" :key="hit.id">
-        <div v-if="infiniteScroll && index % perPage === 0" ref="pageDelimiter" class="col-span-full"
-          :data-page="index / perPage" />
-        <slot name="hit" :hit="hit" :index="index" :total="total">
-
-        </slot>
+        <div
+          v-if="infiniteScroll && index % perPage === 0"
+          ref="pageDelimiter"
+          class="col-span-full"
+          :data-page="index / perPage"
+        />
+        <slot name="hit" :hit="hit" :index="index" :total="total"> </slot>
       </template>
     </template>
     <template v-if="isLoading">
       <slot name="loading">
-        <UCard v-for="n in perPage" :key="n" :field="n" :ui="{ header: 'p-0 sm:p-0 h-64 sm:h-48 md:h-64' }">
+        <UCard
+          v-for="n in perPage"
+          :key="n"
+          :field="n"
+          :ui="{ header: 'p-0 sm:p-0 h-64 sm:h-48 md:h-64' }"
+        >
           <template #header>
-            <USkeleton class="h-64 sm:h-48 md:h-64 w-full" />
+            <USkeleton class="h-64 w-full sm:h-48 md:h-64" />
           </template>
           <div class="grid gap-2">
             <USkeleton class="h-4 w-[250px]" />
@@ -23,9 +30,14 @@
       </slot>
     </template>
   </UPageGrid>
-  <div ref="paginationElement" class="flex justify-center mt-4">
-    <UPagination v-if="!infiniteScroll && total > perPage" :default-page="page" :per-page="perPage" :total="total"
-      @update:page="changePage" />
+  <div ref="paginationElement" class="mt-4 flex justify-center">
+    <UPagination
+      v-if="!infiniteScroll && total > perPage"
+      :default-page="page"
+      :per-page="perPage"
+      :total="total"
+      @update:page="changePage"
+    />
   </div>
 </template>
 
@@ -70,7 +82,7 @@ const setInfiniteScroll = () => {
       canLoadMore: () => {
         return props.hits.length < props.total
       },
-    },
+    }
   )
 }
 
@@ -91,7 +103,7 @@ const setIntersectionObserver = () => {
         })
       }
     },
-    { threshold: 1.0 }, // Déclenche quand la sentinelle est visible à 100%
+    { threshold: 1.0 } // Déclenche quand la sentinelle est visible à 100%
   )
 
   for (const elem of pageDelimiter.value || []) {
@@ -120,12 +132,12 @@ watch(
   () => props.hits,
   (newVal, oldVal) => {
     if (
-      props.infiniteScroll
-      && newVal?.length
-      && newVal.length > (oldVal?.length || 0)
+      props.infiniteScroll &&
+      newVal?.length &&
+      newVal.length > (oldVal?.length || 0)
     ) {
       setIntersectionObserver()
     }
-  },
+  }
 )
 </script>

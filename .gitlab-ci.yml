@@ -11,14 +11,14 @@ workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       variables:
-        PIPELINE_NAME: "MR pipeline: $CI_COMMIT_BRANCH"
-        IS_MR: "true"
+        PIPELINE_NAME: 'MR pipeline: $CI_COMMIT_BRANCH'
+        IS_MR: 'true'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
-        PIPELINE_NAME: "default branch pipeline: $CI_COMMIT_BRANCH"
+        PIPELINE_NAME: 'default branch pipeline: $CI_COMMIT_BRANCH'
     - if: $CI_COMMIT_BRANCH == "main"
       variables:
-        PIPELINE_NAME: "main branch pipeline: $CI_COMMIT_BRANCH"
+        PIPELINE_NAME: 'main branch pipeline: $CI_COMMIT_BRANCH'
 
 stages:
   - maintenance
@@ -65,8 +65,6 @@ before_script:
 build:
   stage: build
   script:
-    - git submodule init
-    - git submodule update
     - docker compose build --pull
 
 # Drop the database to restart from a fresh one
@@ -84,7 +82,7 @@ build:
 review:
   stage: review
   script:
-#    - echo "DB_NAME=$BUILD_NAME" >> .env
+    #    - echo "DB_NAME=$BUILD_NAME" >> .env
     - docker compose kill
     - docker compose up -d
   environment:
@@ -112,7 +110,7 @@ stop_review:
 review_preprod:
   stage: review_preprod
   script:
-#    - echo "DB_NAME=$BUILD_NAME" >> .env
+    #    - echo "DB_NAME=$BUILD_NAME" >> .env
     - echo "DOMAIN=${CI_PROJECT_NAME}_preprod.${CI_DOMAIN}"
     - echo "DOMAIN=${CI_PROJECT_NAME}_preprod.${CI_DOMAIN}" >> .env
     - docker compose kill

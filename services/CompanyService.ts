@@ -51,6 +51,7 @@ export class CompanyService extends BaseServiceTypeSense {
       page,
       per_page: perPage,
       sort_by: 'sponsor_level.id:asc',
+
     })
     return {
       total: result?.found || 0,
@@ -215,10 +216,7 @@ export const CompanyFactory = {
       email: json?.email || '',
       countries: this.createCompanyCountries(json?.countries),
       phone: json?.phone || '',
-      website: {
-        url: json?.website || '',
-        label: this.getWebsiteLabel(json),
-      },
+      website: this.getWebsite(json),
       isIntegrator: json.is_integrator || false,
       collaboratorIndex: json.collaborator_index || 0,
       contributorsCount: json.contributors_count || '0',
@@ -233,12 +231,22 @@ export const CompanyFactory = {
     }
     return company
   },
-  getWebsiteLabel(json: any): string {
-    if (!json?.website) {
-      return ''
+  getWebsite(json: any) {
+    try {
+      if (!json?.website) {
+        throw new Error('No website')
+      }
+      const url = new URL(json?.website)
+      return {
+        url: url.href,
+        label: url.hostname.replace('www.', ''),
+      }
+    } catch (e) {
+      return {
+        url: '',
+        label: '',
+      }
     }
-    const url = new URL(json?.website)
-    return url?.host.replace('www.', '')
   },
   createCompanyCountries(json: any): CompanyCountry[] {
     if (!Array.isArray(json)) {

@@ -1,16 +1,6 @@
 <template>
   <div v-if="person">
-    <UBreadcrumb
-      :items="[
-        {
-          label: t('nav.community.title'),
-          to: '/community',
-          icon: 'community',
-        },
-        { label: person?.name || '', icon: 'person' },
-      ]"
-      class="mt-8 mb-6"
-    />
+    <UBreadcrumb :items="breadCrumb" class="mt-8 mb-6" />
     <USeparator />
     <div class="py-8">
       <PersonHeroBanner :person="person" />
@@ -50,6 +40,7 @@
 </template>
 <script lang="ts" setup>
 const { t } = useI18n()
+import { breadcrumb } from '#build/ui'
 import type { Person, Module } from '~/models'
 
 const person = ref<Person | null>(null)
@@ -58,7 +49,24 @@ const route = useRoute()
 
 const personService = useService('persons')
 const modulesService = useService('modules')
-
+const breadCrumb = computed(() => {
+  const items: any = [
+    {
+      label: t('nav.community.title'),
+      to: '/community',
+      icon: 'community',
+    },
+  ]
+  if (person.value?.company) {
+    items.push({
+      label: person?.value?.company || '',
+      to: '/community/companies',
+      icon: 'company',
+    })
+  }
+  items.push({ label: person?.value?.name || '', icon: 'person' })
+  return items
+})
 const getPersonByUrlKey = async () => {
   const res = await personService.getPersonByUrlKey(
     {},

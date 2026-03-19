@@ -76,21 +76,6 @@ const sortOptions = computed(() => {
   ]
 })
 const sortBy = ref('sponsorship.level.id:asc')
-const links = ref([
-  {
-    label: t('sponsors.page.become_button'),
-    to: '/docs/getting-started',
-    color: 'primary',
-    icon: 'i-lucide-square-play',
-  },
-  {
-    label: t('sponsors.page.learn_more'),
-    to: '/docs/getting-started/theme/design-system',
-    color: 'neutral',
-    variant: 'subtle',
-    trailingIcon: 'i-lucide-arrow-right',
-  },
-])
 
 const facets: Facet[] = [
   {

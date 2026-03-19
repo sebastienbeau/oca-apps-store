@@ -49,13 +49,6 @@
     "notFound": "Company not found"
   },
   "modules": {
-    "page": {
-      "title": "Odoo open source apps",
-      "title_emphasis": "by OCA",
-      "description": "Made by the OCA community with love",
-      "become_button": "Become an OCA contributor",
-      "learn_more": "Find out how to get involved"
-    },
     "technical_name": "Technical name",
     "sort": {
       "name_asc": "Sort by name A-Z",
@@ -148,13 +141,7 @@
   "sponsors": {
     "become": "Become a {name} Sponsor",
     "back-btn": "Back to sponsors list page",
-    "page": {
-      "title": "OCA",
-      "title_emphasis": "Sponsors",
-      "description": "Sponsor the Odoo Community Association and align your brand with the leading open-source ERP ecosystem. Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality apps that power modern enterprises. Let’s build the future of open-source, together.",
-      "become_button": "Become a Sponsor",
-      "learn_more": "Why sponsor the OCA ?"
-    },
+
     "search": {
       "placeholder": "Search sponsors..."
     },
@@ -175,14 +162,7 @@
       "title": "Our experience within the OCA"
     }
   },
-  "community": {
-    "page": {
-      "title": "Discover our community ",
-      "description": "Discover our great community of passionate members and contributors around the globe. ",
-      "become_button": "Become a member",
-      "learn_more": "Discover how to contribute"
-    }
-  },
+  "community": {},
   "person": {
     "psc": {
       "title": "Project Steering Commetee"

@@ -95,6 +95,9 @@ export default defineNuxtConfig({
     'modules': {
       ssr: true,
     },
+    'companies': {
+      ssr: false,
+    },
   },
   sourcemap: {
     server: true,

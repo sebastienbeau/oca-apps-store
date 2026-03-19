@@ -1,18 +1,31 @@
 <template>
-  <div
+  <UNavigationMenu
     v-if="person.company"
-    variant="ghost"
-    class="flex gap-0.5 items-center text-sm text-center mx-auto p-0 text-gray-700 dark:text-gray-400 my-2"
-  >
-    <UIcon name="company" class="text-gray-500 not-only:inline-block size-4" />
-    <span class="mx-auto">{{ person.company }}</span>
-  </div>
+    :ui="ui"
+    :items="[
+      {
+        label: person.company,
+        to: `/companies/${person.companyUrlKey}`,
+        icon: 'company',
+        click: (event) => {
+          event.stopPropagation()
+        },
+      },
+    ]"
+  />
 </template>
 <script setup lang="ts">
+import type { icon } from '#build/ui/prose'
+
 const props = defineProps({
   person: {
     type: Object,
     required: true,
   },
 })
+const ui = {
+  linkLeadingIcon: 'text-primary size-3',
+  label: 'text-xs text-muted',
+  link: 'px-0 py-1',
+}
 </script>

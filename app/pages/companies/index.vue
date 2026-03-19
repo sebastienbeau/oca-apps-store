@@ -74,6 +74,7 @@ const sortOptions = computed(() => {
     { label: t('companies.sort.name_desc'), value: 'name:desc' },
   ]
 })
+
 const sortBy = ref('name:asc')
 const query = computed(() => {
   return {
@@ -84,7 +85,13 @@ const query = computed(() => {
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
 const searchTerms = ref('')
-const facets: Facet[] = []
+const facets: Facet[] = [
+  {
+    field: 'countries.label',
+    title: t('sponsors.filters.countries'),
+  },
+]
+
 const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]

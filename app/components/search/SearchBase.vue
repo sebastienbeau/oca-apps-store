@@ -4,12 +4,12 @@
       <slot name="header">
         <UPageHeader class="" />
       </slot>
-      <div ref="container">
+      <div ref="container" class="pb-32">
         <div
-          class="flex flex-col md:flex-row justify-between items-end md:items-center gap-2 pb-5"
+          class="flex flex-col items-end justify-between gap-2 pb-5 md:flex-row md:items-center"
         >
           <slot name="actions"></slot>
-          <div class="flex items-center flex-1 gap-2">
+          <div class="flex flex-1 items-center gap-2">
             <div class="flex-1">
               <slot
                 name="facets"
@@ -65,14 +65,14 @@
         </div>
         <template v-else-if="results.hits.length === 0">
           <slot name="empty">
-            <div class="text-muted py-10 text-center">
+            <div class="py-10 text-center text-muted">
               {{ t('search.noresults') }}
             </div>
           </slot>
         </template>
         <template v-else>
           <div class="pb-3">
-            <div class="text-muted text-xs">
+            <div class="text-xs text-muted">
               {{
                 t('search.results.count', {
                   count: results.found,

@@ -12,6 +12,7 @@ useSeoMeta({
 </script>
 
 <template>
+  <Search></Search>
   <UPage v-if="page">
     <UPageBody>
       <ContentRenderer :value="page" />
