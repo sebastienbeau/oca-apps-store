@@ -162,7 +162,22 @@
       "title": "Our experience within the OCA"
     }
   },
-  "community": {},
+  "community": {
+    "page": {
+      "title": "Discover our community ",
+      "description": "Discover our great community of passionate members and contributors around the globe. ",
+      "become_button": "Become a member",
+      "learn_more": "Discover how to contribute"
+    },
+    "person": {
+      "cta": {
+        "groupsEmptyTitle":  "This person is not yet par of a group",
+        "joinGroupsTitle": "Oca Working Groups",
+        "groupsDescription": "Join one of the OCA working groups and take part of the community",
+        "groupsCtaLabel": "Join one of the working groups"
+      }
+    }
+  },
   "person": {
     "psc": {
       "title": "Project Steering Commetee"
@@ -181,6 +196,7 @@
     "search": {
       "placeholder": "Search members and contributors..."
     }
+   
   },
   "search": {
     "filters": {
@@ -214,8 +230,7 @@
       "found": "1 contributor found | { count } contributors found"
     }
   },
-  "footer": {
-    "version": "Version { version }",
-    "copyright": "Copyright © Odoo Community Association"
+  "generic": {
+    "findOutMore": "Find out more"
   }
 }

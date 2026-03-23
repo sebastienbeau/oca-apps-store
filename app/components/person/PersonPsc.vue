@@ -1,17 +1,17 @@
 <template>
-  <UPageCard  class="" :ui="{
-    root: 'ring-0 hover:shadow-sm bg-transparent rounded-sm md:w-1/4 h-auto ',
-    container: 'p-2 sm:p-4',
-    body: 'sm:px-0 sm:py-2 bg-transparent text-center w-full',
-    header: 'sm:px-2 mb-2 w-full relative border-0 ',
-    footer: 'p-2 sm:px-4 flex justify-center items-center w-full' 
+  <UPageCard  class=""  :ui="{
+    root: 'ring-0  bg-transparent rounded-sm  h-full ',
+    container: 'p-2 sm:p-4 h-full',
+    body: 'sm:px-0 sm:py-2 bg-transparent text-start w-full',
+    header: 'sm:px-0 mb-2 w-full relative border-0 ',
+    footer: 'p-2 sm:px-0 flex justify-start items-start w-full' 
   }">
     <template #header>
-      <div class="text-center py-4" >
-        <UAvatar icon="codicon:github-project" class="mb-0 text-primary bg-primary-100 " size="md" />
+      <div class="text-start py-4" >
+        <UIcon name="psc" class="mb-0 text-secondary size-7" />
       </div>
      
-      <h3 class="text-primary font-bold text-center">{{ psc.name }}</h3>
+      <h3 class="text-primary font-bold text-start">{{ psc.name }}</h3>
     </template>
     <template #body>
       <div class="  ">
@@ -26,7 +26,7 @@
       <UButton to="/abc" variant="outline"  color="neutral" 
         
     > 
-      Find out more</UButton>
+      {{ $t('generic.findOutMore') }}</UButton>
     </template>
   </UPageCard>
 </template>
@@ -36,4 +36,5 @@ import type { PSC } from '~~/models'
 const props = defineProps<{
   psc: PSC
 }>()
+
 </script>

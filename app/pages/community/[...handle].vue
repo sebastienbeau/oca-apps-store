@@ -12,20 +12,25 @@
       />
       <div v-if="displayPersonGroups" class="d-block mx-w-sm mx-auto">
         <PersonGroups :person="person" />
+        
       </div>
-      <div v-else>
+      <div >
+        <USeparator v-if="displayPersonGroups"  icon="mdi-light:chevron-down" />
         <UEmpty
-          title="This person is not yet part of any group"
-          description="Join one  of the OCA working groups and take part of the community"
+          :title="ctaTitle"
+          :description="t('community.person.cta.groupsDescription')"
           variant="naked"
+          :ui="{
+            title: 'text-xl',
+          }"
           :actions="[
             {
-              label: 'Join one of the working groups',
+              label: t('community.person.cta.groupsCtaLabel'),
               icon: 'i-lucide-user-plus',
-              color: 'primary',
+              color: 'secondary',
               to: 'https://odoo-community.org/working-groups',
               target: '_blank',
-            },
+            }
           ]"
         >
           <template #leading>
@@ -103,6 +108,7 @@ const modules = ref<Module[]>()
 
 // modules.value = await getModulesContributionsHits()
 
+
 const displayPersonGroups = computed(() => {
   if (
     person.value.pscList.length > 0 ||
@@ -111,6 +117,14 @@ const displayPersonGroups = computed(() => {
     return true
   } else {
     return false
+  }
+})
+
+const ctaTitle = computed(() => {
+  if (person.value.workGroupList.length && person.value.workGroupList.length > 0) {
+    return t('community.person.cta.joinGroupsTitle')
+  } else {
+    return t('community.person.cta.groupsEmptyTitle')
   }
 })
 </script>

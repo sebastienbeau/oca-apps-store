@@ -14,8 +14,8 @@
         </ProseH1>
         <PersonBadges v-if="person.roles && person.roles.length > 0" :person="person" />
       </template>
-      <template #description v-if="person.username">
-        <div class="text-sm flex items-center">
+      <template #description >
+        <div class="text-sm flex items-center" v-if="person.username">
           <UIcon name="line-md:github" class=" text-gray-900 not-only:inline-block p-2 mr-1" width="16" height="16" />
           <span class=" text-gray-500 dark:text-gray-400"> {{ person.username }}</span>
         </div>
