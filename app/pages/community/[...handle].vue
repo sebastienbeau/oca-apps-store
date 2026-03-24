@@ -64,8 +64,8 @@ const breadCrumb = computed(() => {
   ]
   if (person.value?.company) {
     items.push({
-      label: person?.value?.company || '',
-      to: '/community/companies',
+      label: person?.value?.company.name || '',
+      to: '/companies/' + person.value.company.urlKey,
       icon: 'company',
     })
   }

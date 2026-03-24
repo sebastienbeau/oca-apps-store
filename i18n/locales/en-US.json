@@ -183,7 +183,8 @@
       "title": "Project Steering Commetee"
     },
     "work_group": {
-      "title": "OCA internal working groups"
+      "title": "OCA internal",
+      "title_emphasis": "Working Groups"
     },
     "sort": {
       "name_asc": "Sort by name A-Z",

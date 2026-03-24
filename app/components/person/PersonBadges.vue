@@ -25,10 +25,10 @@ const props = defineProps({
 })
 const color = (id: number) => {
   const colors = {
-    1: 'error',
-    2: 'primary',
-    3: 'neutral',
-    4: 'warning',
+    4: 'error',
+    1: 'primary',
+    8: 'secondary',
+    7: 'warning',
   }
 
   return colors?.[id] || 'neutral'

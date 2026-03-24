@@ -4,8 +4,8 @@
     :ui="ui"
     :items="[
       {
-        label: person.company,
-        to: `/companies/${person.companyUrlKey}`,
+        label: person.company.name,
+        to: `/companies/${person.company.urlKey}`,
         icon: 'company',
         click: (event) => {
           event.stopPropagation()

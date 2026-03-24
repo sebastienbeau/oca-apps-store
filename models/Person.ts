@@ -9,7 +9,11 @@ export interface Person {
   name: string
   avatarUrl: string | null
   username: string
-  company?: string
+  company?: {
+    id: number
+    name: string
+    urlKey: string
+  }
   companyId?: number
   country?: {
     label: string
@@ -24,13 +28,15 @@ export interface Person {
   urlKey: string
   pscList: PSC[]
   workGroupList: Workgroup[]
-  contact?: {
-    address: string,
-    email: string,
-    phone: string,
-    city: string,
-    website: string
-  } | undefined
+  contact?:
+    | {
+        address: string
+        email: string
+        phone: string
+        city: string
+        website: string
+      }
+    | undefined
 }
 
 export interface PersonResult {

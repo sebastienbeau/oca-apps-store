@@ -167,35 +167,44 @@ export const PersonFactory = {
       name: json?.name,
       avatarUrl: json?.avatar_url || null,
       username: json?.username,
-      company: json?.company,
+      company: PersonFactory.createPersonCompany(json),
       companyId: json?.company_id,
       country: PersonFactory.createPersonCountry(json),
       roles: PersonFactory.createPersonRoles(json),
       collaboratorIndex: json?.collaborator_index,
       translations: !isNaN(json?.translations) ? json.translations : 0,
-      modulesMaintained: !isNaN(json?.modules_maintained) ? json.modules_maintained : 0,
+      modulesMaintained: !isNaN(json?.modules_maintained)
+        ? json.modules_maintained
+        : 0,
       psc: !isNaN(json?.psc) ? json.psc : 0,
       pscList: json?.psc_list || [],
       workGroupList: json?.work_group_list || [],
       contact: PersonFactory.createPersonContact(json),
-      urlKey: json?.url_key || ''
-
+      urlKey: json?.url_key || '',
     }
     return Person
   },
-  createPersonContact(json: any): { address: string, email: string, phone: string, city: string, website: string } | undefined {
+  createPersonContact(json: any):
+    | {
+        address: string
+        email: string
+        phone: string
+        city: string
+        website: string
+      }
+    | undefined {
     if (json?.contact) {
       return {
         address: json.contact.address || '',
         email: json.contact.email || '',
         phone: json.contact.phone || '',
         city: json.contact.city || '',
-        website: json.contact.website || ''
+        website: json.contact.website || '',
       }
     }
   },
 
-  createPersonCountry(json: any): { label: string, code: string } | undefined {
+  createPersonCountry(json: any): { label: string; code: string } | undefined {
     if (json?.country.label && json?.country.code) {
       return {
         label: json.country.label,
@@ -203,6 +212,17 @@ export const PersonFactory = {
       }
     }
     return undefined
+  },
+  createPersonCompany(
+    json: any
+  ): { id: number; name: string; urlKey: string } | undefined {
+    if (json?.company.id && json?.company.name && json?.company.url_key) {
+      return {
+        id: json.company.id,
+        name: json.company.name,
+        urlKey: json.company.url_key,
+      }
+    }
   },
   createPersonRoles(json: any): PersonRole[] {
     if (json?.roles) {
@@ -212,5 +232,5 @@ export const PersonFactory = {
       }))
     }
     return []
-  }
+  },
 }
