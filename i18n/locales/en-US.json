@@ -195,6 +195,12 @@
     },
     "search": {
       "placeholder": "Search members and contributors..."
+    },
+    "modulesMaintained": {
+      "title": "Modules maintained by this contributor"
+    },
+    "contact": {
+      "sendEmail": "Send an email"
     }
   },
   "search": {

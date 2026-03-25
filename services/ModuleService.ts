@@ -1,4 +1,11 @@
-import type { Module, ModuleGroupedHit, ModuleResult, FacetSearchParam, FacetSearchResult } from '~~/models'
+import type {
+  Module,
+  ModuleGroupedHit,
+  ModuleResult,
+  FacetSearchParam,
+  FacetSearchResult,
+  Person,
+} from '~~/models'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { SitemapUrlInput } from '#sitemap/types'
@@ -16,7 +23,8 @@ export class ModuleService extends BaseServiceTypeSense {
   groupedHits(groupedHits: any[]): ModuleGroupedHit[] {
     return groupedHits.map((group: any) => ({
       urlKey: group?.group_key?.[0] || '',
-      hits: group?.hits.map((hit: any) => this.jsonToModel(hit?.document)) || [],
+      hits:
+        group?.hits.map((hit: any) => this.jsonToModel(hit?.document)) || [],
     }))
   }
 
@@ -48,21 +56,37 @@ export class ModuleService extends BaseServiceTypeSense {
     const total = result?.found || 0
     return { hits, total }
   }
-  async getModuleDependencies(module: Module): Promise<ModuleGroupedHit[]> {
-    const filter = module?.dependencies.map(dep => `${dep}`).join(',')
+  async getModulesList(input: Module | Person): Promise<ModuleGroupedHit[]> {
+    let filter = ''
+    let found: ModuleGroupedHit | undefined
+    let technicalNameList: string[] = []
+    if ('dependencies' in input) {
+      filter = input?.dependencies.map((dep) => `${dep}`).join(',')
+      technicalNameList = input?.dependencies
+    } else if ('modulesMaintainedIds' in input) {
+      filter = input?.modulesMaintainedIds.map((dep) => `${dep}`).join(',')
+      technicalNameList = input?.modulesMaintainedIds
+    }
+
     const res = await this.search({
-      filter_by: `techname:=[${filter}]`
+      filter_by: `techname:=[${filter}]`,
     })
-    return module?.dependencies.map(dep => {
-      let found = res?.hits.find(hit => hit.urlKey === dep) || {
-        urlKey: dep,
-        hits: [ModuleFactory.createModule({
-          name: dep,
-          urlKey: null,
-        })],
-      }
-      return found
-    }) || []
+
+    return (
+      technicalNameList.map((dep) => {
+        found = res?.hits.find((hit) => hit.urlKey === dep) || {
+          urlKey: dep,
+          hits: [
+            ModuleFactory.createModule({
+              name: dep,
+              urlKey: null,
+            }),
+          ],
+        }
+
+        return found
+      }) || []
+    )
   }
 
   async getModuleUsedBy(module: Module, queryString: string, page: number, perPage: number): Promise<ModuleResult> {
@@ -82,7 +106,7 @@ export class ModuleService extends BaseServiceTypeSense {
 
   async facetSearch(
     query: any,
-    facets: FacetSearchParam[],
+    facets: FacetSearchParam[]
   ): Promise<FacetSearchResult<ModuleGroupedHit>> {
     if (!query.sort_by) {
       delete query.sort_by
@@ -97,8 +121,7 @@ export class ModuleService extends BaseServiceTypeSense {
     if (query?.facet_by) {
       if (Array.isArray(query.facet_by)) {
         facetBy = [...facetBy, ...query.facet_by]
-      }
-      else {
+      } else {
         facetBy = [...facetBy, ...query.facet_by.split(',')]
       }
     }
@@ -134,7 +157,7 @@ export class ModuleService extends BaseServiceTypeSense {
         let filterBy
           = queries[0]?.filter_by
             ?.split(' && ')
-            .filter(f => f !== facet.query)
+            .filter((f) => f !== facet.query)
             .join(' && ') || ''
         if (facet?.searchTerm) {
           const searchFilter = `${facet.field}:*${facet.searchTerm}*`
@@ -156,12 +179,12 @@ export class ModuleService extends BaseServiceTypeSense {
       hits: this.groupedHits(groupedHits) || [],
       found: results[0]?.found || 0,
       facets: facets.map((facet) => {
-        const filterResults = results.findLast(res =>
-          res.facet_counts?.some((f: any) => f.field_name === facet.field),
+        const filterResults = results.findLast((res) =>
+          res.facet_counts?.some((f: any) => f.field_name === facet.field)
         )
-        const result
-          = filterResults?.facet_counts?.find(
-            (f: any) => f.field_name === facet.field,
+        const result =
+          filterResults?.facet_counts?.find(
+            (f: any) => f.field_name === facet.field
           ) || null
         return {
           field: facet.field,
@@ -183,11 +206,11 @@ export class ModuleService extends BaseServiceTypeSense {
     do {
       const res = await super.performSearch({
         q: '*',
-        group_by: "techname",
+        group_by: 'techname',
         per_page: size,
         page,
         group_limit: 1,
-        include_fields: "techname",
+        include_fields: 'techname',
         enable_highlight_v1: false,
       })
       total = res?.found || 0
@@ -195,7 +218,7 @@ export class ModuleService extends BaseServiceTypeSense {
       for (const hit of hits || []) {
         if (hit?.group_key?.[0]) {
           urls.push({
-            loc: `/modules/${hit.group_key[0]}`
+            loc: `/modules/${hit.group_key[0]}`,
           })
         }
       }
@@ -259,5 +282,5 @@ export const ModuleFactory = {
       lastUpdate: json?.last_update ? new Date(json.last_update) : null,
     }
     return module
-  }
+  },
 }

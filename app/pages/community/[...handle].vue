@@ -41,6 +41,7 @@
         </UEmpty>
       </div>
     </div>
+        <PersonModulesMaintained :person="person" />
   </div>
 </template>
 <script lang="ts" setup>

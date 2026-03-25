@@ -61,16 +61,19 @@
     </template>
     <template #footer>
       <UButton
+        :to="`mailto:${person.contact.email}`"
         color="primary"
         variant="solid"
         class="mt-4 mx-auto px-6"
         icon="email"
-        label="Send an email"
+        :label="t('person.contact.sendEmail')"
       />
     </template>
   </UCard>
 </template>
 <script setup lang="ts">
+
+const { t } = useI18n()
 const props = defineProps({
   person: {
     type: Object,

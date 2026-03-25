@@ -31,7 +31,7 @@ const { data: dependencies } = await useAsyncData(
   async () => {
     if (!props.module?.dependencies?.length) return null
     const moduleService = useService('modules')
-    return await moduleService.getModuleDependencies(props.module)
+    return await moduleService.getModulesList(props.module)
   },
   {
     server: false,
