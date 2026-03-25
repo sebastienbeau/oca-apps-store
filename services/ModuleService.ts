@@ -115,7 +115,9 @@ export class ModuleService extends BaseServiceTypeSense {
     if (query?.filter_by) {
       filterBy = [...filterBy, ...query.filter_by.split(' && ')]
     }
-
+    if (query?.q !== '*' && query?.q) {
+      query.sort_by = '_text_match:desc'
+    }
     const queries = [
       {
         ...query,

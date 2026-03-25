@@ -24,13 +24,12 @@
         />
       </UFormField>
     </template>
-    <template #sort="{ sortOptions, value, change }">
+    <template #sort="{ sortOptions, value }">
       <div class="flex items-center gap-2">
         <SearchSortSelector
           :options="sortOptions"
-          :value="value"
+          v-model="sortBy"
           class="md:my-4"
-          @change="change"
         />
         <UFieldGroup class="hidden sm:flex">
           <UButton
@@ -92,8 +91,9 @@ const query = computed(() => {
   return {
     q: searchTermsDebounced.value,
     query_by:
-      'name,repo.category.name,techname,repo.name,summary,description,readme_fragments.usage',
-    query_by_weights: '5,4,4,3,2,1,1',
+      'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
+    query_by_weights: '10,8,4,3,2,1,1',
+    prefix: true,
   }
 })
 const displayMode = ref<'grid' | 'list'>('grid')
@@ -105,22 +105,26 @@ const facets: Facet[] = [
     field: 'serie',
     title: t('modules.filters.versions'),
     sortBy: '_alpha:desc',
+    searchable: true,
   },
   {
     field: 'repo.category.name',
     title: t('modules.filters.category'),
     sortBy: '_alpha:asc',
+    searchable: true,
   },
   {
     field: 'repo.name',
     title: t('modules.filters.repository'),
     sortBy: '_alpha:asc',
+    searchable: true,
   },
 ]
 const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]
 ): Promise<FacetSearchResult<ModuleGroupedHit>> => {
+  console.log(query?.sort_by)
   const res = await moduleService.facetSearch(query, facets)
   return res
 }

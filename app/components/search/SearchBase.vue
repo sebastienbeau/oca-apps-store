@@ -4,7 +4,7 @@
       <slot name="header">
         <UPageHeader class="" />
       </slot>
-      <div ref="container" class="pb-32">
+      <div ref="container" class="scroll-mt-20 pb-32">
         <div
           class="flex flex-col items-end justify-between gap-2 pb-5 md:flex-row md:items-center"
         >
@@ -138,6 +138,7 @@ const props = withDefaults(
     infiniteScroll: true,
   }
 )
+const perPageCookie = useCookie('search_per_page')
 const { t } = useI18n()
 let initFacetCount = 0
 const searchContainer = useTemplateRef<HTMLDivElement>('container')
@@ -151,7 +152,9 @@ const perPage = defineModel('perPage', {
   type: Number,
   required: false,
 })
-
+if (perPageCookie?.value) {
+  perPage.value = Number(perPageCookie.value)
+}
 const page = defineModel('page', {
   type: Number,
   required: false,
@@ -271,16 +274,17 @@ const search = async () => {
           perPage: f?.perPage || 10,
         }
       }) || []
+
     const defaultQuery = {
       query_by: 'name',
       per_page: perPage.value,
       q: '*',
     }
+
     const query = {
       ...defaultQuery,
       ...(props?.query || {}),
     }
-
     const res: FacetSearchResult<T> = await props.searchFunction?.(
       {
         ...query,
@@ -349,7 +353,7 @@ const changePage = async (p: number) => {
   page.value = p
   if (!props.infiniteScroll && searchContainer.value) {
     searchContainer.value.scrollIntoView({
-      behavior: 'smooth',
+      behavior: 'instant',
       block: 'start',
     })
   }
@@ -373,6 +377,9 @@ onMounted(async () => {
 watch(
   () => [props.query, perPage.value],
   async () => {
+    if (perPage.value) {
+      perPageCookie.value = perPage.value.toString()
+    }
     await search()
   }
 )
@@ -386,6 +393,14 @@ watch(
   }
 )
 
+watch(
+  () => sortBy.value,
+  async (newValue, oldValue) => {
+    if (newValue !== oldValue && newValue) {
+      onSort(newValue)
+    }
+  }
+)
 const initFacet = (field: string, query: string) => {
   if (query) {
     queryFacets[field] = query
