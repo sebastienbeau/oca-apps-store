@@ -19,6 +19,7 @@ const value = defineModel({
   type: String,
   default: '',
 })
+
 /** Typewritter effect */
 const typewriterTexts = props?.placeholder || []
 const typewriterIndex = ref(0)

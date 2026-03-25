@@ -44,15 +44,15 @@
       <div class="flex items-end justify-between gap-4">
         <UFormField
           :label="t('modules.version.label')"
-          :help="versions?.length == 1 ? selectedVersion : ''"
+          :help="series?.length == 1 ? selectedSerie : ''"
         >
-          <template v-if="versions && versions?.length > 1">
+          <template v-if="series && series?.length > 1">
             <USelect
-              v-model="selectedVersion"
-              :items="versions"
+              v-model="selectedSerie"
+              :items="series"
               :placeholder="t('modules.version.placeholder')"
               class="w-32"
-              @change="() => emits('versionChange', selectedVersion!)"
+              @change="() => emits('serieChange', selectedSerie!)"
             />
           </template>
         </UFormField>
@@ -73,29 +73,28 @@ import type { ModuleGroupedHit, Module } from '~~/models'
 
 const { t } = useI18n()
 const emits = defineEmits<{
-  (e: 'versionChange', version: string): void
+  (e: 'serieChange', serie: string): void
 }>()
 const props = defineProps<{
   moduleGrouped: ModuleGroupedHit | null
   selectedModule?: Module | null
 }>()
 const modules = computed(() => props.moduleGrouped?.hits || [])
-const lastVersion = computed(() => modules.value?.[0]?.version || null)
-const selectedVersion = ref<string | null>(
-  props?.selectedModule?.version || lastVersion.value
+const lastSerie = computed(() => modules.value?.[0]?.serie || null)
+const selectedSerie = ref<string | null>(
+  props?.selectedModule?.serie || lastSerie.value
 )
 const module = computed(
   () =>
-    modules.value.find(
-      ({ version }) => version == props.selectedModule?.version
-    ) || null
+    modules.value.find(({ serie }) => serie == props.selectedModule?.serie) ||
+    null
 )
 
-const versions = computed(() => {
+const series = computed(() => {
   return props.moduleGrouped?.hits
     ?.reduce((acc: string[], hit) => {
-      if (hit.version && !acc.includes(hit.version)) {
-        acc.push(hit.version)
+      if (hit.serie && !acc.includes(hit.serie)) {
+        acc.push(hit.serie)
       }
       return acc
     }, [])
@@ -105,8 +104,8 @@ const versions = computed(() => {
 watch(
   () => props.selectedModule,
   () => {
-    selectedVersion.value =
-      props.selectedModule?.version || modules.value?.[0]?.version
+    selectedSerie.value =
+      props.selectedModule?.serie || modules.value?.[0]?.serie
   }
 )
 </script>

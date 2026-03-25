@@ -1,15 +1,42 @@
 <template>
   <div>
+    <UFormField :label="title" :description="description">
+      <UInput v-model="searchQuery" size="sm" clearable icon="search">
+        <template v-if="value?.length" #trailing>
+          <UButton
+            color="neutral"
+            variant="link"
+            size="sm"
+            icon="close"
+            @click="searchQuery = ''"
+          />
+        </template>
+      </UInput>
+    </UFormField>
+    <USeparator class="my-2" />
     <slot name="items" :items="transformedItems" :change="refine">
       <div v-if="transformedItems?.length" class="flex flex-col gap-2">
-        <UCheckbox v-for="item in transformedItems" :key="item.value" :label="item?.label || item?.value"
-          :description="item?.count?.toString()" :model-value="values.includes(item?.value)" :ui="{
+        <UCheckbox
+          v-for="item in transformedItems"
+          :key="item.value"
+          :label="item?.label || item?.value"
+          :description="item?.count?.toString()"
+          :model-value="values.includes(item?.value)"
+          :ui="{
             root: 'min-w-48 pr-2',
             wrapper: 'flex justify-between items-start',
-          }" @change="refine(item?.value)" />
+          }"
+          @change="refine(item?.value)"
+        />
       </div>
       <div v-if="values?.length > 0" class="flex justify-end">
-        <UButton color="neutral" variant="link" size="xs" label="Reset" @click="reset" />
+        <UButton
+          color="neutral"
+          variant="link"
+          size="xs"
+          label="Reset"
+          @click="reset"
+        />
       </div>
     </slot>
   </div>
@@ -20,24 +47,45 @@ import { UButton } from '#components'
 import type { FacetWithResult } from './SearchFacetsList.vue'
 
 const emit = defineEmits<{
-  (e: 'refine' | 'init-facet', query: string): void
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  (e: 'labelValue', value: string): void
+  (e: 'refine' | 'searchInFacet' | 'labelValue', query: string): void
 }>()
 const router = useRouter()
 const route = useRoute()
 const props = defineProps<FacetWithResult>()
+
+const searchQuery = ref('')
+const searchQueryDebounced = useDebounce(searchQuery, 300)
+
 const parseQueryToValues = (query?: string): string[] => {
   if (!query) return []
   const match = query.match(/:=\[(.*)\]/)
   if (match && match[1]) {
-    return match[1].split(',').map(v => v.replace(/'/g, '').trim())
+    return match[1].split(',').map((v) => v.replace(/`/g, '').trim())
   }
   return []
 }
+const parseValuesToQuery = (values: string[]): string => {
+  if (values.length === 0) return ''
+  return `${props.field}:=[${values.map((v) => `\`${v}\``).join(',')}]`
+}
+
 const transformedItems = computed(() => {
   if (props.transformItems) {
     return props.transformItems(props.items)
+  }
+  /**
+   * Add missing values to items to allow searching for values that are not in the top of the facet results.
+   * This is useful when the user has selected a value that is not in the top of the facet results,
+   * or when searching in facet values.
+   */
+  if (values.value?.length > 0) {
+    return values.value.reduce((acc: any[], val) => {
+      const existing = props.items.find((i) => i.value === val)
+      if (!existing) {
+        acc = [{ value: val, label: val, count: null }, ...acc]
+      }
+      return acc
+    }, props.items || [])
   }
   return props.items
 })
@@ -49,38 +97,51 @@ const reset = () => {
 
 const refine = (value?: string) => {
   if (value && values.value.includes(value)) {
-    values.value = values.value.filter(v => v !== value)
-  }
-  else if (value) {
+    values.value = values.value.filter((v) => v !== value)
+  } else if (value) {
     values.value.push(value)
   }
   let query = ''
   if (values.value.length > 0) {
-    query = `${props.field}:=[${values.value.map(i => `\`${i}\``).join(',')}]`
+    query = parseValuesToQuery(values.value)
   }
-  if (values?.value?.length > 1) {
-    emit('labelValue', values.value?.length?.toString())
-  }
-  else {
-    emit('labelValue', values.value?.[0] || '')
-  }
+  setLabelValue(values.value)
   emit('refine', query)
-  // router.push({ query: { ...router.currentRoute.value.query, [props.field]: values.value } })
+  router.push({
+    query: {
+      ...route.query,
+      [props.field]: values.value,
+    },
+  })
 }
 
 const values = ref<string[]>(parseQueryToValues(props.query))
 if (values.value.length === 0 && route.query[props.field]) {
   if (Array.isArray(route.query[props.field])) {
     values.value = route.query[props.field] as string[]
-  }
-  else if (typeof route.query[props.field] === 'string') {
+  } else if (typeof route.query[props.field] === 'string') {
     values.value = [route.query[props.field] as string]
   }
 }
-if (!props.query && values.value.length > 0) {
-  emit(
-    'init-facet',
-    `${props.field}:=[${values.value.map(i => `\`${i}\``).join(',')}]`,
-  )
+const setLabelValue = (values: string[]) => {
+  if (values?.length > 1) {
+    emit('labelValue', values.length?.toString())
+  } else {
+    emit('labelValue', values?.[0] || '')
+  }
 }
+/**
+ * Declare the facet to the searchBase component.
+ * this is necessary to allow the searchBase component to keep track of the facet state and to allow searching in facet values
+ */
+const initFacet = inject<(field: string, query: string) => void>('init-facet')
+if (initFacet) {
+  initFacet(props.field, parseValuesToQuery(values.value))
+}
+setLabelValue(values.value)
+
+/** Watch search query and emit search in facet event */
+watch(searchQueryDebounced, () => {
+  emit('searchInFacet', searchQueryDebounced.value)
+})
 </script>

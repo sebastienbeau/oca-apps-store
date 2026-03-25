@@ -21,15 +21,15 @@
     "community": {
       "title": "Community",
       "members": {
-        "title": "OCA members",
+        "title": "OCA Members",
         "description": "The individuals that participate in the OCA"
       },
       "contributors": {
-        "title": "OCA contributors",
+        "title": "OCA Contributors",
         "description": "The creators, maintainers and contributors of the OCA modules"
       },
       "companies": {
-        "title": "OCA companies",
+        "title": "OCA Companies",
         "description": "The companies that support the OCA and its contributors"
       }
     },
@@ -70,17 +70,17 @@
       "placeholder": "Pick an odoo version"
     },
     "settings": {
-      "title": "Module Configuration"
+      "title": "Configuration"
     },
     "contributors": {
       "title": "Contributors",
       "showAll": "View all"
     },
     "usage": {
-      "title": "Usages"
+      "title": "Usage"
     },
     "dependencies": {
-      "title": "Module dependencies"
+      "title": "Dependencies"
     },
     "bugTracker": {
       "title": "Bug tracker",
@@ -131,7 +131,7 @@
       "title": "Context"
     },
     "versions": {
-      "available": "Available module versions"
+      "available": "Odoo-compatible version"
     },
     "empty": {
       "title": "No modules found",
@@ -141,7 +141,6 @@
   "sponsors": {
     "become": "Become a {name} Sponsor",
     "back-btn": "Back to sponsors list page",
-
     "search": {
       "placeholder": "Search sponsors..."
     },
@@ -171,7 +170,7 @@
     },
     "person": {
       "cta": {
-        "groupsEmptyTitle":  "This person is not yet par of a group",
+        "groupsEmptyTitle": "This person is not yet par of a group",
         "joinGroupsTitle": "Oca Working Groups",
         "groupsDescription": "Join one of the OCA working groups and take part of the community",
         "groupsCtaLabel": "Join one of the working groups"
@@ -197,7 +196,6 @@
     "search": {
       "placeholder": "Search members and contributors..."
     }
-   
   },
   "search": {
     "filters": {
@@ -215,6 +213,9 @@
       "label": "Filters",
       "clear_all": "Reset filters",
       "apply": "Apply filters"
+    },
+    "pagination": {
+      "perPage": "items per page"
     }
   },
   "company": {

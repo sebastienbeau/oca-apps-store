@@ -1,5 +1,5 @@
 <template>
-  <div v-if="module?.id" class="flex flex-col">
+  <div v-if="module?.id" class="flex flex-col" :key="module.id">
     <div class="relative py-4 lg:pt-10 lg:pb-32">
       <div
         class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-neutral-50/50 content-['']"
@@ -17,16 +17,24 @@
                 {{ getLastWord(module?.name) }}
               </span>
             </ProseH1>
-
+            <UBadge
+              v-if="module?.repository?.category?.name"
+              color="secondary"
+              variant="soft"
+              size="md"
+              :label="module.repository.category.name"
+            />
             <MDC v-if="module?.description" :value="module.description" />
+            <div v-else class="prose pb-10">{{ module?.summary }}</div>
+            <ModuleContext :module="module" />
             <USeparator v-if="module?.description" class="my-6" />
-            <UFormField :label="t('modules.versions.available')">
-              <ModuleVersionList
+            <UFormField :label="t('modules.versions.available')" size="xl">
+              <ModuleSerieList
                 v-if="moduleGrouped"
                 :module-grouped="moduleGrouped"
                 :selected-module="module"
-                size="md"
-                @select="onChangeVersion"
+                size="xl"
+                @select="onChangeSerie"
               />
             </UFormField>
           </div>
@@ -38,12 +46,19 @@
             :module-grouped="moduleGrouped"
             :selected-module="module"
             class="mx-auto w-full max-w-2xl translate-y-7"
-            @version-change="onChangeVersion"
+            @serie-change="onChangeSerie"
           />
         </div>
       </div>
     </div>
-    <div class="relative mb-24 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10">
+    <div
+      v-if="
+        module?.readmeFragments?.install ||
+        module?.readmeFragments?.configure ||
+        module?.readmeFragments?.contributors
+      "
+      class="relative mb-24 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10"
+    >
       <div
         class="absolute -top-10 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
       />
@@ -64,13 +79,17 @@
         </div>
         <div
           v-if="
-            module?.readmeFragments?.configure && module?.contributors?.length
+            module?.readmeFragments?.configure &&
+            module?.readmeFragments?.contributors
           "
           class="my-2 hidden lg:flex"
         >
           <USeparator orientation="vertical" class="mx-10 hidden lg:block" />
         </div>
-        <div v-if="module?.contributors?.length" class="min-w-sm lg:p-10">
+        <div
+          v-if="module?.readmeFragments?.contributors"
+          class="min-w-sm lg:p-10"
+        >
           <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
             {{ t('modules.contributors.title') }}
           </ProseH2>
@@ -80,7 +99,6 @@
     </div>
 
     <ModuleUsage :module="module" />
-    <ModuleContext :module="module" />
     <ModuleHistory :module="module" />
     <ModuleRoadMap :module="module" />
     <ModuleBugTracker :module="module" />
@@ -100,7 +118,11 @@ const moduleService = useService('modules')
 const { data: moduleGrouped, error } =
   await useAsyncData<ModuleGroupedHit | null>(
     `module-${route.params.handle}`,
-    () => moduleService.findByURLKey(route.params.handle as string),
+    () =>
+      moduleService.findByURLKey(
+        route.params.handle as string,
+        route?.query?.version as string | undefined
+      ),
     {
       watch: [route.path],
     }
@@ -164,13 +186,13 @@ useSchemaOrg(
   })
 )
 
-const onChangeVersion = (version: string) => {
-  const found = moduleGrouped.value?.hits.find((hit) => hit.version === version)
+const onChangeSerie = (serie: string) => {
+  const found = moduleGrouped.value?.hits.find((hit) => hit.serie === serie)
   if (found) {
     module.value = found
     router.replace({
       query: {
-        version: found.version,
+        serie: found.serie,
       },
     })
   }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="total" class="py-10">
+  <div v-if="total > 0" class="py-10">
     <slot name="header">
       <ProseH2 class="my-2 text-2xl text-primary md:text-3xl">
         {{ t('modules.usedBy.title') }}
@@ -20,13 +20,16 @@
     </div>
     <div
       v-else-if="dependencies"
-      class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3"
     >
       <ModuleMicroHit
         v-for="item in dependencies.hits"
         :key="item.urlKey"
         :module-grouped="item"
       />
+    </div>
+    <div v-if="total > 0" class="flex justify-center pt-8">
+      <UPagination v-model:page="page" :page-size="pageSize" :total="total" />
     </div>
   </div>
 </template>
@@ -43,53 +46,40 @@ const page = ref(1)
 const total = ref(0)
 const loading = ref(false)
 const { t } = useI18n()
+const pageSize = 9
 
-const { data: dependencies } = await useAsyncData(
+const { data: dependencies, pending } = await useAsyncData(
   'module-used-by-' + (props.module?.id || ''),
   async () => {
-    if (!props.module?.dependencies?.length) return null
+    if (!props.module) return null
 
     return await moduleService.getModuleUsedBy(
       props.module,
       searchQuery.value,
-      page.value
+      page.value,
+      pageSize
     )
   },
   {
     server: false,
+    watch: [searchQuery, page, () => props.module?.id],
   }
 )
+
 total.value = dependencies.value?.total || 0
-const search = async () => {
-  try {
-    loading.value = true
-    dependencies.value = await moduleService.getModuleUsedBy(
-      props.module,
-      searchQuery.value,
-      page.value
-    )
-  } catch (error) {
-    console.error('Error searching modules:', error)
-  } finally {
-    loading.value = false
-  }
-}
+
 watch([searchQuery], () => {
   if (searchQuery.value?.length < 3 && searchQuery.value !== '') {
     dependencies.value = null
     return
   }
   page.value = 1
-  search()
 })
-watch(loading, () => {
-  if (loading.value) {
+watch(pending, () => {
+  if (pending.value) {
     start()
   } else {
     set(100)
   }
-})
-watch([() => props.module?.version], () => {
-  search()
 })
 </script>

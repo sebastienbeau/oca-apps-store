@@ -6,7 +6,7 @@
         <nuxt-link
           v-if="module?.urlKey"
           :to="`/modules/${module.urlKey}`"
-          class="hover:underline"
+          class="break-all hover:underline"
         >
           {{ module?.name }}
         </nuxt-link>
@@ -16,7 +16,7 @@
           <UIcon name="repository" class="text-primary" />
           {{ module?.repository?.name }}
         </div>
-        <ModuleVersionList :module-grouped="moduleGrouped" />
+        <ModuleSerieList :module-grouped="moduleGrouped" />
       </div>
       <div class="text-sm text-muted">
         {{ module?.summary }}

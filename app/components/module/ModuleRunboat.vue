@@ -9,6 +9,7 @@
       :href="module?.runboatURL"
       :size="size"
       icon="runboat"
+      target="_blank"
     >
       <div class="text-nowrap">
         {{ t('modules.runboat.try') }}

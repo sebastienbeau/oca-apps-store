@@ -74,6 +74,7 @@ import type {
 } from '~~/models'
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const { data: content } = await useAsyncData(`content-modules`, () => {
   return queryCollection('docs').path(route.path).first()
 })
@@ -85,29 +86,35 @@ const sortOptions = computed(() => {
     { label: t('modules.sort.name_desc'), value: 'name:desc' },
   ]
 })
-
 const sortBy = ref('name:asc')
+
 const query = computed(() => {
   return {
-    q: searchTerms.value,
-    query_by: 'name,category,techname,repository.name,summary',
+    q: searchTermsDebounced.value,
+    query_by:
+      'name,repo.category.name,techname,repo.name,summary,description,readme_fragments.usage',
+    query_by_weights: '5,4,4,3,2,1,1',
   }
 })
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
-const searchTerms = ref('')
+const searchTerms = ref((route.query?.q as string) || '')
+const searchTermsDebounced = refDebounced(searchTerms, 300)
 const facets: Facet[] = [
   {
-    field: 'version',
+    field: 'serie',
     title: t('modules.filters.versions'),
+    sortBy: '_alpha:desc',
   },
   {
-    field: 'category',
+    field: 'repo.category.name',
     title: t('modules.filters.category'),
+    sortBy: '_alpha:asc',
   },
   {
-    field: 'repository.name',
+    field: 'repo.name',
     title: t('modules.filters.repository'),
+    sortBy: '_alpha:asc',
   },
 ]
 const searchFunction = async (
@@ -124,7 +131,19 @@ const ui = computed(() => {
     results:
       displayMode.value === 'list'
         ? 'flex flex-col gap-3 sm:gap-4'
-        : 'gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3',
+        : 'gap-3 sm:gap-5 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3',
   }
 })
+
+watch(
+  () => searchTermsDebounced.value,
+  () => {
+    router.push({
+      query: {
+        ...route.query,
+        q: searchTermsDebounced.value || undefined,
+      },
+    })
+  }
+)
 </script>

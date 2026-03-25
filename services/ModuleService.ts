@@ -5,7 +5,7 @@ import type { SitemapUrlInput } from '#sitemap/types'
 
 interface ModuleSchema {
   id: number
-  url_key: string
+  techname: string
 }
 
 export class ModuleService extends BaseServiceTypeSense {
@@ -20,13 +20,18 @@ export class ModuleService extends BaseServiceTypeSense {
     }))
   }
 
-  async findByURLKey(urlKey: string): Promise<ModuleGroupedHit | null> {
-    const result = await super.performSearch({
+  async findByURLKey(urlKey: string, serie?: string): Promise<ModuleGroupedHit | null> {
+    const body: any = {
       q: '*',
-      filter_by: `url_key:${urlKey}`,
-      group_by: 'url_key',
-      include_fields: "$ocastore_persons_en(*, strategy: merge)"
-    })
+      filter_by: `techname:${urlKey}`,
+      group_by: 'techname',
+      include_fields: "$ocastore_persons_en(*, strategy: merge)",
+      sort_by: 'serie:desc',
+    }
+    if (serie) {
+      body.filter_by += ` && serie:=${serie}`
+    }
+    const result = await super.performSearch(body)
 
     const groupedHits = this.groupedHits(result?.grouped_hits) || []
     return groupedHits?.[0] || null
@@ -36,7 +41,7 @@ export class ModuleService extends BaseServiceTypeSense {
     body = {
       ...{ q: '*', query_by: 'name' },
       ...body,
-      group_by: 'url_key'
+      group_by: 'techname'
     }
     const result = await super.performSearch<any>(body)
     const hits = this.groupedHits(result?.grouped_hits) || []
@@ -60,11 +65,12 @@ export class ModuleService extends BaseServiceTypeSense {
     }) || []
   }
 
-  async getModuleUsedBy(module: Module, queryString: string, page: number): Promise<ModuleResult> {
+  async getModuleUsedBy(module: Module, queryString: string, page: number, perPage: number): Promise<ModuleResult> {
     const query: any = {
-      filter_by: `dependencies:="${module.techname}" && version:=${module.version}`,
-      group_by: 'url_key',
-      page: page
+      filter_by: `dependencies:="${module.techname}"`,
+      group_by: 'techname',
+      page: page,
+      per_page: perPage
     }
     if (queryString) {
       query.q = queryString
@@ -82,7 +88,12 @@ export class ModuleService extends BaseServiceTypeSense {
       delete query.sort_by
     }
     /** Build facet by query */
-    let facetBy = facets.map(facet => facet.field)
+    let facetBy = facets.map(facet => {
+      if (facet.sortBy) {
+        return `${facet.field}(sort_by: ${facet.sortBy})`
+      }
+      return facet.field
+    })
     if (query?.facet_by) {
       if (Array.isArray(query.facet_by)) {
         facetBy = [...facetBy, ...query.facet_by]
@@ -94,6 +105,7 @@ export class ModuleService extends BaseServiceTypeSense {
 
     /** Build filter by query */
     let filterBy = facets.reduce((acc, facet) => {
+
       if (facet.query) {
         acc.push(facet.query)
       }
@@ -108,23 +120,29 @@ export class ModuleService extends BaseServiceTypeSense {
       {
         ...query,
         facet_by: facetBy.join(','),
+        max_facet_values: 10,
         filter_by: filterBy.join(' && '),
-        group_by: 'url_key',
+        group_by: 'techname',
       },
     ]
 
     for (const facet of facets) {
-      if (facet.query) {
-        const filterBy
+      if (facet.query || facet.searchTerm) {
+        const facetBy = facet.sortBy ? `${facet.field}(sort_by: ${facet.sortBy})` : facet.field
+        let filterBy
           = queries[0]?.filter_by
             ?.split(' && ')
             .filter(f => f !== facet.query)
             .join(' && ') || ''
+        if (facet?.searchTerm) {
+          const searchFilter = `${facet.field}:*${facet.searchTerm}*`
+          filterBy = filterBy ? `${filterBy} && ${searchFilter}` : searchFilter
+        }
         queries.push({
           ...query,
           filter_by: filterBy,
-          facet_by: facet.field,
-          group_by: 'url_key',
+          facet_by: facetBy,
+          group_by: 'techname',
           per_page: 0,
           max_facet_values: facet.perPage,
         })
@@ -195,18 +213,19 @@ export const ModuleFactory = {
     const module: Module = {
       id: json.id,
       name: json.name,
-      urlKey: json.url_key,
+      iconUrl: json?.icon_url,
+      urlKey: json?.techname,
       techname: json?.techname,
       repository: {
-        url: json?.repository?.url,
-        name: json?.repository?.name,
-        description: json?.repository?.description,
+        url: json?.repo?.url,
+        name: json?.repo?.name,
+        description: json?.repo?.description,
         category: {
-          name: json?.category,
-          urlKey: json?.category
+          name: json?.repo?.category?.name,
+          urlKey: json?.repo?.category?.urlKey
         },
       },
-
+      serie: json?.serie,
       version: json?.version,
       description: json?.description,
       summary: json?.summary,
@@ -220,6 +239,7 @@ export const ModuleFactory = {
       website: json?.website,
       readmeFragments: {
         configure: json?.readme_fragments?.configure,
+        contributors: json?.readme_fragments?.contributors,
         context: json?.readme_fragments?.context,
         credits: json?.readme_fragments?.credits,
         history: json?.readme_fragments?.history,
@@ -227,7 +247,7 @@ export const ModuleFactory = {
         roadmap: json?.readme_fragments?.roadmap,
         usage: json?.readme_fragments?.usage,
       },
-      contributors: json?.contributors || [],
+
       maintainer: json?.maintainer,
       bugTracker: {
         url: json?.bug_tracker?.url,

@@ -13,6 +13,7 @@ export interface Module {
       urlKey: string
     }
   },
+  serie: string
   version: string
   dependencies: string[]
   usedBy: string[]
@@ -32,13 +33,8 @@ export interface Module {
     install?: string //ModuleInstall
     roadmap?: string //ModuleRoadMap
     usage?: string //ModuleUsage
+    contributors?: string //ModuleContributors
   }
-  contributors: [
-    {
-      name: string
-      website: string
-    },
-  ],
   maintainer: string[],
   bugTracker: {
     url: string

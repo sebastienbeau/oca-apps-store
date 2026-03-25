@@ -1,18 +1,18 @@
 <template>
-  <div v-if="versions.length > 0" class="flex flex-wrap gap-1">
+  <div v-if="series.length > 0" class="flex flex-wrap gap-1">
     <UBadge
-      v-for="hit in versions"
-      :key="hit.version"
-      :color="selectedModule?.version == hit.version ? 'secondary' : 'info'"
+      v-for="hit in series"
+      :key="hit.serie"
+      :color="selectedModule?.serie == hit.serie ? 'secondary' : 'info'"
       :variant="variant(hit)"
       :size="size"
       class="rounded-full"
       :class="{
         'cursor-pointer': selectedModule,
       }"
-      @click="$emit('select', hit.version)"
+      @click="$emit('select', hit.serie)"
     >
-      {{ hit.version }}
+      {{ hit.serie }}
     </UBadge>
   </div>
 </template>
@@ -30,24 +30,24 @@ const props = withDefaults(
   }
 )
 const emits = defineEmits<{
-  (e: 'select', version: string): void
+  (e: 'select', serie: string): void
 }>()
 
-const versions = computed(() => {
+const series = computed(() => {
   return props.moduleGrouped.hits
-    ?.reduce((acc: { version: string }[], hit) => {
-      if (hit.version && !acc.find((v) => v.version === hit.version)) {
-        acc.push({ version: hit.version })
+    ?.reduce((acc: { serie: string }[], hit) => {
+      if (hit.serie && !acc.find((v) => v.serie === hit.serie)) {
+        acc.push({ serie: hit.serie })
       }
       return acc
     }, [])
-    .sort((a, b) => parseFloat(a.version) - parseFloat(b.version))
+    .sort((a, b) => parseFloat(a.serie) - parseFloat(b.serie))
 })
 const variant = (hit: Module) => {
   if (!props.selectedModule) {
     return 'subtle'
   }
-  if (props.selectedModule?.version == hit.version) {
+  if (props.selectedModule?.serie == hit.serie) {
     return 'solid'
   } else {
     return 'outline'

@@ -103,7 +103,7 @@ export default defineAppConfig({
     class: 'icon', // default <Icon> class applied
     mode: 'css', // default <Icon> mode applied
     aliases: {
-      'repository': 'ph:git-branch',
+      'repository': 'ph:folders-duotone',
       'filter': 'ph:funnel-simple',
       'module': 'ph:package-duotone',
       'sponsor': 'ph:hand-heart-duotone',

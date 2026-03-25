@@ -9,11 +9,13 @@
     }"
   >
     <template #header>
-      <div class="flex items-center gap-4" @click="goToModule">
+      <div class="fit flex max-w-full items-center gap-4" @click="goToModule">
         <ModuleImage :module="module" />
-        <div class="flex flex-col items-start justify-start gap-1">
+        <div
+          class="flex flex-col items-start justify-start gap-1 overflow-hidden"
+        >
           <ProseH3
-            class="my-0 line-clamp-2 font-heading text-xl leading-6 font-semibold text-primary"
+            class="my-0 line-clamp-2 font-heading text-lg leading-6 font-semibold text-primary lg:text-xl"
           >
             {{ removeLastWord(module.name) }}
             <span class="text-secondary-500">
@@ -21,13 +23,13 @@
             </span>
           </ProseH3>
           <UBadge
-            v-if="module?.category"
+            v-if="module?.repository?.category?.name"
             color="secondary"
             variant="soft"
             size="sm"
             class="rounded-full"
           >
-            {{ module.category }}
+            {{ module.repository?.category?.name }}
           </UBadge>
         </div>
       </div>
@@ -37,7 +39,7 @@
         v-if="module?.repository?.name"
         class="flex items-center gap-1 text-sm text-primary"
       >
-        <UIcon name="repository" class="" />
+        <UIcon name="repository" />
         <div class="line-clamp-1">
           {{ module.repository?.name }}
         </div>
@@ -50,7 +52,7 @@
           {{ module.summary }}
         </p>
       </div>
-      <ModuleVersionList :module-grouped="moduleGrouped" size="sm" />
+      <ModuleSerieList :module-grouped="moduleGrouped" size="sm" />
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
@@ -66,7 +68,7 @@
         </UAvatarGroup>
       </div>
       <div v-if="module?.website" class="flex items-center gap-1">
-        <NuxtLink :to="module.website" class="" target="_blank">
+        <NuxtLink :to="module.website" target="_blank">
           <UIcon
             name="github"
             class="mr-1 p-2 text-gray-900 not-only:inline-block"

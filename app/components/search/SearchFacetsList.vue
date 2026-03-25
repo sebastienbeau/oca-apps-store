@@ -20,11 +20,12 @@
             </div>
             <component
               :is="component || 'SearchStringFacet'"
+              ref="facetComponents"
               v-bind="facet"
-              @refine="(query: string) => $emit('refine', facet.field, query)"
-              @init-facet="
-                (query: string) => $emit('init-facet', facet.field, query)
+              @search-in-facet="
+                (query: string) => $emit('search-in-facet', facet.field, query)
               "
+              @refine="(query: string) => $emit('refine', facet.field, query)"
               @label-value="
                 (value: string) => setLabelValues(facet.field, value)
               "
@@ -86,6 +87,10 @@
                 v-bind="facet"
                 class="pb-4"
                 @refine="(query: string) => $emit('refine', facet.field, query)"
+                @search-in-facet="
+                  (query: string) =>
+                    $emit('search-in-facet', facet.field, query)
+                "
                 @label-value="
                   (value: string) => setLabelValues(facet.field, value)
                 "
@@ -128,7 +133,11 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'refine' | 'init-facet', field: string, query: string): void
+  (
+    e: 'refine' | 'init-facet' | 'search-in-facet',
+    field: string,
+    query: string
+  ): void
 }>()
 
 const mobileOpen = ref(false)

@@ -13,7 +13,7 @@
             <div class="flex-1">
               <slot
                 name="facets"
-                onChangeFilter="onChangeFilter"
+                :onChangeFilter="onChangeFilter"
                 :facets="facets"
                 :results="results"
                 :query-facets="queryFacets"
@@ -25,6 +25,7 @@
                   :query-facets="queryFacets"
                   class=""
                   @refine="onChangeFilter"
+                  @search-in-facet="onSearchInFacet"
                 />
               </slot>
             </div>
@@ -63,7 +64,7 @@
             ]"
           />
         </div>
-        <template v-else-if="results.hits.length === 0">
+        <template v-else-if="!isLoading && results.hits.length === 0">
           <slot name="empty">
             <div class="py-10 text-center text-muted">
               {{ t('search.noresults') }}
@@ -89,13 +90,12 @@
             :infinite-scroll="infiniteScroll"
           >
             <SearchResult
+              v-model:page="page"
+              v-model:per-page="perPage"
               :hits="results.hits"
               :total="results.found"
               :infinite-scroll="infiniteScroll"
-              :per-page="perPage"
-              :page="page"
               :is-loading="isLoading"
-              @change-page="changePage"
               :ui="{
                 root: ui?.results,
               }"
@@ -121,9 +121,8 @@ const props = withDefaults(
   defineProps<{
     facets?: Facet[]
     sortOptions?: { label: string; value: string }[]
-    query?: {} | null
+    query?: object | null
     infiniteScroll?: boolean
-    perPage?: number
     searchFunction?: (
       query: any,
       facets: FacetSearchParam[]
@@ -137,10 +136,10 @@ const props = withDefaults(
     sortOptions: () => [],
     query: null,
     infiniteScroll: true,
-    perPage: 10,
   }
 )
-
+const { t } = useI18n()
+let initFacetCount = 0
 const searchContainer = useTemplateRef<HTMLDivElement>('container')
 const router = useRouter()
 const route = useRoute()
@@ -148,35 +147,65 @@ const { start, finish } = useLoadingIndicator()
 const facetHasChanges = ref(false)
 const isLoading = ref(false)
 const error = ref(null)
-const perPage = ref(props.perPage || 10)
-const { t } = useI18n()
+const perPage = defineModel('perPage', {
+  type: Number,
+  required: false,
+})
 
 const page = defineModel('page', {
   type: Number,
-  //default: () => route.query.page ? Number(route.query.page) : 1,
-})
-const sortBy = defineModel('sortBy', {
-  type: String,
-  //default: () => route.query.sort ? String(route.query.sort) : props.sortOptions?.[0]?.value,
+  required: false,
 })
 
+const sortBy = defineModel('sortBy', {
+  type: String,
+  required: false,
+})
+if (!page.value) {
+  page.value = route.query.page ? Number(route.query.page) : 1
+}
+if (!sortBy.value) {
+  const querySort = route.query.sort
+    ? String(route.query.sort)
+    : props.sortOptions?.[0]?.value
+  sortBy.value =
+    props.sortOptions?.find((o) => o.value === querySort)?.value ||
+    props.sortOptions?.[0]?.value ||
+    ''
+}
 const query = computed(() => {
   return props?.query || {}
 })
-
+const searchInFacet: { [field: string]: string } = {}
 const queryFacets: { [field: string]: string } = {}
+
+const hasFacetQuery = props.facets?.some((facet) => {
+  const routeFacet = route.query?.[facet.field]
+  return !!routeFacet
+})
+
 /**
  * Initial search with the current facets from the route only on server side
  */
 const res = await useAsyncData<FacetSearchResult<T>>(
-  route.fullPath,
   async () => {
+    /**
+     * check if there is any facet query in the route,
+     * if not, do not perform the search as it will
+     * be performed on mounted with the correct
+     * facet queries after all facets are initialized
+     */
+    if (hasFacetQuery) {
+      return null
+    }
     let facetData: FacetSearchParam[] = []
     if (props?.facets && props?.facets?.length > 0) {
       facetData = props?.facets.map((f) => {
         return {
           field: f.field,
           query: queryFacets?.[f.field] || '',
+          searchTerm: searchInFacet?.[f.field] || undefined,
+          sortBy: f.sortBy,
           perPage: f.perPage || 12,
         }
       })
@@ -202,7 +231,13 @@ const res = await useAsyncData<FacetSearchResult<T>>(
   }
 )
 const { data } = res
-
+if (hasFacetQuery) {
+  /* 
+    If there is a facet query in the route, we need to perform the search on mounted
+    after all facets are initialized with the values from the route
+  */
+  isLoading.value = true
+}
 const results = reactive<FacetSearchResult<T>>({
   hits: data?.value?.hits || ([] as T[]),
   found: data?.value?.found || 0,
@@ -214,62 +249,64 @@ const results = reactive<FacetSearchResult<T>>({
 const search = async () => {
   isLoading.value = true
   error.value = null
-  //try {
-  start({ force: true })
-  if (facetHasChanges.value && page.value !== 1) {
-    page.value = 1
-    router.push({
-      query: {
-        ...route.query,
-        page: '1',
+  try {
+    start({ force: true })
+    if (facetHasChanges.value && page.value !== 1) {
+      page.value = 1
+      router.push({
+        query: {
+          ...route.query,
+          page: '1',
+        },
+      })
+    }
+
+    const facetData: FacetSearchParam[] =
+      props.facets.map((f) => {
+        return {
+          field: f.field,
+          query: queryFacets?.[f.field] || '',
+          searchTerm: searchInFacet?.[f.field] || undefined,
+          sortBy: f.sortBy,
+          perPage: f?.perPage || 10,
+        }
+      }) || []
+    const defaultQuery = {
+      query_by: 'name',
+      per_page: perPage.value,
+      q: '*',
+    }
+    const query = {
+      ...defaultQuery,
+      ...(props?.query || {}),
+    }
+
+    const res: FacetSearchResult<T> = await props.searchFunction?.(
+      {
+        ...query,
+        sort_by: sortBy.value,
+        page: page.value,
       },
-    })
+      facetData
+    )
+    if (props.infiniteScroll && !facetHasChanges.value) {
+      results.hits = [
+        ...results.hits.slice(0, perPage.value * (page.value - 1)),
+        ...(res?.hits || []),
+      ]
+    } else {
+      results.hits = res?.hits || []
+    }
+    results.facets = res?.facets || []
+    results.found = res?.found || 0
+  } catch (err) {
+    console.error(err)
+    error.value = err
+  } finally {
+    facetHasChanges.value = false
+    isLoading.value = false
+    finish()
   }
-
-  const facetData: FacetSearchParam[] =
-    props.facets.map((f) => {
-      return {
-        field: f.field,
-        query: queryFacets?.[f.field] || '',
-        perPage: f?.perPage || 10,
-      }
-    }) || []
-  const defaultQuery = {
-    query_by: 'name',
-    per_page: perPage.value,
-    q: '*',
-  }
-  const query = {
-    ...defaultQuery,
-    ...(props?.query || {}),
-  }
-
-  const res: FacetSearchResult<T> = await props.searchFunction?.(
-    {
-      ...query,
-      sort_by: sortBy.value,
-      page: page.value,
-    },
-    facetData
-  )
-  if (props.infiniteScroll && !facetHasChanges.value) {
-    results.hits = [
-      ...results.hits.slice(0, perPage.value * (page.value - 1)),
-      ...(res?.hits || []),
-    ]
-  } else {
-    results.hits = res?.hits || []
-  }
-  results.facets = res?.facets || []
-  results.found = res?.found || 0
-  // } catch (err) {
-  //   console.error(err)
-  //   error.value = err
-  // } finally {
-  facetHasChanges.value = false
-  isLoading.value = false
-  finish()
-  //}
 }
 
 /**
@@ -278,9 +315,20 @@ const search = async () => {
 const onChangeFilter = async (facetName: string, query: string) => {
   facetHasChanges.value = true
   queryFacets[facetName] = query
+
   await search()
 }
 
+const onSearchInFacet = async (facetName: string, query: string) => {
+  facetHasChanges.value = true
+  searchInFacet[facetName] = query
+  await search()
+}
+
+/**
+ *
+ * @param value
+ */
 const onSort = async (value: string) => {
   sortBy.value = value
   router.replace({
@@ -323,11 +371,12 @@ onMounted(async () => {
 })
 
 watch(
-  () => props.query,
+  () => [props.query, perPage.value],
   async () => {
     await search()
   }
 )
+
 watch(
   () => page.value,
   async (newValue, oldValue) => {
@@ -336,4 +385,16 @@ watch(
     }
   }
 )
+
+const initFacet = (field: string, query: string) => {
+  if (query) {
+    queryFacets[field] = query
+  }
+  initFacetCount++
+  // Automatically search when all facets are initialized with the values from the route
+  if (initFacetCount >= (props.facets?.length || 0) && hasFacetQuery) {
+    search()
+  }
+}
+provide('init-facet', initFacet)
 </script>

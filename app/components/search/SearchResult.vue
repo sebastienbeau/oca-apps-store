@@ -30,13 +30,19 @@
       </slot>
     </template>
   </UPageGrid>
-  <div ref="paginationElement" class="mt-4 flex justify-center">
+  <div
+    ref="paginationElement"
+    class="mt-10 flex items-end justify-center gap-4"
+  >
+    <UFormField v-if="!infiniteScroll" :label="t('search.pagination.perPage')">
+      <USelect v-model="perPage" :items="perPageItems" class="w-full" />
+    </UFormField>
     <UPagination
       v-if="!infiniteScroll && total > perPage"
+      v-model:page="page"
       :default-page="page"
       :per-page="perPage"
       :total="total"
-      @update:page="changePage"
     />
   </div>
 </template>
@@ -47,8 +53,6 @@ interface Props {
   total?: number
   infiniteScroll?: boolean
   isLoading?: boolean
-  perPage?: number
-  page?: number
   ui?: {
     root?: string
   }
@@ -61,21 +65,32 @@ const props = withDefaults(defineProps<Props>(), {
   perPage: () => 12,
   page: () => 1,
 })
-const emits = defineEmits<{
-  (e: 'change-page', page: number): void
-}>()
+const { t } = useI18n()
 
+const perPageItems = [12, 24, 48, 96]
 const router = useRouter()
 const route = useRoute()
 const pageDelimiter = useTemplateRef<HTMLElement[]>('pageDelimiter')
 const paginationElement = useTemplateRef<HTMLElement>('paginationElement')
 let observer: IntersectionObserver | null = null
 
+const perPage = defineModel('perPage', {
+  type: Number,
+  required: false,
+  default: 12,
+})
+
+const page = defineModel('page', {
+  type: Number,
+  default: 1,
+  //default: () => route.query.page ? Number(route.query.page) : 1,
+})
+
 const setInfiniteScroll = () => {
   useInfiniteScroll(
     paginationElement,
     async () => {
-      await changePage(props.page + 1)
+      page.value += 1
     },
     {
       distance: 100,
@@ -109,10 +124,6 @@ const setIntersectionObserver = () => {
   for (const elem of pageDelimiter.value || []) {
     observer.observe(elem)
   }
-}
-
-const changePage = async (p: number) => {
-  emits('change-page', p)
 }
 
 onMounted(async () => {

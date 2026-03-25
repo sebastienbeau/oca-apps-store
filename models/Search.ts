@@ -1,7 +1,9 @@
 export interface FacetSearchParam {
   field: string
   query: string
+  sortBy?: string
   perPage: number
+  searchTerm?: string
 }
 export interface FacetSearchResult<T> {
   hits: T[]
@@ -33,7 +35,7 @@ export type Facet = {
   ) => { label?: string, value: string, count: number }[]
   perPage?: number
   searchable?: boolean
-  sortBy?: 'count:asc' | 'count:desc' | 'value:asc' | 'value:desc'
+  sortBy?: string
 }
 
 export type FacetWithResult = {

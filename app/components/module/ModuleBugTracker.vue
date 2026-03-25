@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-if="module" class="relative -mt-15 py-16 lg:py-20 xl:py-24">
+    <div v-if="module" class="relative mt-15 py-16 lg:py-20 xl:py-24">
       <div
         class="absolute top-0 left-1/2 -z-[5] h-full w-screen -translate-x-1/2 transform overflow-hidden bg-primary-500 bg-linear-to-r from-primary-500 via-primary-600 to-secondary-900/50"
       >
