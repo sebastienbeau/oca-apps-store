@@ -8,9 +8,9 @@
         <div class="lg:w-5/8 lg:pr-5">
           <UBreadcrumb :items="breadCrumb" class="mt-8 mb-6" />
           <USeparator />
-          <div class="pt-6 lg:max-w-xl xl:max-w-2xl">
+          <div class="overflow-x-hidden pt-6 lg:max-w-xl xl:max-w-2xl">
             <ProseH1
-              class="mb-2 text-2xl text-primary sm:mb-5 md:text-3xl lg:mt-10 lg:text-5xl xl:text-6xl"
+              class="mb-2 break-after-auto text-2xl text-primary sm:mb-5 md:text-3xl lg:mt-10 lg:text-5xl xl:text-6xl"
             >
               {{ removeLastWord(module?.name) }}
               <span class="text-secondary-500">
@@ -57,14 +57,14 @@
         module?.readmeFragments?.configure ||
         module?.readmeFragments?.contributors
       "
-      class="relative mb-24 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10"
+      class="relative mb-12 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10"
     >
       <div
-        class="absolute -top-10 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
+        class="absolute -top-3 left-1/2 -z-10 h-full w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
       />
       <div class="flex flex-col gap-2 lg:flex-row">
         <div class="flex flex-col gap-4">
-          <div v-if="module?.readmeFragments?.install" class="flex-1">
+          <div v-if="module?.readmeFragments?.install" class="flex-1 pb-10">
             <ProseH2 class="mt-2 text-2xl text-secondary md:text-3xl">
               {{ t('modules.install.title') }}
             </ProseH2>
@@ -79,7 +79,8 @@
         </div>
         <div
           v-if="
-            module?.readmeFragments?.configure &&
+            (module?.readmeFragments?.configure ||
+              module?.readmeFragments?.install) &&
             module?.readmeFragments?.contributors
           "
           class="my-2 hidden lg:flex"
@@ -101,8 +102,8 @@
     <ModuleUsage :module="module" />
     <ModuleHistory :module="module" />
     <ModuleRoadMap :module="module" />
-    <ModuleBugTracker :module="module" />
     <ModuleMaintainer :module="module" />
+    <ModuleBugTracker :module="module" />
     <ModuleDependencies :module="module" />
     <ModuleUsedBy :module="module" />
   </div>

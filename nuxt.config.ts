@@ -18,6 +18,14 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
   ],
+  nitro: {
+    compressPublicAssets: true,
+    storage: {
+      routeCache: {
+        driver: 'memory',
+      },
+    },
+  },
   plugins: ['~/plugins/services/index', '~/plugins/sponsorship'],
   ssr: true,
   devtools: { enabled: true },
@@ -85,21 +93,38 @@ export default defineNuxtConfig({
   routeRules: {
     '/': {
       ssr: true,
+      swr: 3600,
+      cache: {
+        base: "routeCache",
+      },
     },
-    '/**': {
-      ssr: true,
-    },
+
     'modules/**': {
       ssr: true,
+      swr: 3600,
+      cache: {
+        base: "routeCache",
+      },
+    },
+    'modules': {
+      ssr: true,
+      swr: 3600,
+      cache: {
+        base: "routeCache",
+      },
     },
     'module': {
       redirect: '/modules',
     },
-    'modules': {
-      ssr: false,
-    },
     'companies': {
-      ssr: false,
+      ssr: true,
+      swr: 3600,
+      cache: {
+        base: "routeCache",
+      },
+    },
+    '/**': {
+      ssr: true,
     },
   },
   sourcemap: {
@@ -107,14 +132,6 @@ export default defineNuxtConfig({
     client: true,
   },
   compatibilityDate: '2025-07-16',
-  nitro: {
-    storage: {
-      db: {
-        driver: 'fs',
-        base: './.data/db',
-      },
-    },
-  },
   eslint: {
     config: {
       stylistic: false,

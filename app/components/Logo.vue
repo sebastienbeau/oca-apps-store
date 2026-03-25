@@ -1,9 +1,14 @@
 <template>
-  <NuxtLink :to="localePath('/')" class="flex items-center space-x-2">
+  <NuxtLink
+    :to="localePath('/')"
+    class="flex items-center space-x-2"
+    aria-label="OCA App Store"
+  >
     <UColorModeImage
       light="/oca-logo.png"
       dark="/oca-logo-light.png"
       class="max-w-24"
+      alt="OCA App Store"
     />
   </NuxtLink>
 </template>

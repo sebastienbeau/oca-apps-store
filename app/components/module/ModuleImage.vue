@@ -1,9 +1,11 @@
 <template>
   <div>
-    <img
+    <NuxtImg
       :class="sizeClasses"
       :src="module?.iconUrl || '/img/oca_modules_logo_vertical.png'"
       :alt="module?.name"
+      loading="lazy"
+      fetchpriority="low"
       class="rounded"
     />
   </div>
