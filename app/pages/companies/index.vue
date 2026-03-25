@@ -1,12 +1,12 @@
 <template>
   <SearchBase
+    v-model:sort-by="sortBy"
     :query="query"
     :facets="facets"
     :sort-options="sortOptions"
-    v-model:sort-by="sortBy"
     :infinite-scroll="false"
     :search-function="searchFunction"
-    :perPage="perPage"
+    :per-page="perPage"
     :ui="ui"
   >
     <template #header>

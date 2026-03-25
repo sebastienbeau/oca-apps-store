@@ -3,11 +3,11 @@
     v-if="company"
     orientation="horizontal"
     :ui="{
-      root: 'ring-0 relative',
+      root: 'ring-0 relative pt-8',
       title:
-        'flex items-start justify-start md:col-span-1 gap-0  md:pb-4 w-full font-normal',
-      description: 'w-full',
-      container: 'lg:grid-cols-3  md:grid-cols-3 ',
+        'flex items-start justify-start md:col-span-1 gap-0 md:pb-4 w-full font-normal',
+      description: 'w-full px-4',
+      container: 'lg:grid-cols-3  md:grid-cols-3 lg:items-start',
       wrapper: 'md:col-span-2 ',
       body: 'w-full',
       header: 'p-0 relative',
@@ -40,7 +40,18 @@
       </div>
     </template>
     <template #description>
-      <slot name="description" />
+      <slot name="description">
+        <MDC
+          v-if="company.sponsorship?.description"
+          :value="company.sponsorship.description"
+        />
+        <div v-else>
+          {{ company?.sponsorship?.shortDescription }}
+        </div>
+      </slot>
+      <div class="flex flex-wrap justify-start gap-2 py-3">
+        <CompanyStats :company="company" />
+      </div>
     </template>
     <div
       v-if="company?.logoUrls?.l"
@@ -52,17 +63,12 @@
         class="m-4 ml-0 w-auto"
       />
     </div>
-    <template #footer>
-      <div class="flex flex-wrap justify-start gap-2 py-3">
-        <CompanyStats :company="company" />
-      </div>
-    </template>
   </UPageCard>
 </template>
 
 <script setup lang="ts">
-import type { Company } from '~~/models'
+import type { Company, Sponsor } from '~~/models'
 const props = defineProps<{
-  company: Company
+  company: Company | Sponsor
 }>()
 </script>

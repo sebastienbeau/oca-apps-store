@@ -10,7 +10,7 @@
     :per-page="perPage"
   >
     <template #header>
-      <ContentRenderer v-if="content" :value="content" />
+      <!-- <ContentRenderer v-if="content" :value="content" /> -->
     </template>
     <template #actions>
       <UFormField>

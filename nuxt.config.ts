@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
   ],
-  plugins: ['~/plugins/services/index'],
+  plugins: ['~/plugins/services/index', '~/plugins/sponsorship'],
   ssr: true,
   devtools: { enabled: true },
   app: {
@@ -92,8 +92,11 @@ export default defineNuxtConfig({
     'modules/**': {
       ssr: true,
     },
+    'module': {
+      redirect: '/modules',
+    },
     'modules': {
-      ssr: true,
+      ssr: false,
     },
     'companies': {
       ssr: false,

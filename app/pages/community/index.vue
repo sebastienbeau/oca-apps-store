@@ -73,13 +73,14 @@ const sortOptions = computed(() => {
 const sortBy = ref('name:asc')
 const query = computed(() => {
   return {
-    q: searchTerms.value,
+    q: searchTermsDebounced.value,
     query_by: 'name,username,company',
   }
 })
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
 const searchTerms = ref('')
+const searchTermsDebounced = useDebounce(searchTerms, 500)
 const facets: Facet[] = [
   {
     field: 'country.label',

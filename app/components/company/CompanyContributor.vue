@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 py-10">
+  <div v-if="found > 0" class="p-4 py-10">
     <ProseH2 class="mb-4 text-3xl font-extrabold text-primary lg:text-4xl">
       <span class="pr-1 uppercase">
         {{ company.name }}
@@ -42,23 +42,26 @@ const props = defineProps<{
 }>()
 const { t } = useI18n()
 const searchTerms = ref('')
+const searchTermsDebounced = useDebounce(searchTerms, 500)
 const page = ref(1)
+
 const personService = useService('persons')
 const { data: contributors } = useAsyncData<PersonRole>(
   () => {
     return personService.getPersonsByCompanyId(
       parseInt(props.company.id),
-      searchTerms.value,
+      searchTermsDebounced.value,
       page.value
     )
   },
   {
-    watch: [searchTerms, page],
+    watch: [searchTermsDebounced, page],
     debounce: 300,
   }
 )
+const found = contributors.value?.found || 0
 watch(
-  () => searchTerms.value,
+  () => searchTermsDebounced.value,
   (newSearchTerms) => {
     page.value = 1
   }
