@@ -152,9 +152,7 @@ const perPage = defineModel('perPage', {
   type: Number,
   required: false,
 })
-if (perPageCookie?.value) {
-  perPage.value = Number(perPageCookie.value)
-}
+
 const page = defineModel('page', {
   type: Number,
   required: false,
@@ -164,6 +162,11 @@ const sortBy = defineModel('sortBy', {
   type: String,
   required: false,
 })
+if (perPageCookie?.value) {
+  perPage.value = route.query.per_page
+    ? Number(route.query.per_page)
+    : Number(perPageCookie.value)
+}
 if (!page.value) {
   page.value = route.query.page ? Number(route.query.page) : 1
 }
@@ -176,9 +179,7 @@ if (!sortBy.value) {
     props.sortOptions?.[0]?.value ||
     ''
 }
-const query = computed(() => {
-  return props?.query || {}
-})
+
 const searchInFacet: { [field: string]: string } = {}
 const queryFacets: { [field: string]: string } = {}
 
@@ -230,7 +231,7 @@ const res = await useAsyncData<FacetSearchResult<T>>(
     return await props.searchFunction?.(query, facetData)
   },
   {
-    watch: [query],
+    watch: [route.path],
   }
 )
 const { data } = res
@@ -246,9 +247,45 @@ const results = reactive<FacetSearchResult<T>>({
   found: data?.value?.found || 0,
   facets: data?.value?.facets || [],
 })
+
 /**
- * Perform the search with the current facets
+ * Perform the search with the current facets selected and the current query
+ *
+ * Used to get search results and facets items when refining the search with facets or changing page or sort
+ * and also to search in facets items itself
  */
+const performSearchQuery = async (): Promise<FacetSearchResult<T>> => {
+  const facetData: FacetSearchParam[] =
+    props.facets.map((f) => {
+      return {
+        field: f.field,
+        query: queryFacets?.[f.field] || '',
+        searchTerm: searchInFacet?.[f.field] || undefined,
+        sortBy: f.sortBy,
+        perPage: f?.perPage || 10,
+      }
+    }) || []
+
+  const defaultQuery = {
+    query_by: 'name',
+    per_page: perPage.value,
+    q: '*',
+  }
+
+  const query = {
+    ...defaultQuery,
+    ...(props?.query || {}),
+  }
+  return await props.searchFunction?.(
+    {
+      ...query,
+      sort_by: sortBy.value,
+      page: page.value,
+    },
+    facetData
+  )
+}
+
 const search = async () => {
   isLoading.value = true
   error.value = null
@@ -264,35 +301,7 @@ const search = async () => {
       })
     }
 
-    const facetData: FacetSearchParam[] =
-      props.facets.map((f) => {
-        return {
-          field: f.field,
-          query: queryFacets?.[f.field] || '',
-          searchTerm: searchInFacet?.[f.field] || undefined,
-          sortBy: f.sortBy,
-          perPage: f?.perPage || 10,
-        }
-      }) || []
-
-    const defaultQuery = {
-      query_by: 'name',
-      per_page: perPage.value,
-      q: '*',
-    }
-
-    const query = {
-      ...defaultQuery,
-      ...(props?.query || {}),
-    }
-    const res: FacetSearchResult<T> = await props.searchFunction?.(
-      {
-        ...query,
-        sort_by: sortBy.value,
-        page: page.value,
-      },
-      facetData
-    )
+    const res: FacetSearchResult<T> = await performSearchQuery()
     if (props.infiniteScroll && !facetHasChanges.value) {
       results.hits = [
         ...results.hits.slice(0, perPage.value * (page.value - 1)),
@@ -323,14 +332,18 @@ const onChangeFilter = async (facetName: string, query: string) => {
   await search()
 }
 
-const onSearchInFacet = async (facetName: string, query: string) => {
+/**
+ * Search in facet items with the given query and facet name
+ */
+const onSearchInFacet = async (facetName: string, facetQuery: string) => {
   facetHasChanges.value = true
-  searchInFacet[facetName] = query
-  await search()
+  searchInFacet[facetName] = facetQuery
+  const res: FacetSearchResult<T> = await performSearchQuery()
+  results.facets = res?.facets || []
 }
 
 /**
- *
+ * Sort the search results by the given value
  * @param value
  */
 const onSort = async (value: string) => {
@@ -361,6 +374,8 @@ const changePage = async (p: number) => {
   router.replace({
     query: {
       ...route.query,
+      per_page: perPage.value,
+      q: props.query?.q || undefined,
       page: page.value.toString(),
     },
   })
@@ -380,8 +395,11 @@ watch(
     if (perPage.value) {
       perPageCookie.value = perPage.value.toString()
     }
-    await search()
-  }
+    // go back to first page when changing the query or per page
+    // changePage will automatically perform the search with the new page
+    changePage(1)
+  },
+  { immediate: false, deep: true }
 )
 
 watch(

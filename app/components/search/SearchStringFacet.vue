@@ -1,10 +1,6 @@
 <template>
   <div>
-    <UFormField
-      v-if="props.searchable"
-      :label="title"
-      :description="description"
-    >
+    <UFormField v-if="props.searchable" :label="title">
       <UInput v-model="searchQuery" size="sm" clearable icon="search">
         <template v-if="value?.length" #trailing>
           <UButton

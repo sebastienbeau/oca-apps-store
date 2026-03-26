@@ -9,6 +9,7 @@ import type {
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { SitemapUrlInput } from '#sitemap/types'
+import type { ModuleWithHighlight } from '~~/models/Module'
 
 interface ModuleSchema {
   id: number
@@ -23,8 +24,12 @@ export class ModuleService extends BaseServiceTypeSense {
   groupedHits(groupedHits: any[]): ModuleGroupedHit[] {
     return groupedHits.map((group: any) => ({
       urlKey: group?.group_key?.[0] || '',
-      hits:
-        group?.hits.map((hit: any) => this.jsonToModel(hit?.document)) || [],
+      hits: group?.hits.map((hit: any) => {
+        if (hit?.highlights) {
+          return this.jsonToModelWithHighlight(hit?.document, hit?.highlight)
+        }
+        return this.jsonToModel(hit?.document)
+      }) || [],
     }))
   }
 
@@ -42,6 +47,7 @@ export class ModuleService extends BaseServiceTypeSense {
     const result = await super.performSearch(body)
 
     const groupedHits = this.groupedHits(result?.grouped_hits) || []
+
     return groupedHits?.[0] || null
   }
 
@@ -56,6 +62,7 @@ export class ModuleService extends BaseServiceTypeSense {
     const total = result?.found || 0
     return { hits, total }
   }
+
   async getModulesList(input: Module | Person): Promise<ModuleGroupedHit[]> {
     let filter = ''
     let found: ModuleGroupedHit | undefined
@@ -138,8 +145,8 @@ export class ModuleService extends BaseServiceTypeSense {
     if (query?.filter_by) {
       filterBy = [...filterBy, ...query.filter_by.split(' && ')]
     }
-    if (query?.q !== '*' && query?.q) {
-      query.sort_by = '_text_match:desc'
+    if (query?.q !== '*' && query?.q && query?.sort_by) {
+      delete query.sort_by
     }
     const queries = [
       {
@@ -227,6 +234,14 @@ export class ModuleService extends BaseServiceTypeSense {
     } while ((page - 1) * size < total)
 
     return urls || []
+  }
+
+  jsonToModelWithHighlight(json: ModuleSchema, highlights: { field: string, value: string }[]): ModuleWithHighlight {
+    const module = this.jsonToModel(json)
+    return {
+      ...module,
+      highlights,
+    }
   }
   jsonToModel(json: ModuleSchema): Module {
     return ModuleFactory.createModule(json)

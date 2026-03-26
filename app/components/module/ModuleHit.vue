@@ -10,17 +10,20 @@
   >
     <template #header>
       <div class="fit flex max-w-full items-center gap-4" @click="goToModule">
-        <ModuleImage :module="module" />
+        <ModuleImage :module="module" class="min-w-16" />
         <div
           class="flex flex-col items-start justify-start gap-1 overflow-hidden"
         >
           <ProseH3
             class="my-0 line-clamp-2 font-heading text-lg leading-6 font-semibold text-primary lg:text-xl"
           >
-            {{ removeLastWord(module.name) }}
-            <span class="text-secondary-500">
-              {{ getLastWord(module.name) }}
-            </span>
+            <div v-if="highlights?.name" v-html="highlights.name" />
+            <template v-else>
+              {{ removeLastWord(module.name) }}
+              <span class="text-secondary-500">
+                {{ getLastWord(module.name) }}
+              </span>
+            </template>
           </ProseH3>
           <UBadge
             v-if="module?.repository?.category?.name"
@@ -29,40 +32,52 @@
             size="sm"
             class="rounded-full"
           >
-            {{ module.repository?.category?.name }}
+            <span
+              v-html="highlights?.category || module.repository.category.name"
+            />
           </UBadge>
         </div>
       </div>
     </template>
-    <div class="flex flex-1 flex-col gap-y-2 pt-2" @click="goToModule">
+    <div class="flex flex-1 flex-col gap-y-1 pt-2" @click="goToModule">
       <div
         v-if="module?.repository?.name"
         class="flex items-center gap-1 text-sm text-primary"
       >
         <UIcon name="repository" />
-        <div class="line-clamp-1">
-          {{ module.repository?.name }}
-        </div>
+        <div
+          class="line-clamp-1"
+          v-html="highlights?.repository || module?.repository?.name"
+        />
       </div>
+      <div
+        v-html="highlights?.techname || module?.techname"
+        class="pb-2 text-xs break-all text-muted"
+      />
       <div class="h-full flex-1">
         <p
           v-if="module?.summary"
           class="line-clamp-4 text-sm text-gray-500 dark:text-gray-400"
-        >
-          {{ module.summary }}
-        </p>
+          v-html="highlights?.summary || module?.summary"
+        />
       </div>
+      <div
+        v-if="highlights?.complement"
+        v-html="`... ${highlights.complement}...`"
+        class="border-l-2 border-l-muted py-1 pl-2 text-xs text-dimmed"
+      />
+
       <ModuleSerieList :module-grouped="moduleGrouped" size="sm" />
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <UAvatarGroup v-if="module?.contributors?.length" :max="5" size="sm">
+        <UAvatarGroup v-if="module?.maintainer?.length" :max="5" size="sm">
           <UAvatar
-            v-for="contributor in module.contributors"
-            :key="contributor.name"
-            :alt="contributor.name"
+            v-for="maintainer in module.maintainer"
+            :key="maintainer.name"
+            :alt="maintainer.name"
             :avatar="{
-              name: contributor.name,
+              name: maintainer.name,
             }"
           />
         </UAvatarGroup>
@@ -94,11 +109,11 @@ const props = defineProps<{
   }
 }>()
 const module = computed(
-  () => props.moduleGrouped.hits[props.moduleGrouped.hits.length - 1] || null
+  () => props.moduleGrouped?.hits?.[props.moduleGrouped.hits.length - 1] || null
 )
 const ui = computed(() => {
   const ui = {
-    root: 'w-full divide-none  max-sm:ring-0 max-sm:rounded-none max-sm:border-b max-sm:border-default max-md:pb-3 flex flex-col',
+    root: 'w-full divide-none  max-sm:ring-0 max-sm:rounded-none max-sm:border-b max-sm:border-default max-md:pb-3 flex flex-col [&_mark]:bg-transparent [&_mark]:text-secondary ',
     body: 'p-3 sm:p-4 py-0 sm:py-0 pb-4 sm:pb-4 flex-1 flex flex-col gap-3',
     header: 'flex items-center gap-3 p-3 sm:p-4 ',
     footer: 'p-3 sm:p-4',
@@ -130,4 +145,29 @@ const goToModule = () => {
   if (!module.value?.urlKey) return
   navigateTo(`/modules/${module.value?.urlKey}`)
 }
+const highlights = computed(() => {
+  if (!module?.value) return null
+  const { highlights } = module.value || {}
+  const labels = {
+    summary: highlights?.summary?.snippet || null,
+    name: highlights?.name?.snippet || null,
+    category: highlights?.repo?.category?.name?.snippet || null,
+    repository: highlights?.repo?.name?.snippet || null,
+    techname: highlights?.techname?.snippet || null,
+  }
+  // if all labels are null, return null to avoid rendering empty highlights
+  if (Object.values(labels).every((value) => value === null)) {
+    return {
+      complement:
+        highlights?.description?.snippet ||
+        highlights?.readme_fragments?.usage?.snippet ||
+        null,
+    }
+  }
+  return labels
+  /*.reduce((acc: any, highlight: any) => {
+    acc[highlight.field] = highlight.snippet
+    return acc
+  }, {})*/
+})
 </script>

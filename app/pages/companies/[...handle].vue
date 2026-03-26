@@ -3,6 +3,7 @@
     <UBreadcrumb :items="breadcrumb" class="mt-8 mb-6" />
     <USeparator />
     <SponsorDetail v-if="company && company?.sponsorship" :sponsor="company" />
+    <CompanyHeroBanner v-else-if="company" :company="company" />
     <CompanyHeroBanner v-else :company="company" />
     <CompanyContributor :company="company" />
   </div>

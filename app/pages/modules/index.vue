@@ -86,20 +86,19 @@ const sortOptions = computed(() => {
   ]
 })
 const sortBy = ref('name:asc')
-
-const query = computed(() => {
-  return {
-    q: searchTermsDebounced.value,
-    query_by:
-      'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
-    query_by_weights: '10,8,4,3,2,1,1',
-    prefix: true,
-  }
-})
 const displayMode = ref<'grid' | 'list'>('grid')
 const perPage = 12
 const searchTerms = ref((route.query?.q as string) || '')
 const searchTermsDebounced = refDebounced(searchTerms, 300)
+const query = reactive({
+  q: searchTerms.value,
+  highlight_full_fields:
+    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
+  query_by:
+    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
+  query_by_weights: '10,8,4,3,2,1,1',
+})
+
 const facets: Facet[] = [
   {
     field: 'serie',
@@ -124,8 +123,8 @@ const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]
 ): Promise<FacetSearchResult<ModuleGroupedHit>> => {
-  console.log(query?.sort_by)
   const res = await moduleService.facetSearch(query, facets)
+
   return res
 }
 
@@ -148,6 +147,7 @@ watch(
         q: searchTermsDebounced.value || undefined,
       },
     })
+    query.q = searchTermsDebounced.value
   }
 )
 </script>

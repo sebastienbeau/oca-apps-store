@@ -9,14 +9,18 @@
           <UBreadcrumb :items="breadCrumb" class="mt-8 mb-6" />
           <USeparator />
           <div class="overflow-x-hidden pt-6 lg:max-w-xl xl:max-w-2xl">
-            <ProseH1
-              class="mb-2 break-after-auto text-2xl text-primary sm:mb-5 md:text-3xl lg:mt-10 lg:text-5xl xl:text-6xl"
+            <div
+              class="flex gap-4 overflow-hidden max-md:flex-col lg:items-center"
             >
-              {{ removeLastWord(module?.name) }}
-              <span class="text-secondary-500">
-                {{ getLastWord(module?.name) }}
-              </span>
-            </ProseH1>
+              <ProseH1
+                class="mb-2 break-after-auto text-2xl text-primary sm:mb-5 md:text-3xl lg:mt-10 lg:text-5xl xl:text-6xl"
+              >
+                {{ removeLastWord(module?.name) }}
+                <span class="text-secondary-500">
+                  {{ getLastWord(module?.name) }}
+                </span>
+              </ProseH1>
+            </div>
             <UBadge
               v-if="module?.repository?.category?.name"
               color="secondary"
@@ -42,7 +46,6 @@
         <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12">
           <ModuleDownload
             v-if="moduleGrouped"
-            v-motion-slide-visible-top
             :module-grouped="moduleGrouped"
             :selected-module="module"
             class="mx-auto w-full max-w-2xl translate-y-7"

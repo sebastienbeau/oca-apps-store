@@ -28,7 +28,7 @@
         :module-grouped="item"
       />
     </div>
-    <div v-if="total > 0" class="flex justify-center pt-8">
+    <div v-if="total > 0 && total > pageSize" class="flex justify-center pt-8">
       <UPagination v-model:page="page" :page-size="pageSize" :total="total" />
     </div>
   </div>

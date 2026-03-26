@@ -8,7 +8,6 @@
           size="lg"
         />
       </template>
-      <template #description> </template>
     </CompanyHeroBanner>
     <SponsorIndustries
       v-if="sponsorLevel"

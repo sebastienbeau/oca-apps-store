@@ -1,7 +1,7 @@
 <template>
-  <UTooltip
+  <div
     v-if="module && module?.runboatURL"
-    :text="t('modules.runboat.tooltip')"
+    class="inline-flex flex-col items-center justify-end"
   >
     <UButton
       variant="solid"
@@ -13,12 +13,19 @@
     >
       <div class="text-nowrap">
         {{ t('modules.runboat.try') }}
-        <span class="font-bold">
-          {{ t('modules.runboat.name') }}
-        </span>
+        <span class="font-bold"> {{ t('modules.runboat.name') }} ! </span>
       </div>
     </UButton>
-  </UTooltip>
+
+    <UButton
+      href="https://odoo-community.org/how-to-test-odoo-oca-module"
+      target="_blank"
+      icon="help"
+      variant="link"
+      size="xs"
+      :label="t('modules.runboat.how_to_test')"
+    />
+  </div>
 </template>
 <script setup lang="ts">
 import type { Module } from '~~/models'

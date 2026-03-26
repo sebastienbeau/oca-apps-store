@@ -40,8 +40,7 @@
     <UPagination
       v-if="!infiniteScroll && total > perPage"
       v-model:page="page"
-      :default-page="page"
-      :per-page="perPage"
+      :items-per-page="perPage"
       :total="total"
     />
   </div>

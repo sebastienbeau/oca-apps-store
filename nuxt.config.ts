@@ -18,6 +18,10 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
   ],
+  image: {
+    format: ['webp'],
+    domains: ['odoo-community.org'],
+  },
   nitro: {
     compressPublicAssets: true,
     storage: {
@@ -25,6 +29,9 @@ export default defineNuxtConfig({
         driver: 'memory',
       },
     },
+    externals: {
+      inline: ['puppeteer-core']
+    }
   },
   plugins: ['~/plugins/services/index', '~/plugins/sponsorship'],
   ssr: true,
@@ -93,35 +100,21 @@ export default defineNuxtConfig({
   routeRules: {
     '/': {
       ssr: true,
-      swr: 3600,
-      cache: {
-        base: "routeCache",
-      },
     },
 
     'modules/**': {
       ssr: true,
-      swr: 3600,
-      cache: {
-        base: "routeCache",
-      },
+
     },
     'modules': {
       ssr: true,
-      swr: 3600,
-      cache: {
-        base: "routeCache",
-      },
+
     },
     'module': {
       redirect: '/modules',
     },
     'companies': {
       ssr: true,
-      swr: 3600,
-      cache: {
-        base: "routeCache",
-      },
     },
     '/**': {
       ssr: true,

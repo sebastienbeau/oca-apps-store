@@ -46,9 +46,15 @@ export interface Module {
 
 export interface ModuleGroupedHit {
   urlKey: string
-  hits: Module[]
+  hits: ModuleWithHighlight[]
 }
 
+export interface ModuleWithHighlight extends Module {
+  highlights: {
+    field: string
+    value: string
+  }[]
+}
 export interface ModuleResult {
   hits: ModuleGroupedHit[]
   total: number

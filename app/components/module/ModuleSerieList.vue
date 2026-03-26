@@ -34,7 +34,7 @@ const emits = defineEmits<{
 }>()
 
 const series = computed(() => {
-  return props.moduleGrouped.hits
+  return props.moduleGrouped?.hits
     ?.reduce((acc: { serie: string }[], hit) => {
       if (hit.serie && !acc.find((v) => v.serie === hit.serie)) {
         acc.push({ serie: hit.serie })

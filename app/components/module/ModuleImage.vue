@@ -6,7 +6,7 @@
       :alt="module?.name"
       loading="lazy"
       fetchpriority="low"
-      class="rounded"
+      :sizes="sizeString"
     />
   </div>
 </template>
@@ -25,13 +25,25 @@ const props = withDefaults(
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':
-      return 'max-w-12 h-12'
+      return 'max-w-12 h-12 '
     case 'md':
       return 'max-w-16 h-16'
     case 'lg':
       return 'max-w-48 h-48'
     default:
       return 'max-w-24 h-24'
+  }
+})
+const sizeString = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return '48px'
+    case 'md':
+      return '64px'
+    case 'lg':
+      return '96px'
+    default:
+      return '96px'
   }
 })
 </script>

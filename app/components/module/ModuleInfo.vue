@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in info"
       :key="item.label"
-      class="flex items-center gap-2"
+      class="flex flex-wrap items-center gap-2"
     >
       <UAvatar :icon="item.icon" />
       <div class="flex-1">
@@ -25,7 +25,12 @@
           </span>
         </div>
       </div>
-      <ModuleRunboat v-if="index == 0 && module" :module="module" size="sm" />
+      <ModuleRunboat
+        v-if="index == 0 && module"
+        :module="module"
+        size="sm"
+        class="flex-1 items-end justify-end"
+      />
     </div>
   </div>
 </template>

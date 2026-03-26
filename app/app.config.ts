@@ -68,7 +68,8 @@ export default defineAppConfig({
       system: 'i-ph-monitor',
       tip: 'i-ph-lightbulb',
       upload: 'i-ph-upload',
-      warning: 'i-ph-warning'
+      warning: 'i-ph-warning',
+
     },
     changelogVersion: {
       slots: {
@@ -132,7 +133,8 @@ export default defineAppConfig({
       "code": 'ph:code',
       "award": 'ph:trophy',
       "industries": 'ph:factory',
-      "back": 'ph:arrow-left'
+      "back": 'ph:arrow-left',
+      "help": 'ph:question',
     },
     cssLayer: 'base' // set the css layer to inject to
   }

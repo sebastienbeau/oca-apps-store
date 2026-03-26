@@ -89,6 +89,7 @@ const facets: Facet[] = [
   {
     field: 'countries.label',
     title: t('sponsors.filters.countries'),
+    searchable: true,
   },
 ]
 

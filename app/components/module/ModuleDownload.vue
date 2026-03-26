@@ -9,7 +9,7 @@
   >
     <template #header>
       <div class="flex items-center gap-2 py-2 text-info">
-        <UIcon name="module" class="size-14 md:size-18" />
+        <ModuleImage :module="module" size="md" />
         <div>
           <div class="text-xl font-bold md:text-4xl">
             Download
@@ -41,7 +41,9 @@
     </template>
     <ModuleInfo v-if="module" :module="module" />
     <template #footer>
-      <div class="flex items-end justify-between gap-4">
+      <div
+        class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end"
+      >
         <UFormField
           :label="t('modules.version.label')"
           :help="series?.length == 1 ? selectedSerie : ''"
