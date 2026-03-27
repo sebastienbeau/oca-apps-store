@@ -12,11 +12,18 @@
   >
     <template #header>
       <div class="flex flex-col items-start justify-between">
-        <img
-          :src="sponsor?.logoUrls?.l"
-          alt="Logo"
-          class="m-4 ml-0 h-16 w-auto"
-        />
+        <div class="m-4 ml-0 flex min-h-28 items-center">
+          <nuxt-img
+            :src="sponsor?.logoUrls?.m"
+            :alt="sponsor.name"
+            sizes="128px md:180px"
+            class="md:max-h-28"
+            fit="contain"
+            loading="lazy"
+            quality="80"
+            :to="`/sponsors/${sponsor.urlKey}`"
+          />
+        </div>
         <div class="flex w-full items-center justify-between gap-1">
           <div class="flex-1 text-xl font-semibold">
             <nuxt-link v-if="isClickable" :to="`/sponsors/${sponsor.urlKey}`">

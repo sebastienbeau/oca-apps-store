@@ -7,8 +7,9 @@
       title:
         'flex items-start justify-start md:col-span-1 gap-0 md:pb-4 w-full font-normal',
       description: 'w-full px-4',
-      container: 'lg:grid-cols-3  md:grid-cols-3 lg:items-start',
-      wrapper: 'md:col-span-2 ',
+      container:
+        'flex-col-reverse justify-center items-center lg:grid-cols-3  md:grid-cols-3 lg:items-start',
+      wrapper: 'md:col-span-2',
       body: 'w-full',
       header: 'p-0 relative',
     }"
@@ -18,7 +19,7 @@
       <div class="md:max-w-full">
         <ProseH1
           v-if="company?.name"
-          class="mb-0 pt-2 text-5xl font-bold text-primary uppercase"
+          class="mb-0 pt-2 text-2xl font-bold text-primary uppercase md:text-3xl lg:text-4xl xl:text-5xl"
         >
           {{ company.name }}
         </ProseH1>
@@ -53,14 +54,12 @@
         <CompanyStats :company="company" />
       </div>
     </template>
-    <div
-      v-if="company?.logoUrls?.l"
-      class="order-first pb-8 md:order-last md:pb-0"
-    >
+    <div v-if="company?.logoUrls?.l" class="pb-8 md:pb-0">
       <nuxt-img
         :src="company.logoUrls?.l"
         :alt="company.logoUrls?.alt"
-        class="m-4 ml-0 w-auto"
+        class="m-4 ml-0"
+        sizes="128px md:300px"
       />
     </div>
   </UPageCard>

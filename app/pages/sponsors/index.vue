@@ -51,6 +51,7 @@ import type {
 
 const { t } = useI18n()
 const route = useRoute()
+
 const { data: content } = await useAsyncData(`sponsors-modules`, () => {
   return queryCollection('docs').path(route.path).first()
 })
@@ -58,14 +59,17 @@ const { data: content } = await useAsyncData(`sponsors-modules`, () => {
 const companiesService = useService('companies')
 
 const searchTerms = ref('')
+const searchTermsDebounced = useDebounce(searchTerms, 500)
 const perPage = 12
 const page = ref(1)
 
 const query = computed(() => {
   return {
-    q: searchTerms.value,
-    query_by: 'name',
+    q: searchTermsDebounced.value,
+    query_by:
+      'name,sponsorship.level.name,countries.label,sponsorship.description_short,sponsorship.industries.name',
     filter_by: `sponsorship.level.id:>0`,
+    query_by_weights: '10,5,1,1,1',
   }
 })
 const sortOptions = computed(() => {
@@ -85,6 +89,7 @@ const facets: Facet[] = [
   {
     field: 'countries.label',
     title: t('sponsors.filters.countries'),
+    searchable: true,
   },
   {
     field: 'sponsorship.industries.name',

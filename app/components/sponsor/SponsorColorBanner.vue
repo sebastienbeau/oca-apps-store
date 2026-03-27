@@ -1,52 +1,47 @@
 <template>
-  <div class="pt-14 pb-1 md:pt-32 md:pb-10 relative">
-    <div class="w-screen absolute left-1/2 transform -translate-x-1/2 top-0 h-[120%] -skew-y-3 -z-10 opacity-5" :style="{
-      backgroundColor: sponsorship?.color || '#FD9182',
-    }" />
+  <div class="relative pt-14 pb-1 md:pt-32 md:pb-10">
+    <div
+      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform opacity-5"
+      :style="{
+        backgroundColor: sponsorship?.color || '#FD9182',
+      }"
+    />
     <div class="flex justify-between gap-1">
-      <div class="text-3xl font-bold mb-2" :style="{
-        color: sponsorship?.color || '#FD9182',
-      }">
+      <div
+        class="mb-2 text-3xl font-bold"
+        :style="{
+          color: sponsorship?.color || '#FD9182',
+        }"
+      >
         <slot name="title">
           {{ sponsorship.title }}
         </slot>
       </div>
       <div class="hidden md:block">
-        <UButton :to="sponsorship?.callToActionUrl || '/sponsor#become-a-sponsor'"
-          :label="t('sponsors.become', { name: sponsorship?.name })" color="neutral" variant="solid"
-          icon="ion:rocket-outline" />
+        <UButton
+          href="https://odoo-community.org/get-involved/become-a-sponsor"
+          :label="t('sponsors.become', { name: sponsorship?.name })"
+          color="neutral"
+          variant="solid"
+          icon="contribute"
+          target="_blank"
+        />
       </div>
     </div>
-    <slot name="description">
-    </slot>
+    <slot name="description"> </slot>
   </div>
 </template>
 <script setup lang="ts">
-import type { SponsorLevelsCollectionItem } from '@nuxt/content';
+import type { SponsorLevelsCollectionItem } from '@nuxt/content'
 
 const { t } = useI18n()
 const props = defineProps<{
   sponsorship: SponsorLevelsCollectionItem
 }>()
-
-const links = ref([
-
-  {
-    label: 'Become a Sponsor',
-    color: 'primary',
-    variant: 'solid',
-    trailingIcon: 'ion:rocket-outline',
-  }
-])
-const backgroundImg = computed(() => {
-  return [
-    `${props.sponsorship?.level || "gold"}`,
-  ]
-})
 </script>
 <style scoped>
 .background-style::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -50%;

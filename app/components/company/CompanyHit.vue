@@ -4,11 +4,12 @@
       <div class="flex flex-col items-start justify-between">
         <div class="flex w-full items-start justify-between gap-4">
           <nuxt-img
-            :src="company?.logoUrls?.l"
+            :src="company?.logoUrls?.m"
             alt="Logo"
-            class="m-4 ml-0 h-20 w-32 rounded-md object-contain"
+            class="m-4 ml-0 max-h-20 rounded-md object-contain"
+            sizes="100px md:128px"
           />
-          <div>
+          <div class="flex flex-col items-end justify-end gap-2">
             <UButton
               v-if="company.website?.url"
               variant="link"
@@ -17,6 +18,12 @@
               icon="website"
               :to="company.website.url"
               target="_blank"
+            />
+            <SponsorLogo
+              v-if="sponsorLevel"
+              :sponsor-level="sponsorLevel"
+              size="sm"
+              class="min-w-20"
             />
           </div>
         </div>
@@ -63,11 +70,6 @@
             </span>
           </div>
         </div>
-        <SponsorLogo
-          v-if="sponsorLevel"
-          :sponsor-level="sponsorLevel"
-          size="sm"
-        />
       </div>
     </template>
   </UCard>

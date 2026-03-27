@@ -21,10 +21,11 @@
     <template #right>
       <UButton
         color="secondary"
-        to="/become-sponsor"
+        href="https://odoo-community.org/get-involved/become-a-sponsor"
+        target="_blank"
         class="lg:btn-lg btn-md hidden text-sm sm:flex md:text-base"
       >
-        <UIcon name="vaadin:diamond"></UIcon>
+        <UIcon name="sponsor"></UIcon>
         {{ $t('nav.sponsors.become') }}
       </UButton>
       <UColorModeButton>

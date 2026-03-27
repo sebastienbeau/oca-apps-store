@@ -5,7 +5,8 @@
         <SponsorLogo
           v-if="sponsorLevel"
           :sponsor-level="sponsorLevel"
-          size="lg"
+          size="md"
+          class="min-w-24"
         />
       </template>
     </CompanyHeroBanner>

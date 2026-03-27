@@ -136,18 +136,24 @@ export class PersonService extends BaseServiceTypeSense {
 
     return urls || []
   }
+  /**
+   * Get company members by company id, with optional search terms and pagination
+   * @param companyId 
+   * @param searchTerms 
+   * @param page 
+   * @returns 
+   */
   async getPersonsByCompanyId(companyId: number, searchTerms: string, page: number): Promise<PersonRole> {
     const query = {
       q: searchTerms || '*',
       query_by: 'name',
-      filter_by: `company_id:=${companyId}`,
+      filter_by: `company.id:=${companyId}`,
       page,
       per_page: 9
     }
 
     const result = await super.performSearch<PersonSchema>({
       ...query,
-      //filter_by: `company_id:=${companyId}`,
     })
     return {
       hits: this.hits(result?.hits) || [],
@@ -168,7 +174,6 @@ export const PersonFactory = {
       avatarUrl: json?.avatar_url || null,
       username: json?.username,
       company: PersonFactory.createPersonCompany(json),
-      companyId: json?.company_id,
       country: PersonFactory.createPersonCountry(json),
       roles: PersonFactory.createPersonRoles(json),
       collaboratorIndex: json?.collaborator_index,
@@ -187,12 +192,12 @@ export const PersonFactory = {
   },
   createPersonContact(json: any):
     | {
-        address: string
-        email: string
-        phone: string
-        city: string
-        website: string
-      }
+      address: string
+      email: string
+      phone: string
+      city: string
+      website: string
+    }
     | undefined {
     if (json?.contact) {
       return {
