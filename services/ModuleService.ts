@@ -1,3 +1,4 @@
+import { moduleMaintainers } from './../models/Module'
 import type {
   Module,
   ModuleMaintainer,
@@ -10,7 +11,7 @@ import type {
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { SitemapUrlInput } from '#sitemap/types'
-import type { ModuleWithHighlight } from '~~/models/Module'
+import type { ModuleMaintainers, ModuleWithHighlight } from '~~/models/Module'
 
 interface ModuleSchema {
   id: number
@@ -25,21 +26,25 @@ export class ModuleService extends BaseServiceTypeSense {
   groupedHits(groupedHits: any[]): ModuleGroupedHit[] {
     return groupedHits.map((group: any) => ({
       urlKey: group?.group_key?.[0] || '',
-      hits: group?.hits.map((hit: any) => {
-        if (hit?.highlights) {
-          return this.jsonToModelWithHighlight(hit?.document, hit?.highlight)
-        }
-        return this.jsonToModel(hit?.document)
-      }) || [],
+      hits:
+        group?.hits.map((hit: any) => {
+          if (hit?.highlights) {
+            return this.jsonToModelWithHighlight(hit?.document, hit?.highlight)
+          }
+          return this.jsonToModel(hit?.document)
+        }) || [],
     }))
   }
 
-  async findByURLKey(urlKey: string, serie?: string): Promise<ModuleGroupedHit | null> {
+  async findByURLKey(
+    urlKey: string,
+    serie?: string
+  ): Promise<ModuleGroupedHit | null> {
     const body: any = {
       q: '*',
       filter_by: `techname:${urlKey}`,
       group_by: 'techname',
-      include_fields: "$ocastore_persons_en(*, strategy: merge)",
+      include_fields: '$ocastore_persons_en(*, strategy: merge)',
       sort_by: 'serie:desc',
     }
     if (serie) {
@@ -56,7 +61,7 @@ export class ModuleService extends BaseServiceTypeSense {
     body = {
       ...{ q: '*', query_by: 'name' },
       ...body,
-      group_by: 'techname'
+      group_by: 'techname',
     }
     const result = await super.performSearch<any>(body)
     const hits = this.groupedHits(result?.grouped_hits) || []
@@ -97,12 +102,37 @@ export class ModuleService extends BaseServiceTypeSense {
     )
   }
 
-  async getModuleUsedBy(module: Module, queryString: string, page: number, perPage: number): Promise<ModuleResult> {
+  async getModuleUsedBy(
+    module: Module,
+    queryString: string,
+    page: number,
+    perPage: number
+  ): Promise<ModuleResult> {
     const query: any = {
       filter_by: `dependencies:="${module.techname}"`,
       group_by: 'techname',
       page: page,
-      per_page: perPage
+      per_page: perPage,
+    }
+    if (queryString) {
+      query.q = queryString
+      query.query_by = 'name'
+    }
+    const res = await this.search(query)
+    return res
+  }
+
+  async getModulesMaintainedBy(
+    person: Person,
+    queryString: string,
+    page: number,
+    perPage: number
+  ): Promise<ModuleResult> {
+    const query: any = {
+      filter_by: `maintainers.github_user:="${person.username}"`,
+      group_by: 'techname',
+      page: page,
+      per_page: perPage,
     }
     if (queryString) {
       query.q = queryString
@@ -120,7 +150,7 @@ export class ModuleService extends BaseServiceTypeSense {
       delete query.sort_by
     }
     /** Build facet by query */
-    let facetBy = facets.map(facet => {
+    let facetBy = facets.map((facet) => {
       if (facet.sortBy) {
         return `${facet.field}(sort_by: ${facet.sortBy})`
       }
@@ -136,7 +166,6 @@ export class ModuleService extends BaseServiceTypeSense {
 
     /** Build filter by query */
     let filterBy = facets.reduce((acc, facet) => {
-
       if (facet.query) {
         acc.push(facet.query)
       }
@@ -161,9 +190,11 @@ export class ModuleService extends BaseServiceTypeSense {
 
     for (const facet of facets) {
       if (facet.query || facet.searchTerm) {
-        const facetBy = facet.sortBy ? `${facet.field}(sort_by: ${facet.sortBy})` : facet.field
-        let filterBy
-          = queries[0]?.filter_by
+        const facetBy = facet.sortBy
+          ? `${facet.field}(sort_by: ${facet.sortBy})`
+          : facet.field
+        let filterBy =
+          queries[0]?.filter_by
             ?.split(' && ')
             .filter((f) => f !== facet.query)
             .join(' && ') || ''
@@ -237,7 +268,10 @@ export class ModuleService extends BaseServiceTypeSense {
     return urls || []
   }
 
-  jsonToModelWithHighlight(json: ModuleSchema, highlights: { field: string, value: string }[]): ModuleWithHighlight {
+  jsonToModelWithHighlight(
+    json: ModuleSchema,
+    highlights: { field: string; value: string }[]
+  ): ModuleWithHighlight {
     const module = this.jsonToModel(json)
     return {
       ...module,
@@ -267,7 +301,7 @@ export const ModuleFactory = {
         description: json?.repo?.description,
         category: {
           name: json?.repo?.category?.name,
-          urlKey: json?.repo?.category?.urlKey
+          urlKey: json?.repo?.category?.urlKey,
         },
       },
       serie: json?.serie,
@@ -300,6 +334,7 @@ export const ModuleFactory = {
       popularity: json?.popularity,
       lastUpdate: json?.last_update ? new Date(json.last_update) : null,
     }
+
     return module
   },
   createModuleMaintainers(json: any[]): ModuleMaintainer[] {

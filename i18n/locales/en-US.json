@@ -172,9 +172,12 @@
     "person": {
       "cta": {
         "groupsEmptyTitle": "This person is not yet par of a group",
-        "joinGroupsTitle": "Oca Working Groups",
-        "groupsDescription": "Join one of the OCA working groups and take part of the community",
-        "groupsCtaLabel": "Join one of the working groups"
+        "getInvolvedTitle": "Help us make Odoo mightier together",
+        "getInvolvedDescription": "Come lend a hand and help build the largest community of Odoo open-source enthusiasts. Whether you’re a developer, a consultant, a business user, or just an open-source enthusiast, we’d love to have you join us.",
+        "ctaGroupsLabel": "Join one of the working groups",
+        "CtaContributorsLabel": "Find out how to contribute",
+        "CtaCrowdfundingLabel": "Participate to a crowdfunding",
+        "ctaBecomeBemberLabel": "Get your membership"
       }
     }
   },
@@ -198,11 +201,12 @@
       "placeholder": "Search members and contributors..."
     },
     "modulesMaintained": {
-      "title": "Modules maintained by this contributor"
+      "title": "Modules maintained by "
     },
     "contact": {
       "sendEmail": "Send an email"
-    }
+    },
+    "notFound": "Person not found"
   },
   "search": {
     "filters": {
@@ -248,5 +252,22 @@
   "footer": {
     "copyright": " Copyright © Odoo Community Association",
     "version": "Version { version }"
+  },
+  "cookies_consent": {
+    "title": "We use cookies",
+    "description": "These cookies are intended to provide you with an optimized browsing experience on this website and to give us insight into its usage, with the aim of improving the services we offer. By continuing to browse, we consider that you accept the use of cookies.",
+    "accept_all": "Accept all cookies",
+    "manage_preferences": "Manage preferences",
+    "preferences_title": "Cookie preferences",
+    "preferences_description": "Select the types of cookies you wish to allow.",
+    "necessary_cookies": {
+      "label": "Necessary cookies",
+      "description": "These cookies are essential for the website to function and cannot be disabled."
+    },
+    "gtm": {
+      "label": "Google Tag Manager",
+      "description": "These cookies help us understand how visitors interact with our website."
+    },
+    "save_preferences": "Save preferences"
   }
 }

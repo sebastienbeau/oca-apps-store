@@ -22,7 +22,7 @@
         />
       </template>
       <template #description>
-        <div class="flex items-center text-sm" v-if="person.username">
+        <div class="flex items-center text-sm md:py-4" v-if="person.username">
           <UIcon
             name="line-md:github"
             class="mr-1 p-2 text-gray-900 not-only:inline-block"

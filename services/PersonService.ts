@@ -181,7 +181,6 @@ export const PersonFactory = {
       modulesMaintained: !isNaN(json?.modules_maintained)
         ? json.modules_maintained
         : 0,
-      modulesMaintainedIds: json?.modules_maintained_ids || [],
       psc: !isNaN(json?.psc) ? json.psc : 0,
       pscList: json?.psc_list || [],
       workGroupList: json?.work_group_list || [],

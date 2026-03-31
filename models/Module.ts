@@ -18,7 +18,7 @@ export interface Module {
       name: string
       urlKey: string
     }
-  },
+  }
   serie: string
   version: string
   dependencies: string[]
@@ -45,11 +45,17 @@ export interface Module {
   bugTracker: {
     url: string
     instructions: string
-  },
+  }
   popularity: number
   lastUpdate: Date | null
 }
 
+export interface ModuleMaintainers {
+  avatarUrl: string
+  githubUser: string
+  name: string
+  urlKey: string
+}
 export interface ModuleGroupedHit {
   urlKey: string
   hits: ModuleWithHighlight[]

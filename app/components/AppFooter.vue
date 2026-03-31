@@ -27,4 +27,5 @@ const config = useRuntimeConfig()
       </div>
     </template>
   </UFooter>
+  <AppCookiesConsent />
 </template>

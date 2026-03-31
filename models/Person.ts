@@ -24,7 +24,6 @@ export interface Person {
   translations: number
   modulesMaintained: number
   modulesContributionsIds: number[]
-  modulesMaintainedIds: string[]
   psc: number
   urlKey: string
   pscList: PSC[]

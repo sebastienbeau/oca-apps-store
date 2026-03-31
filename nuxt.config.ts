@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     'nuxt-site-config',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
+    '@nuxt/scripts',
   ],
   image: {
     format: ['webp'],
@@ -30,8 +31,8 @@ export default defineNuxtConfig({
       },
     },
     externals: {
-      inline: ['puppeteer-core']
-    }
+      inline: ['puppeteer-core'],
+    },
   },
   plugins: ['~/plugins/services/index', '~/plugins/sponsorship'],
   ssr: true,
@@ -40,24 +41,21 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
     rootAttrs: {
       'data-vaul-drawer-wrapper': '',
-      'class': 'bg-default',
+      class: 'bg-default',
     },
     head: {
       meta: [{ name: 'theme-color', content: '#151B47' }],
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
     },
   },
   css: ['~/assets/css/main.css'],
   site: {
     title: 'Odoo Community Association Appstore',
-    description: 'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
+    description:
+      'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
   },
   sitemap: {
-    sources: [
-      '/api/__sitemap__/urls',
-    ],
+    sources: ['/api/__sitemap__/urls'],
     autoI18n: false,
   },
   ui: {
@@ -74,22 +72,26 @@ export default defineNuxtConfig({
         key: process.env.NUXT_PUBLIC_SEARCH_KEY || '',
         indices: {
           persons: {
-            en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN || '',
+            en: process.env.NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN || '',
           },
           companies: {
-            en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN || '',
+            en: process.env.NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN || '',
           },
           modules: {
-            en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN || '',
+            en: process.env.NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN || '',
           },
           categories: {
-            en: process.env
-              .NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN || '',
+            en: process.env.NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN || '',
           },
         },
+      },
+    },
+  },
+  scripts: {
+    registry: {
+      googleTagManager: {
+        id: process.env.NUXT_PUBLIC_GTM_ID || '',
+        trigger: 'onNuxtReady',
       },
     },
   },
@@ -104,16 +106,14 @@ export default defineNuxtConfig({
 
     'modules/**': {
       ssr: true,
-
     },
-    'modules': {
+    modules: {
       ssr: true,
-
     },
-    'module': {
+    module: {
       redirect: '/modules',
     },
-    'companies': {
+    companies: {
       ssr: true,
     },
     '/**': {
@@ -187,5 +187,5 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
     },
-  }
+  },
 })

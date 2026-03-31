@@ -5,23 +5,23 @@
     <div class="py-8">
       <PersonHeroBanner :person="person" />
     </div>
-    <div class="relative pt-14 pb-1 md:pt-22 md:pb-8">
+    <div class="relative pt-14 pb-1 md:pt-22 md:pb-22">
       <div
-        class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform"
+        class="absolute top-0 left-1/2 -z-10 h-[100%] w-screen -translate-x-1/2 -skew-y-3 transform"
         style="background-color: #fffbf5"
       />
       <div v-if="displayPersonGroups" class="d-block mx-w-sm mx-auto">
         <PersonGroups :person="person" />
-        
       </div>
-      <div >
-        <USeparator v-if="displayPersonGroups"  icon="mdi-light:chevron-down" />
+      <div>
         <UEmpty
-          :title="ctaTitle"
+          v-if="!displayPersonGroups"
+          :title="t('community.person.cta.groupsEmptyTitle')"
           :description="t('community.person.cta.groupsDescription')"
           variant="naked"
           :ui="{
             title: 'text-xl',
+            root: 'min-h-64',
           }"
           :actions="[
             {
@@ -30,7 +30,7 @@
               color: 'secondary',
               to: 'https://odoo-community.org/working-groups',
               target: '_blank',
-            }
+            },
           ]"
         >
           <template #leading>
@@ -41,20 +41,22 @@
         </UEmpty>
       </div>
     </div>
-        <PersonModulesMaintained :person="person" />
+    <UPageSection
+      :title="t('community.person.cta.getInvolvedTitle')"
+      :description="t('community.person.cta.getInvolvedDescription')"
+      :links="getInvolvedLinks"/>
+    <PersonModulesMaintained :person="person" />
   </div>
 </template>
 <script lang="ts" setup>
 const { t } = useI18n()
-import { breadcrumb } from '#build/ui'
-import type { Person, Module } from '~/models'
+import type { Person } from '~/models'
 
 const person = ref<Person | null>(null)
 const urlParams = useRoute().params
 const route = useRoute()
 
 const personService = useService('persons')
-const modulesService = useService('modules')
 const breadCrumb = computed(() => {
   const items: any = [
     {
@@ -94,21 +96,11 @@ if (data.value) {
 } else {
   throw createError({
     statusCode: 404,
-    statusMessage: t('modules.notFound'),
+    statusMessage: t('person.notFound'),
     fatal: true,
   })
 }
 person.value = data.value || null
-
-const modules = ref<Module[]>()
-
-// async function getModulesContributionsHits() {
-//   const hits: Module[] = await modulesService.getByIds(person.value?.modulesContributionsId || [])
-//   return hits
-// }
-
-// modules.value = await getModulesContributionsHits()
-
 
 const displayPersonGroups = computed(() => {
   if (
@@ -121,13 +113,38 @@ const displayPersonGroups = computed(() => {
   }
 })
 
-const ctaTitle = computed(() => {
-  if (person.value.workGroupList.length && person.value.workGroupList.length > 0) {
-    return t('community.person.cta.joinGroupsTitle')
-  } else {
-    return t('community.person.cta.groupsEmptyTitle')
-  }
-})
+
+
+
+const getInvolvedLinks = ref<ButtonProps[]>([
+   {
+      label: t('community.person.cta.ctaBecomeBemberLabel'),
+      to: 'https://odoo-community.org/get-involved/become-a-member',
+      color: 'warning',
+      variant: 'subtle',
+      icon: 'i-lucide-arrow-right',
+    },
+    {
+      label: t('community.person.cta.ctaGroupsLabel'),
+      to: 'https://odoo-community.org/working-groups',
+      icon: 'i-lucide-arrow-right',
+      color: 'neutral'
+    },
+    {
+      label: t('community.person.cta.CtaContributorsLabel'),
+      to: 'https://odoo-community.org/get-involved/contribute',
+      color: 'neutral',
+      variant: 'subtle',
+      trailingIcon: 'i-lucide-arrow-right'
+    },
+    {
+      label: t('community.person.cta.CtaCrowdfundingLabel'),
+      to: 'https://odoo-community.org/crowdfunding',
+      color: 'secondary',
+      variant: 'subtle',
+      trailingIcon: 'i-lucide-arrow-right'
+    }
+])
 </script>
 <style scoped>
 .background-style::before {
