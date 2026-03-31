@@ -153,7 +153,7 @@ export class ModuleService extends BaseServiceTypeSense {
       {
         ...query,
         facet_by: facetBy.join(','),
-        max_facet_values: 10,
+        max_facet_values: 100,
         filter_by: filterBy.join(' && '),
         group_by: 'techname',
       },

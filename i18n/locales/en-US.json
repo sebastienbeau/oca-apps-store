@@ -206,7 +206,10 @@
   },
   "search": {
     "filters": {
-      "label": "Filters"
+      "label": "Filters",
+      "reset": "Reset",
+      "showAll": "Show more values",
+      "showTop": "Show only top values"
     },
     "results": {
       "count": "{count} found | {count} items found"

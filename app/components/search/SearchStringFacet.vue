@@ -2,7 +2,7 @@
   <div>
     <UFormField v-if="props.searchable" :label="title">
       <UInput v-model="searchQuery" size="sm" clearable icon="search">
-        <template v-if="value?.length" #trailing>
+        <template v-if="searchQuery?.length" #trailing>
           <UButton
             color="neutral"
             variant="link"
@@ -28,13 +28,26 @@
           }"
           @change="refine(item?.value)"
         />
+        <div class="flex justify-end">
+          <UButton
+            color="neutral"
+            variant="link"
+            size="xs"
+            :label="
+              displayAllValues
+                ? t('search.filters.showTop')
+                : t('search.filters.showAll')
+            "
+            @click="displayAllValues = !displayAllValues"
+          />
+        </div>
       </div>
       <div v-if="values?.length > 0" class="flex justify-end">
         <UButton
           color="neutral"
           variant="link"
           size="xs"
-          label="Reset"
+          :label="t('search.filters.reset')"
           @click="reset"
         />
       </div>
@@ -49,10 +62,11 @@ import type { FacetWithResult } from '~~/models'
 const emit = defineEmits<{
   (e: 'refine' | 'searchInFacet' | 'labelValue', query: string): void
 }>()
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const props = defineProps<FacetWithResult>()
-
+const displayAllValues = ref(false)
 const searchQuery = ref('')
 const searchQueryDebounced = useDebounce(searchQuery, 300)
 
@@ -70,8 +84,12 @@ const parseValuesToQuery = (values: string[]): string => {
 }
 
 const transformedItems = computed(() => {
+  let items = props.items || []
   if (props.transformItems) {
-    return props.transformItems(props.items)
+    items = props.transformItems(props.items)
+  }
+  if (!displayAllValues.value) {
+    items = items.slice(0, 10)
   }
   /**
    * Add missing values to items to allow searching for values that are not in the top of the facet results.
@@ -80,14 +98,15 @@ const transformedItems = computed(() => {
    */
   if (values.value?.length > 0) {
     return values.value.reduce((acc: any[], val) => {
-      const existing = props.items.find((i) => i.value === val)
+      const existing = items.find((i) => i.value === val)
       if (!existing) {
         acc = [{ value: val, label: val, count: null }, ...acc]
       }
+
       return acc
-    }, props.items || [])
+    }, items || [])
   }
-  return props.items
+  return items
 })
 
 const reset = () => {
