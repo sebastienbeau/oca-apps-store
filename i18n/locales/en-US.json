@@ -80,7 +80,7 @@
       "title": "Usage"
     },
     "dependencies": {
-      "title": "Dependencies"
+      "title": "Direct dependencies"
     },
     "bugTracker": {
       "title": "Bug tracker",

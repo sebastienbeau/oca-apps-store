@@ -7,21 +7,25 @@
       class="hidden lg:flex"
       content-orientation="vertical"
       :unmount-on-hide="false"
+      :delay-duration="500"
       :ui="{
         list: 'gap-2',
-        link: 'bg-neutral-50 hover:bg-neutral-100 text-neutral-400  rounded-full',
+        item: 'relative',
+        link: 'bg-muted light:hover:bg-neutral-100 light:text-neutral-400 rounded-full ',
+        linkTrailing: 'min-w-16 justify-end',
       }"
     >
       <template #item-content="{ item: { facet, component } }">
         <slot name="item-content" :item="{ facet, component }">
           <div class="p-4">
             <div class="pb-4 text-sm font-bold">
-              {{ facet.title }}
+              {{ facet.title }} {{ facet.routeParam }}
             </div>
             <component
               :is="component || 'SearchStringFacet'"
               ref="facetComponents"
               v-bind="facet"
+              :route-param="facet.routeParam"
               @search-in-facet="
                 (query: string) => $emit('search-in-facet', facet.field, query)
               "
@@ -166,9 +170,12 @@ const items = computed<NavigationMenuItem[]>(() => {
         color: 'primary',
       }
     }
+
     return {
       label: facet.title,
       component,
+      active: true,
+      defaultOpen: true,
       badge,
       children: [{ label: '' }],
       facet: {

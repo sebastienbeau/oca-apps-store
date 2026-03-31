@@ -13,7 +13,7 @@
             <div class="flex-1">
               <slot
                 name="facets"
-                :onChangeFilter="onChangeFilter"
+                :on-change-filter="onChangeFilter"
                 :facets="facets"
                 :results="results"
                 :query-facets="queryFacets"
@@ -103,6 +103,9 @@
               <template #hit="{ hit, index, total }">
                 <slot name="hit" :hit="hit" :index="index" :total="total" />
               </template>
+              <template #loading>
+                <slot name="loading" />
+              </template>
             </SearchResult>
           </slot>
         </template>
@@ -184,7 +187,7 @@ const searchInFacet: { [field: string]: string } = {}
 const queryFacets: { [field: string]: string } = {}
 
 const hasFacetQuery = props.facets?.some((facet) => {
-  const routeFacet = route.query?.[facet.field]
+  const routeFacet = route.query?.[facet?.routeParam || facet.field]
   return !!routeFacet
 })
 
@@ -242,6 +245,7 @@ if (hasFacetQuery) {
   */
   isLoading.value = true
 }
+
 const results = reactive<FacetSearchResult<T>>({
   hits: data?.value?.hits || ([] as T[]),
   found: data?.value?.found || 0,

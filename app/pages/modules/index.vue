@@ -31,24 +31,14 @@
           v-model="sortBy"
           class="md:my-4"
         />
-        <UFieldGroup class="hidden sm:flex">
-          <UButton
-            color="neutral"
-            :variant="displayMode === 'list' ? 'subtle' : 'outline'"
-            leading-icon="list"
-            @click="displayMode = 'list'"
-          />
-          <UButton
-            color="neutral"
-            :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
-            leading-icon="grid"
-            @click="displayMode = 'grid'"
-          />
-        </UFieldGroup>
+        <SearchDisplayToggle v-model="displayMode" />
       </div>
     </template>
     <template #hit="{ hit }">
       <ModuleHit :variant="displayMode" :module-grouped="hit" />
+    </template>
+    <template #loading>
+      <ModuleHitSkeleton v-for="n in perPage" :key="n" :variant="displayMode" />
     </template>
     <template #empty>
       <div>
@@ -86,7 +76,9 @@ const sortOptions = computed(() => {
   ]
 })
 const sortBy = ref('name:asc')
-const displayMode = ref<'grid' | 'list'>('grid')
+const displayMode = useCookie<'grid' | 'list'>('modules_display_mode', {
+  default: () => 'grid',
+})
 const perPage = 12
 const searchTerms = ref((route.query?.q as string) || '')
 const searchTermsDebounced = refDebounced(searchTerms, 300)
@@ -104,11 +96,13 @@ const facets: Facet[] = [
     field: 'serie',
     title: t('modules.filters.versions'),
     sortBy: '_alpha:desc',
+    routeParam: 'version',
     searchable: true,
   },
   {
     field: 'repo.category.name',
     title: t('modules.filters.category'),
+    routeParam: 'category',
     sortBy: '_alpha:asc',
     searchable: true,
   },
@@ -116,6 +110,7 @@ const facets: Facet[] = [
     field: 'repo.name',
     title: t('modules.filters.repository'),
     sortBy: '_alpha:asc',
+    routeParam: 'repository',
     searchable: true,
   },
 ]

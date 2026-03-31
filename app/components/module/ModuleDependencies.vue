@@ -7,7 +7,12 @@
     </slot>
     <div
       v-if="dependencies"
-      class="my-4 grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
+      class="my-4"
+      :class="
+        displayMode === 'list'
+          ? 'flex flex-col gap-3 sm:gap-4'
+          : 'grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3'
+      "
     >
       <ModuleHit
         v-for="item in dependencies"

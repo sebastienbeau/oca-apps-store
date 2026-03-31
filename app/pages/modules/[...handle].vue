@@ -2,7 +2,7 @@
   <div v-if="module?.id" class="flex flex-col" :key="module.id">
     <div class="relative py-4 lg:pt-10 lg:pb-32">
       <div
-        class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-neutral-50/50 content-['']"
+        class="absolute top-0 left-1/2 -z-10 mx-auto h-[120%] w-screen -translate-x-1/2 transform bg-muted/50 content-['']"
       ></div>
       <div class="flex flex-col gap-y-3 lg:flex-row">
         <div class="lg:w-5/8 lg:pr-5">
@@ -28,10 +28,16 @@
               size="md"
               :label="module.repository.category.name"
             />
-            <MDC v-if="module?.description" :value="module.description" />
+            <MDC
+              v-if="module?.readmeFragments?.description"
+              :value="module.readmeFragments.description"
+            />
             <div v-else class="prose pb-10">{{ module?.summary }}</div>
             <ModuleContext :module="module" />
-            <USeparator v-if="module?.description" class="my-6" />
+            <USeparator
+              v-if="module?.readmeFragments?.description"
+              class="my-6"
+            />
             <UFormField :label="t('modules.versions.available')" size="xl">
               <ModuleSerieList
                 v-if="moduleGrouped"
@@ -54,16 +60,9 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="
-        module?.readmeFragments?.install ||
-        module?.readmeFragments?.configure ||
-        module?.readmeFragments?.contributors
-      "
-      class="relative mb-12 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10"
-    >
+    <div class="relative mb-12 pt-12 pb-12 lg:py-16 xl:pt-18 xl:pb-10">
       <div
-        class="absolute -top-3 left-1/2 -z-10 h-full w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50"
+        class="absolute -top-3 left-1/2 -z-10 h-full w-screen -translate-x-1/2 -skew-y-3 transform bg-secondary-50 dark:bg-elevated"
       />
       <div class="flex flex-col gap-2 lg:flex-row">
         <div class="flex flex-col gap-4">

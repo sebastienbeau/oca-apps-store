@@ -58,10 +58,11 @@
             />
           </template>
         </UFormField>
-
         <UButton
+          v-if="module?.githubUrl"
           color="info"
-          :to="module?.website"
+          :href="module?.githubUrl"
+          target="_blank"
           leading-icon="github"
           class="px-10"
           :label="t('modules.github.link')"

@@ -2,7 +2,7 @@
   <div class="">
     <div v-if="module" class="relative mt-15 py-16 lg:py-20 xl:py-24">
       <div
-        class="absolute top-0 left-1/2 -z-[5] h-full w-screen -translate-x-1/2 transform overflow-hidden bg-primary-500 bg-linear-to-r from-primary-500 via-primary-600 to-secondary-900/50"
+        class="dark:to-highlighted/50 absolute top-0 left-1/2 -z-[5] h-full w-screen -translate-x-1/2 transform overflow-hidden bg-primary-500 bg-linear-to-r from-primary-500 via-primary-600 to-secondary-900/50 content-[''] dark:via-primary-900"
       >
         <UIcon
           name="i-solar-bug-bold"
@@ -11,7 +11,9 @@
       </div>
       <div class="relative flex items-center gap-16 md:px-10">
         <div class="w-full md:w-10/12">
-          <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
+          <ProseH2
+            class="my-2 text-2xl text-secondary md:text-3xl dark:text-highlighted"
+          >
             {{ t('modules.bugTracker.title') }}
           </ProseH2>
           <MDC

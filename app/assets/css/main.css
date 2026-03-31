@@ -1,48 +1,48 @@
-@import "tailwindcss";
-@import "@nuxt/ui";
+@import 'tailwindcss';
+@import '@nuxt/ui';
 @plugin '@tailwindcss/typography';
 
 @theme static {
   --font-heading: 'DM Sans', sans-serif;
   --font-sans:
-      DM Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
-  
-  --color-primary-50: #F3F4F6;
-  --color-primary-100: #E8E8ED;
-  --color-primary-200: #C5C6D1;
-  --color-primary-300: #A1A4B5;
-  --color-primary-400: #5B5F7E;
-  --color-primary-500: #151B47;
+    DM Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+
+  --color-primary-50: #f3f4f6;
+  --color-primary-100: #e8e8ed;
+  --color-primary-200: #c5c6d1;
+  --color-primary-300: #a1a4b5;
+  --color-primary-400: #5b5f7e;
+  --color-primary-500: #151b47;
   --color-primary-600: #131840;
-  --color-primary-700: #0D102B;
-  --color-primary-800: #090C20;
+  --color-primary-700: #0d102b;
+  --color-primary-800: #090c20;
   --color-primary-900: #060815;
 
-  --color-secondary-50: #FFF7F6;
-  --color-secondary-100: #FFEFED;
-  --color-secondary-200: #FED8D3;
-  --color-secondary-300: #FEC0B8;
-  --color-secondary-400: #FD9182;
-  --color-secondary-500: #FC624D;
-  --color-secondary-600: #E35845;
-  --color-secondary-700: #973B2E;
-  --color-secondary-800: #712C23;
-  --color-secondary-900: #4C1D17;
+  --color-secondary-50: #fff7f6;
+  --color-secondary-100: #ffefed;
+  --color-secondary-200: #fed8d3;
+  --color-secondary-300: #fec0b8;
+  --color-secondary-400: #fd9182;
+  --color-secondary-500: #fc624d;
+  --color-secondary-600: #e35845;
+  --color-secondary-700: #973b2e;
+  --color-secondary-800: #712c23;
+  --color-secondary-900: #4c1d17;
 
   --color-neutral: #62748e;
   --color-neutral-50: #f8fafc;
-  --color-neutral-100: #EBF0F5;
-  --color-neutral-200: #C2D0E0;
-  --color-neutral-300: #B2C4D6;
+  --color-neutral-100: #ebf0f5;
+  --color-neutral-200: #c2d0e0;
+  --color-neutral-300: #b2c4d6;
   --color-neutral-400: #90a1b9;
   --color-neutral-500: #62748e;
-  --color-neutral-600: #4C6D97;
-  --color-neutral-700: #3B5475;
-  --color-neutral-800: #2A3B53;
+  --color-neutral-600: #4c6d97;
+  --color-neutral-700: #3b5475;
+  --color-neutral-800: #2a3b53;
   --color-neutral-900: #192331;
   --color-neutral-950: #101720;
-  
+
   --color-info: #283687;
   --color-info-50: #f0f4fe;
   --color-info-100: #dee7fb;
@@ -55,26 +55,24 @@
   --color-info-800: #2938a4;
   --color-info-900: #283687;
   --color-info-950: #1c224f;
-
 }
 @layer base {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: var(--font-heading);
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
 }
 @layer theme {
   .light {
     --ui-text: #314158;
     --ui-border: #e2e8f0;
     --ui-border-accented: #cad5e2;
-    --ui-bg-muted: #F8FAFC;
-    --ui-text-muted: #90a1b9
-    --ui-secondary: var(--ui-color-secondary-500);
+    --ui-bg-muted: #f8fafc;
+    --ui-text-muted: #90a1b9 --ui-secondary: var(--ui-color-secondary-500);
     --ui-success: var(--ui-color-success-500);
     --ui-info: var(--ui-color-info-500);
     --ui-warning: var(--ui-color-warning-500);
@@ -83,7 +81,10 @@
 }
 @layer theme {
   .dark {
-    --ui-primary: #F3F4F6;
+    --ui-primary: #f3f4f6;
+    --ui-secondary: var(--color-secondary-500);
+    --ui-info: var(--color-info-200);
+    --color-info: var(--color-info-200);
     --ui-text-dimmed: var(--ui-color-neutral-500);
     --ui-text-muted: var(--ui-color-neutral-400);
     --ui-text-toned: var(--ui-color-neutral-300);

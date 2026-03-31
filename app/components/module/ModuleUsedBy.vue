@@ -5,7 +5,7 @@
         {{ t('modules.usedBy.title') }}
       </ProseH2>
     </slot>
-    <div class="pb-5">
+    <div class="flex items-center justify-between gap-4 pb-5">
       <UFormField v-if="total > 1" :label="t('modules.usedBy.globalFilter')">
         <UInput
           v-model="searchQuery"
@@ -14,17 +14,23 @@
           size="xl"
         />
       </UFormField>
+      <SearchDisplayToggle v-model="displayMode" class="mt-4" />
     </div>
     <div v-if="loading" class="flex h-64 items-center justify-center">
       <Spinner />
     </div>
     <div
       v-else-if="dependencies"
-      class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3"
+      :class="
+        displayMode === 'list'
+          ? 'flex flex-col gap-3 sm:gap-4'
+          : 'grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3'
+      "
     >
-      <ModuleMicroHit
+      <ModuleHit
         v-for="item in dependencies.hits"
         :key="item.urlKey"
+        :variant="displayMode"
         :module-grouped="item"
       />
     </div>
@@ -42,6 +48,9 @@ const props = defineProps<{
 const { start, set } = useLoadingIndicator()
 const moduleService = useService('modules')
 const searchQuery = ref('')
+const displayMode = useCookie<'grid' | 'list'>('modules_display_mode', {
+  default: () => 'grid',
+})
 const page = ref(1)
 const total = ref(0)
 const loading = ref(false)

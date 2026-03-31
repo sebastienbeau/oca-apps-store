@@ -82,7 +82,9 @@ const query = computed(() => {
     query_by: 'name',
   }
 })
-const displayMode = ref<'grid' | 'list'>('grid')
+const displayMode = useCookie<'grid' | 'list'>('modules_display_mode', {
+  default: () => 'grid',
+})
 const perPage = 12
 const searchTerms = ref('')
 const facets: Facet[] = [

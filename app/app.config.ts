@@ -82,7 +82,7 @@ export default defineAppConfig({
     },
     pageSection: {
       slots: {
-        container: 'lg:py-24',
+        container: 'lg:py-16 xl:py-20',
         leadingIcon: 'size-16 text-primary',
         links: 'justify-end'
       }

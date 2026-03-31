@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { UButton } from '#components'
-import type { FacetWithResult } from './SearchFacetsList.vue'
+import type { FacetWithResult } from '~~/models'
 
 const emit = defineEmits<{
   (e: 'refine' | 'searchInFacet' | 'labelValue', query: string): void
@@ -110,17 +110,18 @@ const refine = (value?: string) => {
   router.push({
     query: {
       ...route.query,
-      [props.field]: values.value,
+      [props?.routeParam || props.field]: values.value,
     },
   })
 }
 
 const values = ref<string[]>(parseQueryToValues(props.query))
-if (values.value.length === 0 && route.query[props.field]) {
-  if (Array.isArray(route.query[props.field])) {
-    values.value = route.query[props.field] as string[]
-  } else if (typeof route.query[props.field] === 'string') {
-    values.value = [route.query[props.field] as string]
+const field = props.routeParam || props.field
+if (values.value.length === 0 && route.query[field]) {
+  if (Array.isArray(route.query[field])) {
+    values.value = route.query[field] as string[]
+  } else if (typeof route.query[field] === 'string') {
+    values.value = [route.query[field] as string]
   }
 }
 const setLabelValue = (values: string[]) => {

@@ -36,6 +36,7 @@ export type Facet = {
   perPage?: number
   searchable?: boolean
   sortBy?: string
+  routeParam?: string
 }
 
 export type FacetWithResult = {
