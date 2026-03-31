@@ -1,7 +1,7 @@
 <template>
   <UCard v-if="moduleGrouped" :ui="ui" @click="onClick">
     <ModuleImage :module="module" size="sm" class="w-12" />
-    <div>
+    <div class="w-full border">
       <div class="line-clamp-2 pb-3 text-lg leading-5 font-bold">
         <nuxt-link
           v-if="module?.urlKey"
@@ -16,8 +16,8 @@
           <UIcon name="repository" class="text-primary" />
           {{ module?.repository?.name }}
         </div>
-        <ModuleSerieList :module-grouped="moduleGrouped" />
       </div>
+      <ModuleSerieList :module-grouped="moduleGrouped" size="sm" class="py-1" />
       <div class="text-sm text-muted">
         {{ module?.summary }}
       </div>

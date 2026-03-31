@@ -60,7 +60,7 @@ const info = computed(() => {
   if (props.module?.authors && props.module?.authors.length > 0) {
     info.push({
       label: t('modules.author.name'),
-      value: props.module?.authors?.join(' | '),
+      value: props.module?.authors.map((a) => a?.name).join(', '),
       icon: 'author',
     })
   }

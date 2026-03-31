@@ -2,7 +2,7 @@
   <div class="relative py-12 lg:py-16 xl:py-24">
     <UPageCTA
       :title="t('modules.maintainer.title')"
-      orientation="horizontal"
+      :orientation="maintainers.length ? 'horizontal' : 'vertical'"
       :description="t('modules.maintainer.description')"
       :links="[
         {
@@ -14,7 +14,7 @@
       ]"
       :ui="{
         title: 'text-primary',
-        links: 'justify-end',
+
         target: '_blank',
       }"
     >
@@ -24,26 +24,34 @@
           {{ t('modules.maintainer.description') }}
         </p>
       </template>
-      <UPageList>
-        <UPageCard
-          v-for="(user, index) in users"
-          :key="index"
-          variant="naked"
-          :to="user.to"
-          :target="user.target"
-          class="pb-4"
-        >
-          <template #body>
-            <UUser
-              :name="user.name"
-              :description="user.description"
-              :avatar="user.avatar"
-              size="xl"
-              class="relative"
-            />
-          </template>
-        </UPageCard>
-      </UPageList>
+      <div v-if="maintainers.length" class="flex flex-col gap-2">
+        <ProseH3>
+          {{ t('modules.maintainer.title') }}
+        </ProseH3>
+        <UPageList divide>
+          <UPageCard
+            v-for="(maintainer, index) in maintainers"
+            :key="index"
+            variant="ghost"
+            :to="maintainer.to"
+            :target="maintainer.target"
+          >
+            <template #body>
+              <UUser
+                :name="maintainer.name"
+                :avatar="{
+                  name: maintainer.name,
+                  src: maintainer?.avatarUrl || '',
+                }"
+                :description="maintainer.username"
+                size="xl"
+                class="relative"
+                :to="`/community/${maintainer.urlKey}`"
+              />
+            </template>
+          </UPageCard>
+        </UPageList>
+      </div>
     </UPageCTA>
   </div>
 </template>
@@ -54,5 +62,7 @@ const props = defineProps<{
   module: Module | null
 }>()
 
-const users = []
+const maintainers = computed(() => {
+  return props.module?.maintainers || []
+})
 </script>

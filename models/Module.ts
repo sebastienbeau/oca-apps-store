@@ -1,3 +1,9 @@
+export interface ModuleMaintainer {
+  name: string
+  avatarUrl: string | null
+  username?: string
+  urlKey: string
+}
 export interface Module {
   id: number
   name: string
@@ -19,13 +25,13 @@ export interface Module {
   usedBy: string[]
   license: string
   summary: string
-  description: string
   maturity: string
   authors: string[]
   publicURL: string
   runboatURL: string
-  website: string
+  githubUrl: string
   readmeFragments: {
+    description?: string
     configure?: string //
     context?: string //ModuleContext
     credits?: string
@@ -35,7 +41,7 @@ export interface Module {
     usage?: string //ModuleUsage
     contributors?: string //ModuleContributors
   }
-  maintainer: string[],
+  maintainers: ModuleMaintainer[],
   bugTracker: {
     url: string
     instructions: string

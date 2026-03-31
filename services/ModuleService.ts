@@ -1,5 +1,6 @@
 import type {
   Module,
+  ModuleMaintainer,
   ModuleGroupedHit,
   ModuleResult,
   FacetSearchParam,
@@ -250,6 +251,10 @@ export class ModuleService extends BaseServiceTypeSense {
 
 export const ModuleFactory = {
   createModule(json: any): Module {
+    let summary = json?.summary || ''
+    if (!summary && json?.readme_fragments?.description) {
+      summary = json.readme_fragments.description.substring(0, 300)
+    }
     const module: Module = {
       id: json.id,
       name: json.name,
@@ -267,17 +272,18 @@ export const ModuleFactory = {
       },
       serie: json?.serie,
       version: json?.version,
-      description: json?.description,
-      summary: json?.summary,
+      summary,
       license: json?.license,
       usedBy: json?.used_by || [],
       dependencies: json?.dependencies || [],
       maturity: json?.maturity,
-      authors: json?.author || [],
+      authors: this.createModuleAuthors(json?.authors || []),
+      maintainers: this.createModuleMaintainers(json?.maintainers || []),
       publicURL: json?.public_url,
       runboatURL: json?.runboat_url,
-      website: json?.website,
+      githubUrl: json?.github_url,
       readmeFragments: {
+        description: json?.readme_fragments?.description,
         configure: json?.readme_fragments?.configure,
         contributors: json?.readme_fragments?.contributors,
         context: json?.readme_fragments?.context,
@@ -287,8 +293,6 @@ export const ModuleFactory = {
         roadmap: json?.readme_fragments?.roadmap,
         usage: json?.readme_fragments?.usage,
       },
-
-      maintainer: json?.maintainer,
       bugTracker: {
         url: json?.bug_tracker?.url,
         instructions: json?.bug_tracker?.instructions,
@@ -298,4 +302,19 @@ export const ModuleFactory = {
     }
     return module
   },
+  createModuleMaintainers(json: any[]): ModuleMaintainer[] {
+    return json.map((p: any) => ({
+      name: p.name,
+      avatarUrl: p?.avatar_url || null,
+      username: p?.github_user || null,
+      urlKey: p?.url_key,
+    })) as ModuleMaintainer[]
+  },
+  createModuleAuthors(json: any[]): [] {
+    return json.map((p: any) => ({
+      name: p.name,
+
+      urlKey: p?.url_key,
+    })) as []
+  }
 }
