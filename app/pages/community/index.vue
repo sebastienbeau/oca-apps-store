@@ -74,7 +74,7 @@ const sortBy = ref('name:asc')
 const query = computed(() => {
   return {
     q: searchTermsDebounced.value,
-    query_by: 'name,username,company',
+    query_by: 'name,github_users,company.name',
   }
 })
 const displayMode = ref<'grid' | 'list'>('grid')

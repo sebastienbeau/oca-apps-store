@@ -18,13 +18,13 @@
             description: 'items-center flex gap-0.5',
           }"
         >
-          <template #description v-if="person.username">
+          <template #description v-if="person.githubUsers && person.githubUsers.length > 0">
             <UButton
               variant="ghost"
-              :to="`https://github.com/${person.username}`"
+              :to="`https://github.com/${person.githubUsers[0]}`"
               leading-icon="line-md:github"
               size="xs"
-              :label="person.username"
+              :label="person.githubUsers[0]"
               target="_blank"
               :ui="{
                 base: 'p-0 sm:p-0 hover:bg-transparent hover:underline gap-0.5',
@@ -131,7 +131,7 @@ const hasStatisticalInfo = computed(() => {
 })
 
 const goToPerson = () => {
-  if (props?.person?.username) {
+  if (props?.person?.urlKey) {
     navigateTo(`/community/${props.person.urlKey}`)
   }
 }

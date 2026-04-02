@@ -4,11 +4,17 @@ export interface PersonRole {
   id: number
   name: string
 }
+ export interface LogoUrls {
+   alt: string
+   l: string
+   m: string
+   s: string
+ } 
 export interface Person {
   id: number
   name: string
-  avatarUrl: string | null
-  username: string
+  logoUrls: LogoUrls | null
+  githubUsers: string[]
   company?: {
     id: number
     name: string

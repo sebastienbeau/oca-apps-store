@@ -64,7 +64,6 @@ const { data: dependencies, pending } = await useAsyncData(
   'module-maintained-by-' + (props.person?.id || ''),
   async () => {
     if (!props.person) return null
-    console.log('ici')
     return await moduleService.getModulesMaintainedBy(
       props.person,
       searchQuery.value,

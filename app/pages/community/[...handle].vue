@@ -25,7 +25,7 @@
           }"
           :actions="[
             {
-              label: t('community.person.cta.groupsCtaLabel'),
+              label: t('community.person.cta.ctaGroupsLabel'),
               icon: 'i-lucide-user-plus',
               color: 'secondary',
               to: 'https://odoo-community.org/working-groups',
@@ -44,7 +44,8 @@
     <UPageSection
       :title="t('community.person.cta.getInvolvedTitle')"
       :description="t('community.person.cta.getInvolvedDescription')"
-      :links="getInvolvedLinks"/>
+      :links="getInvolvedLinks"
+      />
     <PersonModulesMaintained :person="person" />
   </div>
 </template>
@@ -122,12 +123,12 @@ const getInvolvedLinks = ref<ButtonProps[]>([
       to: 'https://odoo-community.org/get-involved/become-a-member',
       color: 'warning',
       variant: 'subtle',
-      icon: 'i-lucide-arrow-right',
+      trailingIcon: 'i-lucide-arrow-right',
     },
     {
       label: t('community.person.cta.ctaGroupsLabel'),
       to: 'https://odoo-community.org/working-groups',
-      icon: 'i-lucide-arrow-right',
+      trailingIcon: 'i-lucide-arrow-right',
       color: 'neutral'
     },
     {

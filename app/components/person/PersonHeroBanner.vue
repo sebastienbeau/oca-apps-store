@@ -13,16 +13,17 @@
     >
       <template #title v-if="person?.name && names.length > 0">
         <ProseH1 class="text-primary">
-          {{ names[0] }}
+          {{ names[0] }} 
           <span class="text-secondary-500"> {{ names[1] }}</span>
         </ProseH1>
         <PersonBadges
           v-if="person.roles && person.roles.length > 0"
           :person="person"
         />
+        
       </template>
       <template #description>
-        <div class="flex items-center text-sm md:py-4" v-if="person.username">
+        <div class="flex items-center text-sm md:py-4" v-if="person.githubUsers && person.githubUsers.length > 0">
           <UIcon
             name="line-md:github"
             class="mr-1 p-2 text-gray-900 not-only:inline-block"
@@ -30,7 +31,7 @@
             height="16"
           />
           <span class="text-gray-500 dark:text-gray-400">
-            {{ person.username }}</span
+            {{ person.githubUsers[0] }}</span
           >
         </div>
         <div
@@ -85,10 +86,10 @@ const names = computed(() => {
 })
 
 const avatar = computed(() => {
-  if (props.person.avatarUrl) {
+  if (props.person.logoUrls) {
     return {
-      src: props.person.avatarUrl,
-      alt: props.person.name,
+      src: props.person.logoUrls.l,
+      alt: props.person.logoUrls.alt || props.person.name,
     }
   } else {
     return {

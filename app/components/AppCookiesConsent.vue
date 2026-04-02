@@ -88,30 +88,28 @@
 </template>
 <script setup lang="ts">
 import type { CheckboxGroupItem } from '@nuxt/ui'
+
 const { t } = useI18n()
+const { public: { gtm } } = useRuntimeConfig()
+
+
 const openDialog = ref(false)
 const openCookiePreferences = ref(false)
-const value = ref([])
+const value = ref<string[]>(['system']) 
+
+
 const consent = useScriptTriggerConsent()
 
-const updateGtmConsent = () => {
-  proxy.dataLayer.push({
-    event: 'consent_granted',
-  })
-  window.gtag?.('consent', 'update', {
-    ad_storage: 'granted',
-    ad_user_data: 'granted',
-    ad_personalization: 'granted',
-    analytics_storage: 'granted',
-  })
-  consent.accept()
-}
-const { proxy } = useScriptGoogleTagManager({
-  id: process.env.NUXT_PUBLIC_GTM_ID || '', 
-  scriptOptions: {
-    trigger: consent,
-  },
+
+
+
+const isGtmAccepted = computed(() => value.value.includes('gtm'))
+
+const { proxy, load, remove } = useScriptGoogleTagManager({
+  id: gtm.id, // 
+  trigger: consent,
   onBeforeGtmStart: (gtag) => {
+   
     gtag('consent', 'default', {
       ad_storage: 'denied',
       ad_user_data: 'denied',
@@ -121,96 +119,79 @@ const { proxy } = useScriptGoogleTagManager({
     })
   },
 })
-const isGtmAccepted = computed(() => {
-  return value.value.includes('gtm')
-})
-const pageRefresh = () => {
-  setTimeout(() => {
-    window.location.reload()
-  }, 500)
-}
-const onReject = () => {
-  openDialog.value = false
-  value.value = ['system']
-  pageRefresh()
-  
-}
-const onAcceptAll = () => {
-  openDialog.value = false
-  value.value = items.value.map(i => i.id)
+
+const handleFinalConsent = () => {
   if (isGtmAccepted.value) {
-    
-    updateGtmConsent()
+    proxy.gtag('consent', 'update', { 
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted',
+    })
+   
+    consent.accept()
+    load()
+  } else {
+    consent.revoke()
+    remove()
+
   }
-}
-const onManage = () => {
-  openDialog.value = false
-  openCookiePreferences.value = true
+  saveCookies()
 }
 
-const items = ref<CheckboxGroupItem[]>([
+
+const onAcceptAll = () => {
+  value.value = items.value.map(i => i.id)
+  handleFinalConsent()
+  openDialog.value = false
+}
+
+const onReject = () => {
+  value.value = ['system']
+  handleFinalConsent()
+  openDialog.value = false
+}
+
+const onSaveCookiePreferences = () => {
+  handleFinalConsent()
+  openCookiePreferences.value = false
+  openDialog.value = false
+}
+
+
+const saveCookies = () => {
+  localStorage.setItem('cookie-preferences', JSON.stringify(value.value))
+}
+
+const items = computed<CheckboxGroupItem[]>(() => [
   {
     label: t('cookies_consent.necessary_cookies.label'),
     description: t('cookies_consent.necessary_cookies.description'),
     id: 'system',
     disabled: true,
-    
   },
   {
     label: t('cookies_consent.gtm.label'),
     description: t('cookies_consent.gtm.description'),
     id: 'gtm',
-    disabled: false,
-    
   },
 ])
 
-const onSaveCookiePreferences = () => {
-  // save preferences on local storage
-  openCookiePreferences.value = false
-  openDialog.value = false
-  if (isGtmAccepted.value) {
-    updateGtmConsent()
-  }
-  saveCookies()
-  pageRefresh()
-}
-const saveCookies = () => {
-  if(window && window?.localStorage) {
-    window.localStorage.setItem('cookie-preferences', JSON.stringify(value.value))
-  }
-}
 onMounted(() => {
-  // get preferences from local storage
-  if(window && window?.localStorage) {
-    const savedPreferences = window.localStorage.getItem('cookie-preferences')
-    if(savedPreferences) {
-      value.value = JSON.parse(savedPreferences)
+  const saved = localStorage.getItem('cookie-preferences')
+  if (saved) {
+    value.value = JSON.parse(saved)
+    if (isGtmAccepted.value) {
+      consent.accept()
+      load()
     }
-  }
-  if(value.value?.length > 1) {
-    openDialog.value = false
-  }
-  if (isGtmAccepted.value) {
-    updateGtmConsent()
-  }
-  if(value.value?.length === 0) {
-    openDialog.value = true
+  } else {
+    consent.revoke()
+    remove()
     setTimeout(() => {
-      value.value = ['system', 'gtm']
       openDialog.value = true
-    }, 10000)
+    }, 1000)
   }
 })
-
-
-watch(isGtmAccepted, (newVal, oldVal) => {
-  if(newVal && !oldVal) {
-    updateGtmConsent()
-  }
-})
-watch(value, (newVal, oldVal) => {
-  saveCookies()
-})
-
 </script>
+

@@ -1,7 +1,7 @@
 <template>
   <UCard v-if="moduleGrouped" :ui="ui" @click="onClick">
     <ModuleImage :module="module" size="sm" class="w-12" />
-    <div class="w-full border">
+    <div class="w-full">
       <div class="line-clamp-2 pb-3 text-lg leading-5 font-bold">
         <nuxt-link
           v-if="module?.urlKey"

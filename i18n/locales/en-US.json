@@ -172,6 +172,7 @@
     "person": {
       "cta": {
         "groupsEmptyTitle": "This person is not yet par of a group",
+        "groupsDescription": "Discover all avaialble workign groups and join the one that fits you best",
         "getInvolvedTitle": "Help us make Odoo mightier together",
         "getInvolvedDescription": "Come lend a hand and help build the largest community of Odoo open-source enthusiasts. Whether you’re a developer, a consultant, a business user, or just an open-source enthusiast, we’d love to have you join us.",
         "ctaGroupsLabel": "Join one of the working groups",

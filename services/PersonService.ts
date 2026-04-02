@@ -2,6 +2,7 @@ import { BaseServiceTypeSense } from '~~/services'
 import type { Person, PersonResult, PersonRole, FacetSearchParam, FacetSearchResult } from '~~/models'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { SitemapUrlInput } from '#sitemap/types'
+import type { LogoUrl } from '~~/models/Person'
 
 interface PersonSchema {
   id: number
@@ -114,11 +115,11 @@ export class PersonService extends BaseServiceTypeSense {
     do {
       const res = await super.performSearch({
         q: '*',
-        group_by: "username",
+        group_by: 'url_key',
         per_page: size,
         page,
         group_limit: 1,
-        include_fields: "username",
+        include_fields: 'url_key',
         enable_highlight_v1: false,
       })
       total = res?.found || 0
@@ -171,8 +172,8 @@ export const PersonFactory = {
     const Person: Person = {
       id: json.id,
       name: json?.name,
-      avatarUrl: json?.avatar_url || null,
-      username: json?.username,
+      logoUrls: PersonFactory.createLogoUrls(json) || null,
+      githubUsers: json?.github_users || [],
       company: PersonFactory.createPersonCompany(json),
       country: PersonFactory.createPersonCountry(json),
       roles: PersonFactory.createPersonRoles(json),
@@ -191,12 +192,12 @@ export const PersonFactory = {
   },
   createPersonContact(json: any):
     | {
-      address: string
-      email: string
-      phone: string
-      city: string
-      website: string
-    }
+        address: string
+        email: string
+        phone: string
+        city: string
+        website: string
+      }
     | undefined {
     if (json?.contact) {
       return {
@@ -218,6 +219,18 @@ export const PersonFactory = {
     }
     return undefined
   },
+  createLogoUrls(json: any): LogoUrl | undefined {
+    if (json?.logo_urls) {
+      return {
+        alt: json.logo_urls.alt,
+        l: json.logo_urls.l,
+        m: json.logo_urls.m,
+        s: json.logo_urls.s,
+      }
+    }
+    return undefined
+  },
+
   createPersonCompany(
     json: any
   ): { id: number; name: string; urlKey: string } | undefined {

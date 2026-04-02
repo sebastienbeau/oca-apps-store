@@ -129,7 +129,7 @@ export class ModuleService extends BaseServiceTypeSense {
     perPage: number
   ): Promise<ModuleResult> {
     const query: any = {
-      filter_by: `maintainers.github_user:="${person.username}"`,
+      filter_by: `maintainers.github_user:="${person.githubUsers[0]}"`,
       group_by: 'techname',
       page: page,
       per_page: perPage,
