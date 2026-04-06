@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="sponsor?.sponsorship?.industries?.length > 0"
+    v-if="sponsor?.sponsorship"
     class="relative pt-14 pb-1 md:mt-8 md:pt-32 md:pb-24"
   >
     <div
@@ -9,26 +9,47 @@
         backgroundColor: sponsorLevel?.color || '#FD9182',
       }"
     />
-    <ProseH2 class="py-4 text-2xl font-bold text-secondary">
-      {{ $t('sponsors.industry.title') }}
-    </ProseH2>
-    <div class=" ">
-      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-        <SponsorIndustryCard
-          v-for="industry in sponsor.sponsorship?.industries"
-          :key="industry.name"
-          :industry="industry"
-          :style="{
-            backgroundColor: sponsorLevel?.color + '12' || '#FD918220',
-          }"
-        />
+    <div v-if="sponsor?.sponsorship?.industries.length > 0">
+      <ProseH2 class="py-4 text-2xl font-bold text-secondary">
+        {{ $t('sponsors.industry.title') }}
+      </ProseH2>
+      <div class=" ">
+        <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+          <SponsorIndustryCard
+            v-for="industry in sponsor.sponsorship?.industries"
+            :key="industry.name"
+            :industry="industry"
+            :style="{
+              backgroundColor: sponsorLevel?.color + '12' || '#FD918220',
+            }"
+          />
+        </div>
       </div>
+    </div>
+    <div v-else>
+      <UEmpty
+        :title="t('sponsors.industry.noIndustriesTitle')"
+        :description="t('sponsors.industry.noIndustriesDescription')"
+        variant="naked"
+        :ui="{
+          title: 'text-xl',
+          root: 'min-h-64',
+        }"
+      >
+        <template #leading>
+          <UAvatarGroup size="xl">
+            <UAvatar src="/logo-192.png" alt="Oca logo" loading="lazy" />
+          </UAvatarGroup>
+        </template>
+      </UEmpty>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { SponsorLevelsCollectionItem } from '@nuxt/content'
 import type { Sponsor } from '~~/models'
+
+const { t } = useI18n()
 const props = defineProps<{
   sponsor: Sponsor
   sponsorLevel: SponsorLevelsCollectionItem

@@ -26,7 +26,7 @@
         </div>
         <div class="flex w-full items-center justify-between gap-1">
           <div class="flex-1 text-xl font-semibold">
-            <nuxt-link v-if="isClickable" :to="`/sponsors/${sponsor.urlKey}`">
+            <nuxt-link v-if="isClickable" :to="`/companies/${sponsor.urlKey}`">
               {{ sponsor.name }}
             </nuxt-link>
             <span v-else>{{ sponsor.name }}</span>

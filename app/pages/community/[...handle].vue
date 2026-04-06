@@ -45,7 +45,10 @@
       :title="t('community.person.cta.getInvolvedTitle')"
       :description="t('community.person.cta.getInvolvedDescription')"
       :links="getInvolvedLinks"
-      />
+      :ui="{
+        links: 'md:flex-row ',
+      }"
+    />
     <PersonModulesMaintained :person="person" />
   </div>
 </template>
@@ -119,31 +122,48 @@ const displayPersonGroups = computed(() => {
 
 const getInvolvedLinks = ref<ButtonProps[]>([
    {
-      label: t('community.person.cta.ctaBecomeBemberLabel'),
+      label: t('community.person.cta.ctaBecomeMemberLabel'),
       to: 'https://odoo-community.org/get-involved/become-a-member',
       color: 'warning',
       variant: 'subtle',
       trailingIcon: 'i-lucide-arrow-right',
+      ui: {
+        base: 'w-full md:w-auto',
+        label: 'text-center mx-auto'
+      }
     },
     {
       label: t('community.person.cta.ctaGroupsLabel'),
       to: 'https://odoo-community.org/working-groups',
       trailingIcon: 'i-lucide-arrow-right',
-      color: 'neutral'
+      color: 'primary',
+      variant: 'subtle',
+      ui: {
+        base: 'w-full md:w-auto',
+        label: 'text-center mx-auto'
+      }
     },
     {
       label: t('community.person.cta.CtaContributorsLabel'),
       to: 'https://odoo-community.org/get-involved/contribute',
       color: 'neutral',
       variant: 'subtle',
-      trailingIcon: 'i-lucide-arrow-right'
+      trailingIcon: 'i-lucide-arrow-right',
+      ui: {
+        base: 'w-full md:w-auto',
+        label: 'text-center mx-auto'
+      }
     },
     {
       label: t('community.person.cta.CtaCrowdfundingLabel'),
       to: 'https://odoo-community.org/crowdfunding',
       color: 'secondary',
       variant: 'subtle',
-      trailingIcon: 'i-lucide-arrow-right'
+      trailingIcon: 'i-lucide-arrow-right',
+      ui: {
+        base: 'w-full md:w-auto',
+        label: 'text-center mx-auto'
+      }
     }
 ])
 </script>

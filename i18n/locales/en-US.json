@@ -156,7 +156,9 @@
       "name_desc": "Sort by name Z-A"
     },
     "industry": {
-      "title": "ERP Industries"
+      "title": "ERP Industries",
+      "noIndustriesTitle": "Sponsor Industries coming soon",
+      "noIndustriesDescription": "Check back later for updates."
     },
     "testimonial": {
       "title": "Our experience within the OCA"
@@ -178,7 +180,7 @@
         "ctaGroupsLabel": "Join one of the working groups",
         "CtaContributorsLabel": "Find out how to contribute",
         "CtaCrowdfundingLabel": "Participate to a crowdfunding",
-        "ctaBecomeBemberLabel": "Get your membership"
+        "ctaBecomeMemberLabel": "Get your membership"
       }
     }
   },

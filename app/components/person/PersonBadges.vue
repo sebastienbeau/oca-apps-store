@@ -1,5 +1,5 @@
 <template>
-  <div v-if="person && person.roles" class="flex flex-wrap gap-2">
+  <div v-if="person && person.roles" class="flex flex-wrap gap-2 py-2 md:py-0">
     <UBadge
       v-for="(role, index) in person.roles"
       :key="index"

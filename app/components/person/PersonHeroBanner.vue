@@ -23,7 +23,7 @@
         
       </template>
       <template #description>
-        <div class="flex items-center text-sm md:py-4" v-if="person.githubUsers && person.githubUsers.length > 0">
+        <div class="flex items-center text-sm py-2 md:py-4" v-if="person.githubUsers && person.githubUsers.length > 0">
           <UIcon
             name="line-md:github"
             class="mr-1 p-2 text-gray-900 not-only:inline-block"
@@ -35,7 +35,7 @@
           >
         </div>
         <div
-          class="ml-auto flex flex-row items-center justify-start gap-4 py-4"
+          class="ml-auto flex flex-row items-center justify-start gap-4 py-2 md:py-4"
         >
           <div>
             <PersonCountry :person="person"></PersonCountry>

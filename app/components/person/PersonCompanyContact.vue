@@ -3,7 +3,7 @@
     reverse
     class=""
     :ui="{
-      root: 'ring-0 mt-6 bg-white shadow-md p-4',
+      root: 'ring-0 md:mt-6 bg-white shadow-md p-4',
       body: 'bg-transparent',
       header: 'p-0 relative',
       footer: 'flex justify-center',

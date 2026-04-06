@@ -20,7 +20,7 @@
  
     <div v-if="person?.workGroupList && person.workGroupList.length > 0" class="md:py-4">
       <h3 class=" text-4xl text-center  font-bold text-primary-500 pb-6 ">{{ $t('person.work_group.title') }}<span class="block text-secondary ">{{ $t('person.work_group.title_emphasis') }}</span></h3>
-      <div class="flex flex-wrap gap-2 md:gap-6 md:justify-center justify-center">
+      <div class="flex flex-wrap gap-2 md:gap-6 md:justify-center align-stretch justify-center">
         <template v-for="group in person.workGroupList" :key="group.id">
           <div :class="cartSize"class="w-full md:w-1/4 min-h-64">
             <PersonWorkGroup :group="group"/>
