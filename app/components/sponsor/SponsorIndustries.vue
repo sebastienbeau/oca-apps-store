@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="sponsor?.sponsorship"
+    v-if="sponsor?.sponsorship && sponsorLevel.level == '2'"
     class="relative pt-14 pb-1 md:mt-8 md:pt-32 md:pb-24"
   >
     <div
