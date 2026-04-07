@@ -46,7 +46,8 @@ const searchTermsDebounced = useDebounce(searchTerms, 500)
 const page = ref(1)
 
 const personService = useService('persons')
-const { data: contributors } = useAsyncData<PersonRole>(
+const { data: contributors } = await useAsyncData<PersonRole>(
+  `contributors-${props.company.id}`,
   () => {
     return personService.getPersonsByCompanyId(
       parseInt(props.company.id),
@@ -59,7 +60,7 @@ const { data: contributors } = useAsyncData<PersonRole>(
     debounce: 300,
   }
 )
-console.log('contributors', contributors.value)
+
 const found = contributors.value?.found || 0
 watch(
   () => searchTermsDebounced.value,
