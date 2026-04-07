@@ -5,7 +5,7 @@
         {{ company.name }}
       </span>
       <span class="text-secondary">
-        {{ t('company.contributors.title') }}
+        {{ t('company.members.title') }}
       </span>
     </ProseH2>
     <div
@@ -17,7 +17,7 @@
           :placeholder="[t('person.search.placeholder')]"
         />
       </UFormField>
-      {{ t('company.contributors.found', { count: contributors?.found }) }}
+      {{ t('company.members.found', { count: contributors?.found }) }}
     </div>
     <div class="grid grid-cols-1 gap-5 py-5 sm:grid-cols-2 lg:grid-cols-3">
       <PersonHit
@@ -59,6 +59,7 @@ const { data: contributors } = useAsyncData<PersonRole>(
     debounce: 300,
   }
 )
+console.log('contributors', contributors.value)
 const found = contributors.value?.found || 0
 watch(
   () => searchTermsDebounced.value,

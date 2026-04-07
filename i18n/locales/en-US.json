@@ -244,9 +244,9 @@
     "description": {
       "default": "{company} is a company member of  the Odoo Community Association"
     },
-    "contributors": {
-      "title": "Contributors",
-      "found": "1 contributor found | { count } contributors found"
+    "members": {
+      "title": " members",
+      "found": "1 member found | { count } members found"
     }
   },
   "generic": {

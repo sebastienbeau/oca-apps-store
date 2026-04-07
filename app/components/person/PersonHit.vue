@@ -9,6 +9,7 @@
     @click="goToPerson"
   >
     <template #header>
+     
       <div class="flex-1">
         <UUser
           :name="person.name"
@@ -105,9 +106,10 @@ const ui = computed(() => {
   }
 })
 const avatar = computed(() => {
-  if (props.person.avatarUrl) {
+  if (props.person.logoUrls && props.person.logoUrls.s) {
+    
     return {
-      src: props.person.avatarUrl,
+      src: props.person?.logoUrls?.s,
       alt: props.person.name,
     }
   } else {

@@ -40,7 +40,7 @@ const breadcrumb = computed(() => {
     })
   } else {
     items.push({
-      label: t('nav.company.title'),
+      label: t('nav.community.companies.title'),
       to: '/companies',
       icon: 'companies',
     })
