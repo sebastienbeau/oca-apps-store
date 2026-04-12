@@ -70,13 +70,12 @@
           <UIcon name="group" class="text-primary" />
           <span class="text-sm">
             <span class="text-secondary">{{ sponsor.membersCount }}</span>
-            Members
+            {{ $t('company.stats.members') }}
           </span>
         </div>
         <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="award" class="text-primary" />
-          <span class="text-sm"
-            >OCA Collaborator index:
+          <span class="text-sm">{{ $t('company.stats.collaboration_index') }}:
             <span class="text-secondary">{{ sponsor.collaboratorIndex }}</span>
           </span>
         </div>

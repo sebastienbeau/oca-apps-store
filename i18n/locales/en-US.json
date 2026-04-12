@@ -237,9 +237,10 @@
   },
   "company": {
     "stats": {
-      "members": "Members",
+      "members": "Member(s)",
       "contributors": "Contributors",
-      "modules": "Modules"
+      "modules": "Modules",
+      "collaboration_index": "OCA Collaboration Index"
     },
     "description": {
       "default": "{company} is a company member of  the Odoo Community Association"
