@@ -78,7 +78,7 @@
       <div class="h-full flex-1">
         <p
           v-if="module?.summary"
-          class="line-clamp-4 text-sm text-gray-500 dark:text-gray-400"
+          class="line-clamp-3 text-sm text-gray-500 dark:text-gray-400"
           v-html="highlights?.summary || module?.summary"
         />
       </div>
@@ -88,7 +88,7 @@
         class="border-l-2 border-l-muted py-1 pl-2 text-xs text-dimmed"
       />
 
-      <ModuleSerieList :module-grouped="moduleGrouped" size="sm" />
+      <ModuleSerieList :module-grouped="moduleGrouped" size="sm" class="pt-3" />
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center">

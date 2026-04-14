@@ -5,7 +5,7 @@ description: Explore open-source Odoo modules actively maintained by the Odoo Co
 
 ::u-page-section
 ---
-orientation: horizontal
+orientation: vertical
 icon: 'module'
 description: Discover open-source Odoo modules created, updated, and maintained by the Odoo Community Association (OCA).
 features:
