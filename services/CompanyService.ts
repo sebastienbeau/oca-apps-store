@@ -216,6 +216,7 @@ export const CompanyFactory = {
       email: json?.email || '',
       countries: this.createCompanyCountries(json?.countries),
       phone: json?.phone || '',
+      contacts: this.createCompanyContacts(json?.contacts),
       website: this.getWebsite(json),
       isIntegrator: json.is_integrator || false,
       collaborationIndex: json.collaboration_index || 0,
@@ -248,17 +249,44 @@ export const CompanyFactory = {
       }
     }
   },
+
+  createCompanyContacts(json: any): CompanyContact[] {
+    if (!Array.isArray(json)) {
+      return []
+    }
+    return (
+      json.map((contactJson: any) => {
+        return {
+          email: contactJson?.email,
+          name: contactJson?.name,
+          phone: contactJson?.phone,
+          city: contactJson?.city,
+          state: contactJson?.state,
+          street: contactJson?.street,
+          street2: contactJson?.street2,
+          zip: contactJson?.zip,
+          country: {
+            code: contactJson?.country?.code,
+            label: contactJson?.country?.label,
+          },
+        }
+      }) || []
+    )
+  },
+
   createCompanyCountries(json: any): CompanyCountry[] {
     if (!Array.isArray(json)) {
       return []
     }
-    return json.map((countryJson: any) => {
-      return {
-        label: countryJson?.label,
-        code: countryJson?.code,
-      }
-    }) || []
-  }
+    return (
+      json.map((countryJson: any) => {
+        return {
+          label: countryJson?.label,
+          code: countryJson?.code,
+        }
+      }) || []
+    )
+  },
 }
 
 export const SponsorFactory = {

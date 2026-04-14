@@ -120,7 +120,7 @@ const isClickable = computed(() => {
 
 const onClick = () => {
   if (isClickable.value) {
-    navigateTo(`/companies/${props.sponsor.urlKey}`)
+    navigateTo(`/${props.sponsor.urlKey}`)
   }
 }
 </script>

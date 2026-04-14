@@ -42,16 +42,12 @@
     </template>
 
     <div class="flex space-x-2">
-      <UBadge
-        v-for="(loc, i) in company.countries"
-        :key="i"
-        variant="solid"
-        class="rounded-full"
-        color="primary"
-        size="sm"
-      >
-        {{ loc.label }}
-      </UBadge>
+     
+      <template v-for="contact in company.contacts" :key="contact.name">
+        <UBadge variant="solid" class="rounded-full" color="primary" size="sm">
+          {{ contact.country.label }}
+        </UBadge>
+      </template>
     </div>
 
     <template #footer>
@@ -85,7 +81,7 @@ const props = defineProps<{
   company: Company
 }>()
 const onClick = () => {
-   navigateTo(`/${props.company.urlKey}`)
+  navigateTo(`/${props.company.urlKey}`)
 }
 const { $sponsor } = useNuxtApp()
 const sponsorLevel = $sponsor.getSponsorLevel(props.company)

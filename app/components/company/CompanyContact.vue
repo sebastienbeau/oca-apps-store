@@ -1,42 +1,61 @@
 <template>
-  <UNavigationMenu
-    :items="items"
-    :ui="{
-      root: 'my-0 py-0',
-      link: 'first:pl-0',
-      linkLabel: 'font-normal text-primary',
-    }"
-  />
+  <UPageCard class="w-64">
+    <template #body>
+      <UPageLinks
+        :links="items"
+        orientation="vertical"
+        :ui="{
+          root: 'my-0 py-0',
+          link: 'first:pl-0',
+          linkLabel: 'font-normal text-primary',
+        }"
+      />
+    </template>
+  </UPageCard>
 </template>
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { PageLink } from '@nuxt/ui'
 import type { Company } from '~~/models'
+import type { companyContacts } from '~~/models/Sponsor'
 const props = defineProps<{
+  contact: companyContacts
   company: Company
 }>()
-const items = computed<NavigationMenuItem[]>(() => {
-  const menuItems: NavigationMenuItem[] = []
-  if (props.company?.email) {
-    menuItems.push({
-      label: props.company.email,
+const items = computed<PageLink[]>(() => {
+  const items: PageLink[] = []
+  if (props.contact?.email) {
+    items.push({
+      label: props.contact.email,
       icon: 'email',
-      to: `mailto:${props.company.email}`,
+      to: `mailto:${props.contact.email}`,
     })
   }
-  if (props.company?.phone) {
-    menuItems.push({
-      label: props.company.phone,
+  if (props.contact?.phone) {
+    items.push({
+      label: props.contact.phone,
       icon: 'phone',
     })
   }
-  if (props.company?.website.url) {
-    menuItems.push({
-      label: props.company.website.label,
-      icon: 'website',
-      to: props.company.website.url,
-      target: '_blank',
+  if (props.contact?.street) {
+    items.push({
+      label: props.contact.street,
+      icon: 'location',
     })
   }
-  return menuItems
+  if (props.contact?.street2) {
+    items.push({
+      label: props.contact.street2,
+       icon: 'location',
+    })
+  }
+  if (props.contact?.zip && props.contact?.city) {
+    items.push({
+      label:  props.contact.zip + ' ' + props.contact?.city ,
+       icon: 'location',
+    })
+  }
+  
+  
+  return items
 })
 </script>

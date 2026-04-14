@@ -23,25 +23,32 @@
         >
           {{ company.name }}
         </ProseH1>
-        <CompanyContact :company="company" />
-        <div
-          v-if="company.countries && company.countries.length > 0"
-          class="flex items-start gap-3 pt-4 md:pt-0"
-        >
-          <UBadge
-            v-for="(loc, i) in company.countries"
-            :key="i"
-            variant="solid"
-            class="gap-1 rounded-full"
-            color="primary"
-            size="lg"
-            :label="loc.label"
-          />
+
+        <div class="flex items-start gap-5 pt-4 md:pt-4">
+          <template v-if="company.countries && company.countries.length > 0">
+            <UBadge
+              v-for="(loc, i) in company.countries"
+              :key="i"
+              variant="solid"
+              class="gap-3 rounded-full"
+              color="primary"
+              size="md"
+              :label="loc.label"
+            />
+          </template>
+          <UPageLinks orientation="horizontal" :links="links"></UPageLinks>
         </div>
       </div>
     </template>
     <template #description>
       <slot name="description">
+        <div
+          v-for="contact in company.contacts"
+          :key="contact.name"
+          class="flex gap-4 p-4 md:gap-6 md:pl-0"
+        >
+          <CompanyContact :contact="contact" company="company" />
+        </div>
         <MDC
           v-if="company.sponsorship?.description"
           :value="company.sponsorship.description"
@@ -67,7 +74,20 @@
 
 <script setup lang="ts">
 import type { Company, Sponsor } from '~~/models'
+import type { UPageLink } from '@nuxt/ui'
 const props = defineProps<{
   company: Company | Sponsor
 }>()
+const links = computed<UPageLink[]>(() => {
+  const items: UPageLink[] = []
+  if (props.company?.website.url) {
+    items.push({
+      label: props.company.website.label,
+      icon: 'website',
+      to: props.company.website.url,
+      target: '_blank',
+    })
+  }
+  return items
+})
 </script>

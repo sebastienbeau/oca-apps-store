@@ -11,6 +11,7 @@ export interface Company {
   phone: string
   urlKey: string
   redirectUrlKey: string[]
+  contacts: companyContacts[]
   website: {
     url: string
     label: string
@@ -26,6 +27,21 @@ export interface Company {
     l: string
     m: string
     s: string
+  }
+}
+
+export interface companyContacts {
+  email: string
+  name: string
+  phone: string
+  city: string
+  state: string
+  street: string
+  street2: string
+  zip: string
+  country: {
+    code: string
+    label: string
   }
 }
 
