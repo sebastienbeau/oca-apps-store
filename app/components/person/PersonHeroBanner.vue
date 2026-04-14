@@ -13,26 +13,33 @@
     >
       <template #title v-if="person?.name && names.length > 0">
         <ProseH1 class="text-primary">
-          {{ names[0] }} 
+          {{ names[0] }}
           <span class="text-secondary-500"> {{ names[1] }}</span>
         </ProseH1>
         <PersonBadges
           v-if="person.roles && person.roles.length > 0"
           :person="person"
         />
-        
       </template>
       <template #description>
-        <div class="flex items-center text-sm py-2 md:py-4" v-if="person.githubUsers && person.githubUsers.length > 0">
-          <UIcon
-            name="line-md:github"
-            class="mr-1 p-2 text-gray-900 not-only:inline-block"
-            width="16"
-            height="16"
-          />
-          <span class="text-gray-500 dark:text-gray-400">
-            {{ person.githubUsers[0] }}</span
+        <div
+          class="flex items-center py-2 text-sm md:py-4"
+          v-if="person.githubUsers && person.githubUsers.length > 0"
+        >
+          <nuxtLink
+            :to="`https://github.com/${person.githubUsers[0]}`"
+            target="_blank"
           >
+            <UIcon
+              name="line-md:github"
+              class="mr-1 p-2 text-gray-900 not-only:inline-block"
+              width="16"
+              height="16"
+            />
+            <span class="text-gray-500 dark:text-gray-400">
+              {{ person.githubUsers[0] }}</span
+            >
+          </nuxtLink>
         </div>
         <div
           class="ml-auto flex flex-row items-center justify-start gap-4 py-2 md:py-4"

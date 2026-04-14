@@ -218,7 +218,7 @@ export const CompanyFactory = {
       phone: json?.phone || '',
       website: this.getWebsite(json),
       isIntegrator: json.is_integrator || false,
-      collaboratorIndex: json.collaborator_index || 0,
+      collaborationIndex: json.collaboration_index || 0,
       contributorsCount: json.contributors_count || '0',
       membersCount: json.members_count || '0',
       modulesCount: json.modules_count || '0',
@@ -227,7 +227,7 @@ export const CompanyFactory = {
         l: json?.logo_urls?.l || '',
         m: json?.logo_urls?.m || '',
         s: json?.logo_urls?.s || '',
-      }
+      },
     }
     return company
   },

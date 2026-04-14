@@ -62,7 +62,7 @@
           size="sm"
           trailing
           class="ml-auto"
-          :to="`/community/${person.urlKey}`"
+          :to="`/${person.urlKey}`"
         />
       </div>
     </template>
@@ -121,7 +121,7 @@ const avatar = computed(() => {
 })
 const hasStatisticalInfo = computed(() => {
   if (
-    props.person.collaboratorIndex == '' &&
+    props.person.collaborationIndex == '' &&
     props.person.translations == '' &&
     props.person.modulesMaintained == '' &&
     props.person.psc == ''
@@ -134,7 +134,7 @@ const hasStatisticalInfo = computed(() => {
 
 const goToPerson = () => {
   if (props?.person?.urlKey) {
-    navigateTo(`/community/${props.person.urlKey}`)
+    navigateTo(`/${props.person.urlKey}`)
   }
 }
 </script>

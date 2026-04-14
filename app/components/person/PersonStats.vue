@@ -1,8 +1,8 @@
 <template>
-  <div v-if="person?.collaboratorIndex" class="flex items-center gap-1">
+  <div v-if="person?.collaborationIndex" class="flex items-center gap-1">
     <UIcon name="award" color="primary" />
-    <span class="">OCA Collaborator index: </span>
-    <span class="text-error">{{ person.collaboratorIndex }}</span>
+    <span class="">OCA Collaboration index: </span>
+    <span class="text-error">{{ person.collaborationIndex }}</span>
   </div>
 
   <div v-if="person?.modulesMaintained" class="flex items-center gap-1">

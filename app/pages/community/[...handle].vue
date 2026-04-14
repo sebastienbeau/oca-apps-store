@@ -53,39 +53,37 @@
   </div>
 </template>
 <script lang="ts" setup>
-const { t } = useI18n()
-import type { Person } from '~/models'
+const { t } = useI18n();
+import type { Person } from "~/models";
 
-const person = ref<Person | null>(null)
-const urlParams = useRoute().params
-const route = useRoute()
+const person = ref<Person | null>(null);
+const urlParams = useRoute().params;
+const route = useRoute();
 
-const personService = useService('persons')
+const personService = useService("persons");
 const breadCrumb = computed(() => {
   const items: any = [
     {
-      label: t('nav.community.title'),
-      to: '/community',
-      icon: 'community',
+      label: t("nav.community.title"),
+      to: "/community",
+      icon: "community",
     },
-  ]
+  ];
   if (person.value?.company) {
     items.push({
-      label: person?.value?.company.name || '',
-      to: '/companies/' + person.value.company.urlKey,
-      icon: 'company',
-    })
+      label: person?.value?.company.name || "",
+      to: "/" + person.value.company.urlKey,
+      icon: "company",
+    });
   }
-  items.push({ label: person?.value?.name || '', icon: 'person' })
-  return items
-})
+  items.push({ label: person?.value?.name || "", icon: "person" });
+  return items;
+});
 const getPersonByUrlKey = async () => {
-  const res = await personService.getPersonByUrlKey(
-    {},
-    urlParams.handle?.[0] as string
-  )
-  return res
-}
+  const currentUrl =  `community/${urlParams.handle?.[0]}`;
+  const res = await personService.getPersonByUrlKey({}, currentUrl as string);
+  return res;
+};
 
 const { data } = await useAsyncData<Person>(
   `person-${route.fullPath}`,
@@ -93,83 +91,77 @@ const { data } = await useAsyncData<Person>(
   {
     watch: [route],
   }
-)
+);
 
 if (data.value) {
-  person.value = data.value
+  person.value = data.value;
 } else {
   throw createError({
     statusCode: 404,
-    statusMessage: t('person.notFound'),
+    statusMessage: t("person.notFound"),
     fatal: true,
-  })
+  });
 }
-person.value = data.value || null
+person.value = data.value || null;
 
 const displayPersonGroups = computed(() => {
-  if (
-    person.value.pscList.length > 0 ||
-    person.value.workGroupList.length > 0
-  ) {
-    return true
+  if (person.value.pscList.length > 0 || person.value.workGroupList.length > 0) {
+    return true;
   } else {
-    return false
+    return false;
   }
-})
-
-
-
+});
 
 const getInvolvedLinks = ref<ButtonProps[]>([
-   {
-      label: t('community.person.cta.ctaBecomeMemberLabel'),
-      to: 'https://odoo-community.org/get-involved/become-a-member',
-      color: 'warning',
-      variant: 'subtle',
-      trailingIcon: 'i-lucide-arrow-right',
-      ui: {
-        base: 'w-full md:w-auto',
-        label: 'text-center mx-auto'
-      }
+  {
+    label: t("community.person.cta.ctaBecomeMemberLabel"),
+    to: "https://odoo-community.org/get-involved/become-a-member",
+    color: "warning",
+    variant: "subtle",
+    trailingIcon: "i-lucide-arrow-right",
+    ui: {
+      base: "w-full md:w-auto",
+      label: "text-center mx-auto",
     },
-    {
-      label: t('community.person.cta.ctaGroupsLabel'),
-      to: 'https://odoo-community.org/working-groups',
-      trailingIcon: 'i-lucide-arrow-right',
-      color: 'primary',
-      variant: 'subtle',
-      ui: {
-        base: 'w-full md:w-auto',
-        label: 'text-center mx-auto'
-      }
+  },
+  {
+    label: t("community.person.cta.ctaGroupsLabel"),
+    to: "https://odoo-community.org/working-groups",
+    trailingIcon: "i-lucide-arrow-right",
+    color: "primary",
+    variant: "subtle",
+    ui: {
+      base: "w-full md:w-auto",
+      label: "text-center mx-auto",
     },
-    {
-      label: t('community.person.cta.CtaContributorsLabel'),
-      to: 'https://odoo-community.org/get-involved/contribute',
-      color: 'neutral',
-      variant: 'subtle',
-      trailingIcon: 'i-lucide-arrow-right',
-      ui: {
-        base: 'w-full md:w-auto',
-        label: 'text-center mx-auto'
-      }
+  },
+  {
+    label: t("community.person.cta.CtaContributorsLabel"),
+    to: "https://odoo-community.org/get-involved/contribute",
+    color: "neutral",
+    variant: "subtle",
+    trailingIcon: "i-lucide-arrow-right",
+    ui: {
+      base: "w-full md:w-auto",
+      label: "text-center mx-auto",
     },
-    {
-      label: t('community.person.cta.CtaCrowdfundingLabel'),
-      to: 'https://odoo-community.org/crowdfunding',
-      color: 'secondary',
-      variant: 'subtle',
-      trailingIcon: 'i-lucide-arrow-right',
-      ui: {
-        base: 'w-full md:w-auto',
-        label: 'text-center mx-auto'
-      }
-    }
-])
+  },
+  {
+    label: t("community.person.cta.CtaCrowdfundingLabel"),
+    to: "https://odoo-community.org/crowdfunding",
+    color: "secondary",
+    variant: "subtle",
+    trailingIcon: "i-lucide-arrow-right",
+    ui: {
+      base: "w-full md:w-auto",
+      label: "text-center mx-auto",
+    },
+  },
+]);
 </script>
 <style scoped>
 .background-style::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -50%;

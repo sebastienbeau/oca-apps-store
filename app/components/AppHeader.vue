@@ -95,12 +95,6 @@ const items: NavigationMenuItem[] = [
         icon: 'person',
       },
       {
-        label: t('nav.community.contributors.title'),
-        description: t('nav.community.contributors.description'),
-        to: localePath('/community'),
-        icon: 'sponsor',
-      },
-      {
         label: t('nav.community.companies.title'),
         description: t('nav.community.companies.description'),
         to: localePath('/companies'),

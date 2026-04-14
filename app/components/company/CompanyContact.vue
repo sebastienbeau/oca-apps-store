@@ -29,7 +29,7 @@ const items = computed<NavigationMenuItem[]>(() => {
       icon: 'phone',
     })
   }
-  if (props.company?.website) {
+  if (props.company?.website.url) {
     menuItems.push({
       label: props.company.website.label,
       icon: 'website',

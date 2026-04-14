@@ -9,14 +9,14 @@ export interface Company {
   email: string
   countries: CompanyCountry[]
   phone: string
-  urlKey: string,
-  redirectUrlKey: string[],
+  urlKey: string
+  redirectUrlKey: string[]
   website: {
     url: string
     label: string
   }
   isIntegrator: boolean
-  collaboratorIndex: number
+  collaborationIndex: number
   contributorsCount: string
   membersCount: string
   modulesCount: string

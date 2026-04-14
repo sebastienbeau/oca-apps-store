@@ -26,7 +26,7 @@ export interface Person {
     code: string
   }
   roles?: PersonRole[]
-  collaboratorIndex?: number
+  collaborationIndex?: number
   translations: number
   modulesMaintained: number
   modulesContributionsIds: number[]

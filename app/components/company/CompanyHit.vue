@@ -1,5 +1,5 @@
 <template>
-  <UCard :ui="ui" :style="style" @click="onClick(sponsorLevel)" :class="sponsorLevel ? 'cursor-pointer' : ''">
+  <UCard :ui="ui" :style="style" @click="onClick()" class="cursor-pointer">
     <template #header>
       <div class="flex h-full flex-col items-end justify-between">
         <div class="flex w-full items-center justify-end gap-4">
@@ -69,7 +69,7 @@
             <span class="text-sm"
               >{{ $t('company.stats.collaboration_index') }}:
               <span class="text-secondary">{{
-                company.collaboratorIndex
+                company.collaborationIndex
               }}</span>
             </span>
           </div>
@@ -84,9 +84,8 @@ import type { Company } from '~~/models'
 const props = defineProps<{
   company: Company
 }>()
-const onClick = (sponsorLevel) => {
-  if (!sponsorLevel) return
-   navigateTo(`/companies/${props.company.urlKey}`)
+const onClick = () => {
+   navigateTo(`/${props.company.urlKey}`)
 }
 const { $sponsor } = useNuxtApp()
 const sponsorLevel = $sponsor.getSponsorLevel(props.company)

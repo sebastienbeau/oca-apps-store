@@ -177,7 +177,7 @@ export const PersonFactory = {
       company: PersonFactory.createPersonCompany(json),
       country: PersonFactory.createPersonCountry(json),
       roles: PersonFactory.createPersonRoles(json),
-      collaboratorIndex: json?.collaborator_index,
+      collaborationIndex: json?.collaboration_index,
       translations: !isNaN(json?.translations) ? json.translations : 0,
       modulesMaintained: !isNaN(json?.modules_maintained)
         ? json.modules_maintained

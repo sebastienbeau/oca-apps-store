@@ -26,11 +26,7 @@
     </template>
     <template #sort="{ sortOptions, value }">
       <div class="flex items-center gap-2">
-        <SearchSortSelector
-          :options="sortOptions"
-          v-model="sortBy"
-          class="md:my-4"
-        />
+        <SearchSortSelector :options="sortOptions" v-model="sortBy" class="md:my-4" />
         <SearchDisplayToggle v-model="displayMode" />
       </div>
     </template>
@@ -60,28 +56,28 @@ import type {
   Facet,
   FacetSearchParam,
   FacetSearchResult,
-} from '~~/models'
-const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
+} from "~~/models";
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 const { data: content } = await useAsyncData(`content-modules`, () => {
-  return queryCollection('docs').path(route.path).first()
-})
+  return queryCollection("docs").path(route.path).first();
+});
 
-const moduleService = useService('modules')
+const moduleService = useService("modules");
 const sortOptions = computed(() => {
   return [
-    { label: t('modules.sort.name_asc'), value: 'name:asc' },
-    { label: t('modules.sort.name_desc'), value: 'name:desc' },
-  ]
-})
-const sortBy = ref('name:asc')
-const displayMode = useCookie<'grid' | 'list'>('modules_display_mode', {
-  default: () => 'grid',
-})
-const perPage = 12
-const searchTerms = ref((route.query?.q as string) || '')
-const searchTermsDebounced = refDebounced(searchTerms, 300)
+    { label: t("modules.sort.name_asc"), value: "name:asc" },
+    { label: t("modules.sort.name_desc"), value: "name:desc" },
+  ];
+});
+const sortBy = ref("name:asc");
+const displayMode = useCookie<"grid" | "list">("modules_display_mode", {
+  default: () => "grid",
+});
+const perPage = 12;
+const searchTerms = ref((route.query?.q as string) || "");
+const searchTermsDebounced = refDebounced(searchTerms, 300);
 const query = reactive({
   q: searchTerms.value,
   highlight_full_fields:
@@ -93,45 +89,45 @@ const query = reactive({
 
 const facets: Facet[] = [
   {
-    field: 'serie',
-    title: t('modules.filters.versions'),
-    sortBy: '_alpha:desc',
-    routeParam: 'version',
+    field: "serie",
+    title: t("modules.filters.versions"),
+    sortBy: "_alpha:desc",
+    routeParam: "version",
     searchable: true,
   },
   {
-    field: 'repo.category.name',
-    title: t('modules.filters.category'),
-    routeParam: 'category',
-    sortBy: '_alpha:asc',
+    field: "repo.category.name",
+    title: t("modules.filters.category"),
+    routeParam: "category",
+    sortBy: "_alpha:asc",
     searchable: true,
   },
   {
-    field: 'repo.name',
-    title: t('modules.filters.repository'),
-    sortBy: '_alpha:asc',
-    routeParam: 'repository',
+    field: "repo.name",
+    title: t("modules.filters.repository"),
+    sortBy: "_alpha:asc",
+    routeParam: "repository",
     searchable: true,
   },
-]
+];
 const searchFunction = async (
   query: any,
   facets: FacetSearchParam[]
 ): Promise<FacetSearchResult<ModuleGroupedHit>> => {
-  const res = await moduleService.facetSearch(query, facets)
+  const res = await moduleService.facetSearch(query, facets);
 
-  return res
-}
+  return res;
+};
 
 const ui = computed(() => {
   return {
-    root: 'pb-6',
+    root: "pb-6",
     results:
-      displayMode.value === 'list'
-        ? 'flex flex-col gap-3 sm:gap-4'
-        : 'gap-3 sm:gap-5 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3',
-  }
-})
+      displayMode.value === "list"
+        ? "flex flex-col gap-3 sm:gap-4"
+        : "gap-3 sm:gap-5 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3",
+  };
+});
 
 watch(
   () => searchTermsDebounced.value,
@@ -141,8 +137,8 @@ watch(
         ...route.query,
         q: searchTermsDebounced.value || undefined,
       },
-    })
-    query.q = searchTermsDebounced.value
+    });
+    query.q = searchTermsDebounced.value;
   }
 )
 
