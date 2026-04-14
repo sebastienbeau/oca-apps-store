@@ -195,6 +195,7 @@ const hasFacetQuery = props.facets?.some((facet) => {
  * Initial search with the current facets from the route only on server side
  */
 const res = await useAsyncData<FacetSearchResult<T>>(
+  `search-${route.fullPath}`,
   async () => {
     /**
      * check if there is any facet query in the route,
