@@ -78,11 +78,11 @@ const { data: dependencies, pending } = await useAsyncData(
 total.value = dependencies.value?.total || 0
 
 watch([searchQuery], () => {
+  page.value = 1
   if (searchQuery.value?.length < 3 && searchQuery.value !== '') {
     dependencies.value = null
     return
   }
-  page.value = 1
 })
 watch(pending, () => {
   if (pending.value) {

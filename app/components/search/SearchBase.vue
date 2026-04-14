@@ -99,6 +99,7 @@
               :ui="{
                 root: ui?.results,
               }"
+              @update:page="scrollToTop"
             >
               <template #hit="{ hit, index, total }">
                 <slot name="hit" :hit="hit" :index="index" :total="total" />
@@ -369,12 +370,6 @@ const changePage = async (p: number) => {
     p = Math.ceil(results.found / perPage.value)
   }
   page.value = p
-  if (!props.infiniteScroll && searchContainer.value) {
-    searchContainer.value.scrollIntoView({
-      behavior: 'instant',
-      block: 'start',
-    })
-  }
 
   router.replace({
     query: {
@@ -387,6 +382,13 @@ const changePage = async (p: number) => {
   await search()
 }
 
+const scrollToTop = () => {
+  if (searchContainer.value) {
+    searchContainer.value.scrollIntoView({
+      behavior: 'instant',
+    })
+  }
+}
 onMounted(async () => {
   if (data?.value) {
     return

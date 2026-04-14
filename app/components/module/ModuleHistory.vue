@@ -1,5 +1,5 @@
 <template>
-  <div v-if="module?.readmeFragments?.history" class="py-24">
+  <div v-if="module?.readmeFragments?.history" class="py-10 md:py-24">
     <ProseH2 class="my-2 text-2xl text-primary md:text-3xl">
       {{ t('modules.history.title') }}
     </ProseH2>
@@ -7,16 +7,20 @@
     <UChangelogVersions
       v-if="versions?.length"
       :ui="{
-        root: 'pt-5',
-        beam: 'bg-secondary',
-        indicator: 'inset-s-16',
+        root: 'md:pt-5',
+        beam: 'md:bg-secondary',
+        indicator: 'md:inset-s-16',
       }"
     >
       <UChangelogVersion
         v-for="(version, index) in versions"
         :key="index"
         v-bind="version"
-        :ui="{ container: 'mx-0 pl-24', indicator: 'w-16' }"
+        :ui="{
+          container: 'md:mx-0 md:pl-24',
+          indicator: 'md:w-16',
+          description: 'overflow-auto',
+        }"
       >
         <template #description>
           <MDCRenderer

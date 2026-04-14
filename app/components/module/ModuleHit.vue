@@ -51,25 +51,16 @@
                 />
               </UBadge>
             </NuxtLink>
-            <ULink
+            <div
               v-if="module?.repository?.name"
-              class="flex items-center gap-1 text-sm text-primary hover:underline"
-              :to="
-                localePath({
-                  path: '/modules',
-                  query: {
-                    'repo.name': module.repository.name,
-                  },
-                })
-              "
-              @click.stop
+              class="flex items-center gap-1 text-sm"
             >
               <UIcon name="repository" />
               <div
                 class="line-clamp-1"
                 v-html="highlights?.repository || module?.repository?.name"
               />
-            </ULink>
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +89,7 @@
             :key="maintainer.name"
           >
             <template #content>
-              <ULink :to="`/community/${maintainer.urlKey}`" target="_blank">
+              <ULink :to="`/${maintainer.urlKey}`">
                 {{ t('modules.maintainer.title') }}
                 {{ maintainer.name }}
               </ULink>

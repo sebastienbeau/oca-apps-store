@@ -6,7 +6,7 @@
       ></div>
       <div class="flex flex-col gap-y-3 lg:flex-row">
         <div class="lg:w-5/8 lg:pr-5">
-          <UBreadcrumb :items="breadCrumb" class="mt-8 mb-6" />
+          <UBreadcrumb :items="breadCrumb" class="mb-6 md:mt-8" />
           <USeparator />
           <div class="overflow-x-hidden pt-6 lg:max-w-xl xl:max-w-2xl">
             <div
@@ -28,17 +28,29 @@
               size="md"
               :label="module.repository.category.name"
             />
-            <MDC
-              v-if="module?.readmeFragments?.description"
-              :value="module.readmeFragments.description"
+            <UContentToc
+              class="md:hidden"
+              :links="links"
+              :default-open="false"
+              color="primary"
             />
-            <div v-else class="prose pb-10">{{ module?.summary }}</div>
-            <ModuleContext :module="module" />
+            <div id="description">
+              <MDC
+                v-if="module?.readmeFragments?.description"
+                :value="module.readmeFragments.description"
+              />
+              <div v-else class="prose pb-10">{{ module?.summary }}</div>
+            </div>
+            <ModuleContext :module="module" id="context" />
             <USeparator
               v-if="module?.readmeFragments?.description"
               class="my-6"
             />
-            <UFormField :label="t('modules.versions.available')" size="xl">
+            <UFormField
+              :label="t('modules.versions.available')"
+              size="xl"
+              id="series"
+            >
               <ModuleSerieList
                 v-if="moduleGrouped"
                 :module-grouped="moduleGrouped"
@@ -49,7 +61,7 @@
             </UFormField>
           </div>
         </div>
-        <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12">
+        <div class="relative lg:h-64 lg:w-4/8 xl:w-5/12" id="download">
           <ModuleDownload
             v-if="moduleGrouped"
             :module-grouped="moduleGrouped"
@@ -66,13 +78,21 @@
       />
       <div class="flex flex-col gap-2 lg:flex-row">
         <div class="flex flex-col gap-4">
-          <div v-if="module?.readmeFragments?.install" class="flex-1 pb-10">
+          <div
+            v-if="module?.readmeFragments?.install"
+            class="flex-1 pb-10"
+            id="install"
+          >
             <ProseH2 class="mt-2 text-2xl text-secondary md:text-3xl">
               {{ t('modules.install.title') }}
             </ProseH2>
             <MDC :value="module.readmeFragments.install" />
           </div>
-          <div v-if="module?.readmeFragments?.configure" class="flex-1">
+          <div
+            v-if="module?.readmeFragments?.configure"
+            class="flex-1"
+            id="settings"
+          >
             <ProseH2 class="mt-2 text-2xl text-info md:text-3xl">
               {{ t('modules.settings.title') }}
             </ProseH2>
@@ -92,6 +112,7 @@
         <div
           v-if="module?.readmeFragments?.contributors"
           class="min-w-sm lg:p-10"
+          id="contributors"
         >
           <ProseH2 class="my-2 text-2xl text-secondary md:text-3xl">
             {{ t('modules.contributors.title') }}
@@ -101,17 +122,18 @@
       </div>
     </div>
 
-    <ModuleUsage :module="module" />
-    <ModuleHistory :module="module" />
-    <ModuleRoadMap :module="module" />
-    <ModuleMaintainer :module="module" />
-    <ModuleBugTracker :module="module" />
-    <ModuleDependencies :module="module" />
-    <ModuleUsedBy :module="module" />
+    <ModuleUsage :module="module" id="usage" />
+    <ModuleHistory :module="module" id="history" />
+    <ModuleRoadMap :module="module" id="roadmap" />
+    <ModuleMaintainer :module="module" id="maintainer" />
+    <ModuleBugTracker :module="module" id="bugtracker" />
+    <ModuleDependencies :module="module" id="dependencies" />
+    <ModuleUsedBy :module="module" id="usedby" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { ContentTocLink } from '@nuxt/ui'
 import type { ModuleGroupedHit, Module } from '~~/models'
 
 const { t } = useI18n()
@@ -157,7 +179,7 @@ const breadCrumb = computed(() => {
     items.push({
       icon: 'category',
       label: module.value.repository.category.name,
-      to: `/categories/${module.value.repository.category.urlKey}`,
+      to: `/modules?category=${encodeURIComponent(module.value.repository.category.name)}`,
     })
   }
   items.push({
@@ -200,4 +222,74 @@ const onChangeSerie = (serie: string) => {
     })
   }
 }
+const links = computed<ContentTocLink[]>(() => {
+  const readmeFragments = module?.value?.readmeFragments
+  const sections = [
+    {
+      id: 'description',
+      text: t('modules.description.title'),
+    },
+  ]
+
+  if (readmeFragments?.context) {
+    sections.push({
+      id: 'context',
+      text: t('modules.context.title'),
+    })
+  }
+  if (readmeFragments?.install) {
+    sections.push({
+      id: 'install',
+      text: t('modules.install.title'),
+    })
+  }
+  if (readmeFragments?.configure) {
+    sections.push({
+      id: 'settings',
+      text: t('modules.settings.title'),
+    })
+  }
+  if (readmeFragments?.contributors) {
+    sections.push({
+      id: 'contributors',
+      text: t('modules.contributors.title'),
+    })
+  }
+  if (readmeFragments?.usage) {
+    sections.push({
+      id: 'usage',
+      text: t('modules.usage.title'),
+    })
+  }
+  if (readmeFragments?.history) {
+    sections.push({
+      id: 'history',
+      text: t('modules.history.title'),
+    })
+  }
+  if (readmeFragments?.roadmap) {
+    sections.push({
+      id: 'roadmap',
+      text: t('modules.roadmap.title'),
+    })
+  }
+  if (module.value?.maintainers && module.value?.maintainers?.length > 0) {
+    sections.push({
+      id: 'maintainer',
+      text: t('modules.maintainer.title'),
+    })
+  }
+  sections.push({
+    id: 'bugtracker',
+    text: t('modules.bugTracker.title'),
+  })
+  if (module.value?.dependencies && module.value?.dependencies?.length > 0) {
+    sections.push({
+      id: 'dependencies',
+      text: t('modules.dependencies.title'),
+    })
+  }
+
+  return sections
+})
 </script>

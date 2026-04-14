@@ -1,9 +1,9 @@
 <template>
   <SearchBase
+    v-model:sort-by="sortBy"
     :query="query"
     :facets="facets"
     :sort-options="sortOptions"
-    v-model:sort-by="sortBy"
     :infinite-scroll="false"
     :search-function="searchFunction"
     :per-page="perPage"

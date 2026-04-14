@@ -17,7 +17,7 @@
             :src="sponsor?.logoUrls?.m"
             :alt="sponsor.name"
             sizes="128px md:180px"
-            class="md:max-h-28"
+            class="md:max-h-28 md:max-w-64"
             fit="contain"
             loading="lazy"
             quality="80"
@@ -75,7 +75,8 @@
         </div>
         <div class="flex items-center space-x-1 md:space-x-2">
           <UIcon name="award" class="text-primary" />
-          <span class="text-sm">{{ $t('company.stats.collaboration_index') }}:
+          <span class="text-sm"
+            >{{ $t('company.stats.collaboration_index') }}:
             <span class="text-secondary">{{ sponsor.collaboratorIndex }}</span>
           </span>
         </div>

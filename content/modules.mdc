@@ -16,6 +16,9 @@ features:
   - title: "Community-Driven"
     description: "Benefit from the collective expertise of the OCA community, ensuring high-quality and up-to-date modules."
     icon: 'i-lucide-users'
+  - title: "Free and Open Source"
+    description: "All modules are freely available and open source, allowing you to customize and extend them to meet your specific needs."
+    icon: 'i-lucide-unlock'
 links:
   - label: 'How to contribute'
     to: 'https://odoo-community.org/page/Contribute'

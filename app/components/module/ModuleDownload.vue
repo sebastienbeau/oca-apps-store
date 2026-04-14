@@ -27,6 +27,15 @@
               {{ t('modules.license.label') }}: <b>{{ module?.license }}</b>
             </UBadge>
             <UBadge
+              v-if="module?.version"
+              color="neutral"
+              variant="outline"
+              size="sm"
+              class="rounded-full"
+            >
+              {{ t('modules.version.label') }}: <b>{{ module?.version }}</b>
+            </UBadge>
+            <UBadge
               v-if="module?.maturity"
               color="neutral"
               variant="outline"
@@ -45,7 +54,7 @@
         class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end"
       >
         <UFormField
-          :label="t('modules.version.label')"
+          :label="t('modules.series.label')"
           :help="series?.length == 1 ? selectedSerie : ''"
         >
           <template v-if="series && series?.length > 1">

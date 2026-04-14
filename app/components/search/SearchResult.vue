@@ -42,6 +42,7 @@
       v-model:page="page"
       :items-per-page="perPage"
       :total="total"
+      @update:page="(newPage) => emit('update:page', newPage)"
     />
   </div>
 </template>
@@ -64,6 +65,7 @@ const props = withDefaults(defineProps<Props>(), {
   perPage: () => 12,
   page: () => 1,
 })
+const emit = defineEmits(['update:page'])
 const { t } = useI18n()
 
 const perPageItems = [12, 24, 48, 96]

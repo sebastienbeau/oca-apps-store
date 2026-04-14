@@ -7,11 +7,12 @@
       class="hidden lg:flex"
       content-orientation="vertical"
       :unmount-on-hide="false"
-      :delay-duration="500"
+      :disable-hover-trigger="true"
+      :disable-pointer-leave-close="true"
       :ui="{
         list: 'gap-2',
         item: 'relative',
-        link: 'bg-muted light:hover:bg-neutral-100 light:text-neutral-400 rounded-full ',
+        link: 'bg-muted light:hover:bg-neutral-100 light:text-neutral-400 rounded-full cursor-pointer',
         linkTrailing: 'min-w-16 justify-end',
       }"
     >

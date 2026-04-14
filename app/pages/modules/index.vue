@@ -13,7 +13,7 @@
       <ContentRenderer v-if="content" :value="content" />
     </template>
     <template #actions>
-      <UFormField class="min-w-72">
+      <UFormField class="min-w-72 max-md:w-full">
         <SearchBox
           v-model="searchTerms"
           :placeholder="[
@@ -85,10 +85,10 @@ const searchTermsDebounced = refDebounced(searchTerms, 300)
 const query = reactive({
   q: searchTerms.value,
   highlight_full_fields:
-    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
+    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage,authors.name,maintainers.name',
   query_by:
-    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage',
-  query_by_weights: '10,8,4,3,2,1,1',
+    'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage,authors.name,maintainers.name',
+  query_by_weights: '10,8,4,3,2,1,1,1,1',
 })
 
 const facets: Facet[] = [
@@ -145,4 +145,11 @@ watch(
     query.q = searchTermsDebounced.value
   }
 )
+
+useSeoMeta({
+  title: content.value?.seo.title || '',
+  description: content.value?.seo.description || '',
+  ogTitle: content.value?.seo.title || '',
+  ogDescription: content.value?.seo.description || '',
+})
 </script>
