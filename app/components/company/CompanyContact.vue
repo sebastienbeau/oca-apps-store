@@ -1,5 +1,5 @@
 <template>
-  <UPageCard class="w-64">
+  <UPageCard v-if="displayCard" class="w-64">
     <template #body>
       <UPageLinks
         :links="items"
@@ -21,6 +21,9 @@ const props = defineProps<{
   contact: companyContacts
   company: Company
 }>()
+ const displayCard = computed (() => {
+  return props.contact?.email || props.contact?.phone || props.contact?.street || props.contact?.street2 || (props.contact?.zip && props.contact?.city)
+ })
 const items = computed<PageLink[]>(() => {
   const items: PageLink[] = []
   if (props.contact?.email) {

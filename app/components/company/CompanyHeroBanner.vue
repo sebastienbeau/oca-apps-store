@@ -25,9 +25,9 @@
         </ProseH1>
 
         <div class="flex items-start gap-5 pt-4 md:pt-4">
-          <template v-if="company.countries && company.countries.length > 0">
+          <template v-if="countries.length > 0">
             <UBadge
-              v-for="(loc, i) in company.countries"
+              v-for="(loc, i) in countries"
               :key="i"
               variant="solid"
               class="gap-3 rounded-full"
@@ -78,6 +78,17 @@ import type { UPageLink } from '@nuxt/ui'
 const props = defineProps<{
   company: Company | Sponsor
 }>()
+
+const countries = computed(() => {
+  const countriesList: any[] = []
+  if (!props.company.contacts) return []
+    props.company.contacts.map((contact) => {
+      return countriesList.push(contact.country)
+    })
+    console.log(countriesList, 'countries')
+    return countriesList
+  
+})
 const links = computed<UPageLink[]>(() => {
   const items: UPageLink[] = []
   if (props.company?.website.url) {
