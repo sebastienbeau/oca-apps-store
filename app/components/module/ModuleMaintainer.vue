@@ -46,7 +46,7 @@
                 :description="maintainer.username"
                 size="xl"
                 class="relative"
-                :to="`/community/${maintainer.urlKey}`"
+                :to="`/${maintainer.urlKey}`"
               />
             </template>
           </UPageCard>
