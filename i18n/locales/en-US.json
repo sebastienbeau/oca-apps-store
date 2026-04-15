@@ -278,6 +278,7 @@
       "label": "Google Tag Manager",
       "description": "These cookies help us understand how visitors interact with our website."
     },
-    "save_preferences": "Save preferences"
+    "save_preferences": "Save preferences",
+    "manage_cookies": "Manage cookies"
   }
 }

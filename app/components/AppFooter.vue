@@ -20,12 +20,14 @@ const config = useRuntimeConfig()
       </UContainer>
     </template>
     <template #bottom>
-      <div class="flex items-center justify-center gap-2 text-sm">
-        {{ t('footer.copyright') }}
-        <USeparator class="h-3" orientation="vertical" />
-        {{ t('footer.version', { version }) }}
+      <div class="flex flex-col items-center justify-center pb-20">
+        <div class="flex items-center justify-center gap-2 text-sm">
+          {{ t('footer.copyright') }}
+          <USeparator class="h-3" orientation="vertical" />
+          {{ t('footer.version', { version }) }}
+        </div>
+        <AppCookiesConsent />
       </div>
     </template>
   </UFooter>
-  <AppCookiesConsent />
 </template>
