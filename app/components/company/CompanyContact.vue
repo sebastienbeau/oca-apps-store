@@ -1,5 +1,5 @@
 <template>
-  <UPageCard v-if="displayCard" class="w-64">
+  <UPageCard v-if="displayCard" class="w-auto">
     <template #body>
       <UPageLinks
         :links="items"

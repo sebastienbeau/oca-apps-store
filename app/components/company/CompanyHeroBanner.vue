@@ -85,7 +85,7 @@ const countries = computed(() => {
     props.company.contacts.map((contact) => {
       return countriesList.push(contact.country)
     })
-    console.log(countriesList, 'countries')
+    
     return countriesList
   
 })

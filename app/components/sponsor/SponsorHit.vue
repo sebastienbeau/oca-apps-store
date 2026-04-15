@@ -26,7 +26,7 @@
         </div>
         <div class="flex w-full items-center justify-between gap-1">
           <div class="flex-1 text-xl font-semibold">
-            <nuxt-link v-if="isClickable" :to="`/companies/${sponsor.urlKey}`">
+            <nuxt-link v-if="isClickable" :to="`/${sponsor.urlKey}`">
               {{ sponsor.name }}
             </nuxt-link>
             <span v-else>{{ sponsor.name }}</span>
@@ -114,7 +114,7 @@ const props = defineProps<{
   sponsor: Sponsor
 }>()
 const isClickable = computed(() => {
-  const levelWithpage = [0, 1, 2]
+  const levelWithpage = [1, 2, 3]
   return levelWithpage.includes(props.sponsor?.sponsorship?.level?.id)
 })
 
