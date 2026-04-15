@@ -17,7 +17,8 @@ const { t } = useI18n()
 
 const { data: company, error } = await useAsyncData<Sponsor | Company | null>(
   `module-${route.params.handle}`,
-  () => companyService.findByURLKey(`companies/${route.params.handle as string}`),
+  () =>
+    companyService.findByURLKey(`companies/${route.params.handle as string}`),
   {
     watch: [route],
   }
@@ -52,7 +53,7 @@ const breadcrumb = computed(() => {
 useSeoMeta({
   title: company.value?.name || '',
   description:
-    company.value?.sponsorship?.description ||
+    company.value?.sponsorship?.shortDescription ||
     t('company.description.default', { company: company.value?.name }),
   ogTitle: company.value?.name || '',
   ogImage: company.value?.logoUrls?.m,
