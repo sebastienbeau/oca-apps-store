@@ -27,7 +27,7 @@
               {{ company.name }}
             </nuxt-link>
             <UButton
-              v-if="company.website?.url"
+              v-if="company.website?.url && sponsorLevel"
               variant="link"
               size="sm"
               :label="company.website?.label || company?.website?.url"

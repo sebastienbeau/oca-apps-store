@@ -91,7 +91,7 @@ const countries = computed(() => {
 })
 const links = computed<UPageLink[]>(() => {
   const items: UPageLink[] = []
-  if (props.company?.website.url) {
+  if (props.company?.website.url && props.company.sponsorship) {
     items.push({
       label: props.company.website.label,
       icon: 'website',

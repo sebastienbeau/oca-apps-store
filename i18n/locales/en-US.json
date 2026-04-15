@@ -21,7 +21,7 @@
     "community": {
       "title": "Community",
       "members": {
-        "title": "OCA Members",
+        "title": "OCA Members & Contributors",
         "description": "The individuals that participate in the OCA"
       },
       "contributors": {
@@ -252,8 +252,8 @@
       "default": "{company} is a company member of  the Odoo Community Association"
     },
     "members": {
-      "title": " OCA members",
-      "found": "1 member found | { count } members found"
+      "title": " OCA members & contributors",
+      "found": "1 profiles found | { count } profiles found"
     }
   },
   "generic": {
