@@ -189,7 +189,7 @@ export class CompanyService extends BaseServiceTypeSense {
       for (const hit of hits || []) {
         if (hit?.group_key?.[0]) {
           urls.push({
-            loc: `/companies/${hit.group_key[0]}`,
+            loc: `/integrators/${hit.group_key[0]}`,
           })
         }
       }

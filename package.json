@@ -35,6 +35,7 @@
     "change-case": "^5.4.4",
     "nuxt": "^4.4.2",
     "nuxt-schema-org": "^5.0.10",
+    "nuxt-seo-utils": "^8.1.9",
     "nuxt-site-config": "^3.2.19",
     "nuxt-studio": "1.1.1",
     "pinia": "^3.0.4",

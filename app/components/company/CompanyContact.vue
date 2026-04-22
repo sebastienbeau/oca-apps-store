@@ -54,7 +54,7 @@ const items = computed<PageLink[]>(() => {
   if (props.contact?.zip && props.contact?.city) {
     items.push({
       label:  props.contact.zip + ' ' + props.contact?.city ,
-       icon: 'location',
+       icon: 'lets-icons:pin-alt',
     })
   }
   

@@ -11,7 +11,7 @@
     />
     <div v-if="sponsor?.sponsorship?.industries.length > 0">
       <ProseH2 class="py-4 text-2xl font-bold text-secondary">
-        {{ $t('sponsors.industry.title') }}
+        {{ $t('sponsors.industry.title') }} {{ sponsor.name }}
       </ProseH2>
       <div class=" ">
         <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">

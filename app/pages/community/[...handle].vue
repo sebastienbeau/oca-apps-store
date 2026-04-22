@@ -53,29 +53,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-const { t } = useI18n()
-import type { Person } from '~/models'
+const { t } = useI18n();
+import type { Person } from "~/models";
 
-const person = ref<Person | null>(null)
-const urlParams = useRoute().params
-const route = useRoute()
+const person = ref<Person | null>(null);
+const urlParams = useRoute().params;
+const route = useRoute();
 
-const personService = useService('persons')
+const personService = useService("persons");
 const breadCrumb = computed(() => {
   const items: any = [
     {
-      label: t('nav.community.title'),
-      to: '/community',
-      icon: 'community',
+      label: t("nav.community.title"),
+      to: "/community",
+      icon: "community",
     },
-  ]
-  if (person.value?.company) {
-    items.push({
-      label: person?.value?.company.name || '',
-      to: '/' + person.value.company.urlKey,
-      icon: 'company',
-    })
-  }
+  ];
   items.push({ label: person?.value?.name || '', icon: 'person' })
   return items
 })
@@ -115,27 +108,24 @@ const { data } = await useAsyncData<Person>(
   {
     watch: [route],
   }
-)
+);
 
 if (data.value) {
-  person.value = data.value
+  person.value = data.value;
 } else {
   throw createError({
     statusCode: 404,
-    statusMessage: t('person.notFound'),
+    statusMessage: t("person.notFound"),
     fatal: true,
-  })
+  });
 }
-person.value = data.value || null
+person.value = data.value || null;
 
 const displayPersonGroups = computed(() => {
-  if (
-    person.value.pscList.length > 0 ||
-    person.value.workGroupList.length > 0
-  ) {
-    return true
+  if (person.value.pscList.length > 0 || person.value.workGroupList.length > 0) {
+    return true;
   } else {
-    return false
+    return false;
   }
 })
 
@@ -188,7 +178,7 @@ const getInvolvedLinks = ref<ButtonProps[]>([
 </script>
 <style scoped>
 .background-style::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -50%;

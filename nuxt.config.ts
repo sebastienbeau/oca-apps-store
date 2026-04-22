@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxt/scripts',
+    'nuxt-seo-utils',
   ],
   image: {
     format: ['webp'],
@@ -50,6 +51,8 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   site: {
+    url: 'https://apps.odoo-community.org',
+    name: 'OCA Apps Store',
     title: 'Odoo Community Association Appstore',
     description:
       'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',

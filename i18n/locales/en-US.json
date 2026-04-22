@@ -28,9 +28,9 @@
         "title": "OCA Contributors",
         "description": "The creators, maintainers and contributors of the OCA modules"
       },
-      "companies": {
-        "title": "OCA Companies",
-        "description": "The companies that support the OCA and its contributors"
+      "integrators": {
+        "title": "OCA Integrators",
+        "description": "The Odoo Integrators that support the OCA and its contributors"
       }
     },
     "sponsors": {
@@ -162,9 +162,12 @@
       "name_desc": "Sort by name Z-A"
     },
     "industry": {
-      "title": "ERP Industries",
+      "title": "Industries and ERP expertise of",
       "noIndustriesTitle": "Sponsor Industries coming soon",
       "noIndustriesDescription": "Check back later for updates."
+    },
+    "stories": {
+      "title": "in the OCA's Blog posts"
     },
     "testimonial": {
       "title": "Our experience within the OCA"

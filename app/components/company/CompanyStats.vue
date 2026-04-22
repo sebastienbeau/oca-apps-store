@@ -4,7 +4,7 @@
       v-if="company.membersCount"
       class="justify-tart flex flex-col items-center gap-2 md:flex-row"
     >
-      <div class="flex items-center gap-1 text-2xl text-secondary-500">
+      <div class="flex items-center gap-1 text-xl text-secondary-500">
         {{ company.membersCount }}
       </div>
       <div>
@@ -15,7 +15,7 @@
       v-if="company.contributorsCount"
       class="flex flex-col items-center justify-start gap-2 md:flex-row"
     >
-      <div class="flex items-center gap-1 text-2xl text-secondary-500">
+      <div class="flex items-center gap-1 text-xl text-secondary-500">
         {{ company.contributorsCount }}
       </div>
       <div>
@@ -26,7 +26,7 @@
       v-if="company.modulesCount"
       class="flex flex-col items-center justify-start gap-2 md:flex-row"
     >
-      <div class="flex items-center gap-1 text-2xl text-secondary-500">
+      <div class="flex items-center gap-1 text-xl text-secondary-500">
         {{ company.modulesCount }}
       </div>
       <div>

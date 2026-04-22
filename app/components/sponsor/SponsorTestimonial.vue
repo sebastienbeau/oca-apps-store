@@ -1,7 +1,7 @@
 <template>
   <div v-if="sponsor.sponsorship?.descriptionWhyOca" class="relative py-4">
     <div
-      class="absolute -top-12 left-1/2 -z-10 h-[110%] w-screen -translate-x-1/2 transform bg-primary-500"
+      class="absolute -top-12 left-1/2 -z-10 h-[110%] w-screen -translate-x-1/2 transform bg-primary-500 mt-24"
     />
     <img
       src="/img/oca_logo_bckg_white.png"
@@ -13,7 +13,7 @@
       :description="sponsor.sponsorship.descriptionWhyOca"
       orientation="horizontal"
       :ui="{
-        root: 'ring-0 bg-primary-500',
+        root: 'ring-0 bg-primary-500 mt-8',
         header: 'flex flex-col justify-center ',
         container: 'md:flex lg:flex py-6 sm:py-10 lg:py-16',
         title: 'text-white sm:text-6xl font-extralight py-10',

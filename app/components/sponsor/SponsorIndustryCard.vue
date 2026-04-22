@@ -1,14 +1,14 @@
 <template>
   <div :style="style" class="rounded-none rounded-tr-2xl rounded-bl-2xl">
-    <UPageCard
+    <UPageFeature
       icon="industries"
       :title="industry.name"
       :description="industry.description"
       :ui="{
-        root: 'ring-0  lg:p-3 bg-transparent',
-        container: 'p-3 sm:p-4',
-        body: 'p-0 sm:p-0',
-        header: 'sm:p-0 relative border-0',
+        root: 'ring-0  p-3 rounded-sm shadow hover:shadow-lg transition-shadow duration-300 bg-gray-50 opacity-75  ',
+        wrapper: 'pl-0 pr-3 py-3',
+        leading: 'pl-0 pr-3 py-3 sm:p-4 ',
+        title: 'sm:p-0 relative border-0',
       }"
     />
   </div>

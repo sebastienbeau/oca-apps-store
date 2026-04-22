@@ -1,13 +1,13 @@
 <template>
-  <UCard :ui="ui" :style="style" @click="onClick()" class="cursor-pointer">
+  <UCard :ui="ui" :style="style" @click="onClick(sponsorLevel)" :class="sponsorLevel ? 'cursor-pointer' : ''">
     <template #header>
       <div class="flex h-full flex-col items-end justify-between">
-        <div class="flex w-full items-center justify-end gap-4">
+        <div class="flex w-full items-center justify-between gap-4">
           <nuxt-img
             v-if="sponsorLevel"
             :src="company?.logoUrls?.m"
             alt="Logo"
-            class="m-4 ml-0 max-h-20 w-full rounded-md object-contain"
+            class="p-4 ml-0 max-h-20  rounded-md object-contain"
             sizes="100px md:128px"
           />
           <div class="flex flex-col items-end justify-end gap-2">
@@ -23,7 +23,7 @@
           <div
             class="flex w-full justify-between text-lg font-semibold text-primary"
           >
-            <nuxt-link :to="sponsorLevel ? `/companies/${company.urlKey}` : ''">
+            <nuxt-link :to="sponsorLevel ? `/integrators/${company.urlKey}` : ''">
               {{ company.name }}
             </nuxt-link>
             <UButton
@@ -71,16 +71,29 @@
           </div>
         </div>
       </div>
+      <div v-if="sponsorLevel" class="flex justify-end">
+        <UButton
+          color="primary"
+          variant="outline"
+          label="View more"
+          size="sm"
+          trailing
+          class="ml-auto cursor-pointer"
+          @click="onClick(sponsorLevel)"
+        />
+      </div>
     </template>
   </UCard>
 </template>
 
 <script setup lang="ts">
+import { isReturnStatement } from 'typescript'
 import type { Company } from '~~/models'
 const props = defineProps<{
   company: Company
 }>()
-const onClick = () => {
+const onClick = (sponsorLevel: any) => {
+  if (!sponsorLevel) return
   navigateTo(`/${props.company.urlKey}`)
 }
 const { $sponsor } = useNuxtApp()
