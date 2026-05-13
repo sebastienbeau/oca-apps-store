@@ -86,8 +86,8 @@ review:
     - docker compose kill
     - docker compose up -d
   environment:
-    name: test/${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID}
-    url: https://${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID}nuxt.${CI_DOMAIN}
+    name: test/${CI_PROJECT_NAME}--${CI_MERGE_REQUEST_IID}
+    url: https://${CI_PROJECT_NAME}--${CI_MERGE_REQUEST_IID}.${CI_DOMAIN}
     on_stop: stop_review
   rules:
     - if: $IS_MR == "true"
@@ -100,7 +100,7 @@ stop_review:
     - dropdb ${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID} --if-exist
     - dropdb ${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID}_test --if-exist
   environment:
-    name: test/${CI_PROJECT_NAME}_${CI_MERGE_REQUEST_IID}
+    name: test/${CI_PROJECT_NAME}--${CI_MERGE_REQUEST_IID}
     action: stop
   when: manual
   rules:
@@ -117,7 +117,7 @@ review_preprod:
     - docker compose up -d
   environment:
     name: preprod
-    url: https://${CI_PROJECT_NAME}_preprodnuxt.${CI_DOMAIN}
+    url: https://${CI_PROJECT_NAME}_preprod.${CI_DOMAIN}
   rules:
     - if: $IS_MR == null
 
