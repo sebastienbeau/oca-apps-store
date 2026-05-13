@@ -4,6 +4,7 @@ services:
       context: .
     image: '${BUILD_NAME}_nuxt'
     environment:
+      NUXT_PUBLIC_GTM_ID: GTM-N3VJ39PB
       NUXT_PUBLIC_SEARCH_URL: https://dev-typesense.akretion.com
       NUXT_PUBLIC_SEARCH_INDICES_COMPANIES_EN: '${TYPESENS_INDEX_PREFIX}_companies'
       NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN: '${TYPESENS_INDEX_PREFIX}_persons'
