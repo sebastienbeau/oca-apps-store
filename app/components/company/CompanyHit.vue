@@ -1,10 +1,11 @@
 <template>
-  <UCard :ui="ui" :style="style" @click="onClick(sponsorLevel)" :class="sponsorLevel ? 'cursor-pointer' : ''">
+  <UCard :ui="ui" :style="style" @click="onClick(sponsorLevel)" :class="displaySponsor ? 'cursor-pointer' : ''">
     <template #header>
+   
       <div class="flex h-full flex-col items-end justify-between">
         <div class="flex w-full items-center justify-between gap-4">
           <nuxt-img
-            v-if="sponsorLevel"
+            v-if="sponsorLevel && sponsorLevel.level !== '4'"
             :src="company?.logoUrls?.m"
             alt="Logo"
             class="p-4 ml-0 max-h-20  rounded-md object-contain"
@@ -23,16 +24,16 @@
           <div
             class="flex w-full justify-between text-lg font-semibold text-primary"
           >
-            <nuxt-link :to="sponsorLevel ? `/integrators/${company.urlKey}` : ''">
+            <nuxt-link :to="displaySponsor ? `/integrators/${company.urlKey}` : ''">
               {{ company.name }}
             </nuxt-link>
             <UButton
-              v-if="company.website?.url && sponsorLevel"
+              v-if="company.website?.url && displaySponsor"
               variant="link"
               size="sm"
               :label="company.website?.label || company?.website?.url"
               icon="website"
-              :to="sponsorLevel ? company.website.url : ''"
+              :to="sponsorLevel && sponsorLevel.level !== '4' ? company.website.url : ''"
               target="_blank"
               class="w-auto text-right"
             />
@@ -71,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div v-if="sponsorLevel" class="flex justify-end">
+      <div v-if="displaySponsor" class="flex justify-end">
         <UButton
           color="primary"
           variant="outline"
@@ -93,11 +94,22 @@ const props = defineProps<{
   company: Company
 }>()
 const onClick = (sponsorLevel: any) => {
-  if (!sponsorLevel) return
+  if (!sponsorLevel || sponsorLevel.level == '4') return
+
   navigateTo(`/${props.company.urlKey}`)
 }
 const { $sponsor } = useNuxtApp()
 const sponsorLevel = $sponsor.getSponsorLevel(props.company)
+
+const displaySponsor = computed(() => {
+  if(sponsorLevel && sponsorLevel.level !== '4'){
+    return true
+  }
+  else {
+    return false
+  } 
+  
+})
 const ui = computed(() => {
   const baseUi = {
     root: ' ring ring-default hover:shadow-lg transition-shadow duration-300 ease-in-out flex flex-col ',

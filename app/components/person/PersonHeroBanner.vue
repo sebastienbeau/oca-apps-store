@@ -7,12 +7,13 @@
         root: 'ring-0 relative',
         container: 'lg:grid-cols-4 ',
         wrapper: 'col-span-2 ',
-        body: 'p-0',
+        body: 'p-0 max-md:w-full',
         header: 'p-0 relative',
+        title: 'max-md:w-full'
       }"
     >
       <template #title v-if="person?.name && names.length > 0">
-        <ProseH1 class="text-primary">
+        <ProseH1 class="text-primary max-md:text-center">
           {{ names[0] }}
           <span class="text-secondary-500"> {{ names[1] }}</span>
         </ProseH1>
@@ -56,7 +57,7 @@
         <NuxtImg
           :src="avatar.src"
           :alt="avatar.alt || person.name"
-          class="col-span-1 mx-auto max-h-48 rounded-full object-cover"
+          class="col-span-1 mx-auto h-48 w-48 rounded-full object-cover"
         />
       </template>
       <template v-else>
