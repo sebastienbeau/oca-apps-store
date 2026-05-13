@@ -1,129 +1,82 @@
 <template>
-  <SearchBase
-    :query="query"
-    :facets="facets"
-    :sort-options="sortOptions"
-    v-model:sort-by="sortBy"
-    :infinite-scroll="false"
-    :search-function="searchFunction"
-    :per-page="perPage"
-    :ui="ui"
-  >
-    <template #header>
-      <ContentRenderer v-if="content" :value="content" />
-    </template>
-    <template #actions>
-      <UFormField :ui="{ root: 'flex-2 w-full md:max-w-96 mb-0 pb-0' }">
-        <UInput
-          v-model="searchTerms"
-          :placeholder="t('modules.search.placeholder')"
-          size="lg"
-          trailing-icon="search"
-          class="w-full"
-        />
-      </UFormField>
-    </template>
-    <template #sort="{ sortOptions, value, change }">
-      <div class="flex items-center gap-2">
-        <SearchSortSelector
-          :options="sortOptions"
-          :value="value"
-          class="md:my-4"
-          @change="change"
-        />
-        <UFieldGroup class="hidden sm:flex">
+  <div class="pb-24">
+    <UPageSection :title="$t('categories.title')">
+      <template #description>
+        <p class="text-lg">
+          {{ $t('nav.modules.categories.description') }}
+        </p>
+        <div class="flex justify-center py-10">
+          <UFormField class="w-full max-w-xl" size="xl">
+            <UInput
+              v-model="searchTerms"
+              icon="search"
+              :placeholder="$t('categories.search.placeholder')"
+              :ui="{
+                base: 'rounded-full',
+              }"
+              class="w-full rounded-full shadow-xl shadow-primary-50"
+            />
+          </UFormField>
+        </div>
+      </template>
+    </UPageSection>
+
+    <UPageGrid
+      v-if="categories?.hits?.length"
+      :ui="{
+        base: 'xl:grid-cols-4 py-10',
+      }"
+    >
+      <UPageCard
+        v-for="category in categories?.hits"
+        :key="category.id"
+        :title="category.name"
+        :href="`/categories/${category.urlKey}`"
+        :ui="{
+          container: 'p-3 sm:p-4',
+          leadingIcon: 'text-secondary',
+          title: 'text-primary font-normal flex items-center gap-1',
+          footer: 'flex-1 text-right w-full',
+        }"
+      >
+        <template #title>
+          <UIcon name="category" class="size-6 text-secondary" />
+          <span class="">{{ category.name }}</span>
+        </template>
+        <template #footer>
           <UButton
-            color="neutral"
-            :variant="displayMode === 'list' ? 'subtle' : 'outline'"
-            leading-icon="list"
-            @click="displayMode = 'list'"
+            variant="outline"
+            size="sm"
+            :to="category.urlKey"
+            :label="$t('category.explore')"
           />
-          <UButton
-            color="neutral"
-            :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
-            leading-icon="grid"
-            @click="displayMode = 'grid'"
-          />
-        </UFieldGroup>
-      </div>
-    </template>
-    <template #hit="{ hit }">
-      <ModuleHit :variant="displayMode" :module-grouped="hit" />
-    </template>
-    <template #empty>
-      <div>
-        <UEmpty
-          variant="naked"
-          icon="module"
-          class="mb-24"
-          :title="t('modules.empty.title')"
-          :description="t('modules.empty.description')"
-        />
-      </div>
-    </template>
-  </SearchBase>
+        </template>
+      </UPageCard>
+    </UPageGrid>
+    <UEmpty
+      v-else
+      :title="$t('categories.empty.title')"
+      :description="$t('categories.empty.description')"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-import type {
-  ModuleGroupedHit,
-  Facet,
-  FacetSearchParam,
-  FacetSearchResult,
-} from '~~/models'
-const { t } = useI18n()
-const route = useRoute()
-const { data: content } = await useAsyncData(`content-modules`, () => {
-  return queryCollection('docs').path(route.path).first()
-})
-
-const moduleService = useService('modules')
-const sortOptions = computed(() => {
-  return [
-    { label: t('modules.sort.name_asc'), value: 'name:asc' },
-    { label: t('modules.sort.name_desc'), value: 'name:desc' },
-  ]
-})
-
-const sortBy = ref('name:asc')
-const query = computed(() => {
-  return {
-    q: searchTerms.value,
-    query_by: 'name,category,techname,repository.name,summary',
-  }
-})
-const displayMode = ref<'grid' | 'list'>('grid')
-const perPage = 12
 const searchTerms = ref('')
-const facets: Facet[] = [
-  {
-    field: 'version',
-    title: t('modules.filters.versions'),
+const searchTermsDebounced = refDebounced(searchTerms, 300)
+const categoryService = useService('categories')
+const { data: categories } = useAsyncData(
+  () => {
+    if (!searchTermsDebounced.value) {
+      return categoryService.getAll()
+    }
+    return categoryService.search({
+      q: searchTermsDebounced.value,
+      query_by: 'name',
+    })
   },
   {
-    field: 'category',
-    title: t('modules.filters.category'),
-  },
-  {
-    field: 'repository.name',
-    title: t('modules.filters.repository'),
-  },
-]
-const searchFunction = async (
-  query: any,
-  facets: FacetSearchParam[]
-): Promise<FacetSearchResult<ModuleGroupedHit>> => {
-  const res = await moduleService.facetSearch(query, facets)
-  return res
-}
-
-const ui = computed(() => {
-  return {
-    root: 'pb-6',
-    results:
-      displayMode.value === 'list'
-        ? 'flex flex-col gap-3 sm:gap-4'
-        : 'gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3',
+    watch: [() => searchTermsDebounced.value],
   }
-})
+)
 </script>

@@ -82,6 +82,20 @@ const items: NavigationMenuItem[] = [
     label: t('nav.modules.title'),
     icon: 'module',
     to: localePath('/modules'),
+    children: [
+      {
+        label: t('nav.modules.all.title'),
+        description: t('nav.modules.all.description'),
+        to: localePath('/modules'),
+        icon: 'module',
+      },
+      {
+        label: t('nav.modules.categories.title'),
+        description: t('nav.modules.categories.description'),
+        to: localePath('/categories'),
+        icon: 'category',
+      },
+    ],
   },
   {
     label: t('nav.community.title'),

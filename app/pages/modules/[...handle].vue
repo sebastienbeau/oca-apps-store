@@ -179,7 +179,7 @@ const breadCrumb = computed(() => {
     items.push({
       icon: 'category',
       label: module.value.repository.category.name,
-      to: `/modules?category=${encodeURIComponent(module.value.repository.category.name)}`,
+      to: `/${module.value.repository.category.urlKey}`,
     })
   }
   items.push({

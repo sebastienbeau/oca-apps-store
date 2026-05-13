@@ -42,7 +42,7 @@ export class CategoryService extends BaseServiceTypeSense {
   find(field: string, value: string[] | number[]): Promise<CategoryResult> {
     const body = {
       q: '*',
-      query_by: 'name,description',
+      query_by: 'name',
       filter_by: `${field}:=[${value.join(',')}]`,
     }
     return this.search(body)
@@ -114,82 +114,12 @@ export class CategoryService extends BaseServiceTypeSense {
 
 export const CategoryFactory = {
   createCategory(json: any): Category {
-    const category: Category = {
+    return {
       id: json.id,
-      metaDescription: json.meta_description,
-      metaKeywords: json.meta_keywords,
-      seoTitle: json.seo_title,
       name: json.name,
-      subtitle: json.subtitle,
-      shortDescription: json.short_description,
-      description: json.description,
-      level: json.level,
       urlKey: json.url_key,
-      redirectUrlKey: json.redirect_url_key || [],
-      childs: [],
-      parent: json?.parent
-        ? CategoryFactory.createCategoryParent(json.parent)
-        : null,
-      mainParent: null,
-      images: Array.isArray(json?.images)
-        ? json.images.map((imgJson: any) =>
-          CategoryFactory.createCategoryImageSet(imgJson),
-        )
-        : null,
-      sequence: parseInt(json.sequence || 0),
-      entityModel: json.entity_model || 'category',
+      shortDescription: json?.short_description,
+      description: json?.description
     }
-    category.mainParent = category.parent
-    if (Array.isArray(json?.childs)) {
-      category.childs = json.childs.map((item: any) =>
-        CategoryFactory.createCategoryChild(item),
-      )
-    }
-    while (
-      category.mainParent != null
-      && category.mainParent?.parent !== null
-    ) {
-      category.mainParent = category.mainParent.parent
-    }
-    return category
-  },
-  createCategoryParent(json: any): CategoryParent {
-    return {
-      name: json?.name || '',
-      urlKey: json?.url_key || '',
-      id: json?.id || 0,
-      parent: json?.parent
-        ? CategoryFactory.createCategoryParent(json.parent)
-        : null,
-    }
-  },
-  createCategoryImageSet(json: any): CategoryImageSet {
-    return {
-      small: json?.small
-        ? CategoryFactory.createCategoryImage(json.small)
-        : null,
-      medium: json?.medium
-        ? CategoryFactory.createCategoryImage(json.medium)
-        : null,
-      large: json?.large
-        ? CategoryFactory.createCategoryImage(json.large)
-        : null,
-    }
-  },
-  createCategoryImage(json: any): CategoryImage {
-    return {
-      src: json?.src || '',
-      alt: json?.alt || '',
-      tag: json?.tag || '',
-    }
-  },
-  createCategoryChild(json: any): CategoryChild {
-    return {
-      name: json?.name || '',
-      urlKey: json?.url_key || '',
-      id: json?.id || 0,
-      childs: null,
-      sequence: parseInt(json?.sequence || 0),
-    }
-  },
+  }
 }

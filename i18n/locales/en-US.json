@@ -15,7 +15,7 @@
       },
       "categories": {
         "title": "Browse Modules by category",
-        "description": "The catalogue of Odoo community modules ordered by parent category"
+        "description": "Browse all modules by category"
       }
     },
     "community": {
@@ -283,5 +283,23 @@
     },
     "save_preferences": "Save preferences",
     "manage_cookies": "Manage cookies"
+  },
+  "category": {
+    "description": "Discover all OCA modules in the {category} category",
+    "seo": {
+      "title": "{category} OCA modules - OCA Apps Store",
+      "description": "Explore the {category} category of the OCA Apps Store and discover all the open-source Odoo modules developed by the OCA community in this category."
+    },
+    "explore": "Explore modules"
+  },
+  "categories": {
+    "title": "Categories",
+    "search": {
+      "placeholder": "Search a category module"
+    },
+    "empty": {
+      "title": "No category found",
+      "description": "It appears that no category match your search. Please adjust your search criteria to continue."
+    }
   }
 }

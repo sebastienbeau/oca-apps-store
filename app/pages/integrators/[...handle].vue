@@ -18,7 +18,7 @@ const { t } = useI18n()
 const { data: company, error } = await useAsyncData<Sponsor | Company | null>(
   `module-${route.params.handle}`,
   () =>
-    companyService.findByURLKey(`companies/${route.params.handle as string}`),
+    companyService.findByURLKey(`integrators/${route.params.handle as string}`),
   {
     watch: [route],
   }

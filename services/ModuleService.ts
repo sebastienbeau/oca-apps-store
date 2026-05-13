@@ -301,7 +301,7 @@ export const ModuleFactory = {
         description: json?.repo?.description,
         category: {
           name: json?.repo?.category?.name,
-          urlKey: json?.repo?.category?.urlKey,
+          urlKey: json?.repo?.category?.url_key,
         },
       },
       serie: json?.serie,
