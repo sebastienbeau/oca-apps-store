@@ -22,8 +22,9 @@ services:
       - 'traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls=false'
       - 'traefik.http.routers.${COMPOSE_PROJECT_NAME}.service=${COMPOSE_PROJECT_NAME}'
       - 'traefik.http.services.${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=80'
-      - 'traefik.http.middlewares.${COMPOSE_PROJECT_NAME}.headers.customrequestheaders.X-Forwarded-Proto=http'
-      - 'traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=${COMPOSE_PROJECT_NAME}'
+      - 'traefik.http.middlewares.${COMPOSE_PROJECT_NAME}_headers.headers.customrequestheaders.X-Forwarded-Proto=http'
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}_auth.basicauth.users=akretion:$$2y$$05$$d70MjPbv5JBIr3TAVEUXku0/RrY6jVb5atNshPNeRDrk7iSVZ16Py" # akretion/nobot
+      - 'traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=${COMPOSE_PROJECT_NAME}_auth,${COMPOSE_PROJECT_NAME}_headers'
     networks:
       local:
       traefik:
