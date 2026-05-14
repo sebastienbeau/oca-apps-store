@@ -15,7 +15,7 @@
     <span class=""> Translations: </span>
     <span class="text-error">{{ person.translations }}</span>
   </div>
-  <div v-if="person?.psc" class="flex items-center gap-1 ">
+  <div v-if="person?.psc" class="flex items-center gap-1">
     <UIcon name="psc" color="primary" />
     <span class="">PSC: </span>
     <span class="text-error">{{ person.psc }}</span>

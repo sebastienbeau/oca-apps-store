@@ -70,12 +70,16 @@ useSeoMeta(content.value?.seo || {})
 const companyService = useService('companies')
 const sortOptions = computed(() => {
   return [
+    {
+      label: t('companies.sort.collaboration_index_desc'),
+      value: 'collaboration_index:desc',
+    },
     { label: t('companies.sort.name_asc'), value: 'name:asc' },
     { label: t('companies.sort.name_desc'), value: 'name:desc' },
   ]
 })
 
-const sortBy = ref('name:asc')
+const sortBy = ref('collaboration_index:desc')
 const query = computed(() => {
   return {
     q: searchTerms.value,
@@ -91,6 +95,8 @@ const facets: Facet[] = [
   {
     field: 'countries.label',
     title: t('sponsors.filters.countries'),
+    sortBy: '_alpha:asc',
+    routeParam: 'countries',
     searchable: true,
   },
 ]

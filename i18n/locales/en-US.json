@@ -44,7 +44,8 @@
     },
     "sort": {
       "name_asc": "Sort by name A-Z",
-      "name_desc": "Sort by name Z-A"
+      "name_desc": "Sort by name Z-A",
+      "collaboration_index_desc": "OCA Collaboration Index"
     },
     "notFound": "Company not found"
   },
@@ -203,7 +204,8 @@
     },
     "sort": {
       "name_asc": "Sort by name A-Z",
-      "name_desc": "Sort by name Z-A"
+      "name_desc": "Sort by name Z-A",
+      "collaboration_index_desc": "OCA Collaboration index"
     },
     "filters": {
       "countries": "Countries",

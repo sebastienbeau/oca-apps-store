@@ -1,14 +1,18 @@
 <template>
-  <UCard :ui="ui" :style="style" @click="onClick(sponsorLevel)" :class="displaySponsor ? 'cursor-pointer' : ''">
+  <UCard
+    :ui="ui"
+    :style="style"
+    @click="onClick(sponsorLevel)"
+    :class="displaySponsor ? 'cursor-pointer' : ''"
+  >
     <template #header>
-   
       <div class="flex h-full flex-col items-end justify-between">
         <div class="flex w-full items-center justify-between gap-4">
           <nuxt-img
             v-if="sponsorLevel && sponsorLevel.level !== '4'"
             :src="company?.logoUrls?.m"
             alt="Logo"
-            class="p-4 ml-0 max-h-20  rounded-md object-contain"
+            class="ml-0 max-h-20 rounded-md object-contain p-4"
             sizes="100px md:128px"
           />
           <div class="flex flex-col items-end justify-end gap-2">
@@ -33,7 +37,11 @@
               size="sm"
               :label="company.website?.label || company?.website?.url"
               icon="website"
-              :to="sponsorLevel && sponsorLevel.level !== '4' ? company.website.url : ''"
+              :to="
+                sponsorLevel && sponsorLevel.level !== '4'
+                  ? company.website.url
+                  : ''
+              "
               target="_blank"
               class="w-auto text-right"
             />
@@ -43,10 +51,9 @@
     </template>
 
     <div class="flex space-x-2">
-     
-      <template v-for="contact in company.contacts" :key="contact.name">
+      <template v-for="country in company.countries" :key="country.label">
         <UBadge variant="solid" class="rounded-full" color="primary" size="sm">
-          {{ contact.country.label }}
+          {{ country.label }}
         </UBadge>
       </template>
     </div>
@@ -102,13 +109,11 @@ const { $sponsor } = useNuxtApp()
 const sponsorLevel = $sponsor.getSponsorLevel(props.company)
 
 const displaySponsor = computed(() => {
-  if(sponsorLevel && sponsorLevel.level !== '4'){
+  if (sponsorLevel && sponsorLevel.level !== '4') {
     return true
-  }
-  else {
+  } else {
     return false
-  } 
-  
+  }
 })
 const ui = computed(() => {
   const baseUi = {

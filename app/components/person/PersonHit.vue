@@ -9,7 +9,6 @@
     @click="goToPerson"
   >
     <template #header>
-     
       <div class="flex-1">
         <UUser
           :name="person.name"
@@ -19,7 +18,10 @@
             description: 'items-center flex gap-0.5',
           }"
         >
-          <template #description v-if="person.githubUsers && person.githubUsers.length > 0">
+          <template
+            #description
+            v-if="person.githubUsers && person.githubUsers.length > 0"
+          >
             <UButton
               variant="ghost"
               :to="`https://github.com/${person.githubUsers[0]}`"
@@ -46,12 +48,8 @@
     </template>
     <PersonBadges :person="person" />
     <PersonCompany :person="person" />
-    <div class="grid grid-cols-2 pt-4 text-xs">
-      <PersonStats
-        :person="person"
-        v-if="hasStatisticalInfo"
-        class="space-y-2"
-      />
+    <div v-if="hasStatisticalInfo" class="flex flex-col gap-2 pt-4 text-sm">
+      <PersonStats :person="person" />
     </div>
     <template #footer>
       <div class="flex justify-end">
@@ -107,7 +105,6 @@ const ui = computed(() => {
 })
 const avatar = computed(() => {
   if (props.person.logoUrls && props.person.logoUrls.s) {
-    
     return {
       src: props.person?.logoUrls?.s,
       alt: props.person.name,

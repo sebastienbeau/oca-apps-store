@@ -23,12 +23,16 @@ export class PersonService extends BaseServiceTypeSense {
       delete query.sort_by
     }
     /** Build facet by query */
-    let facetBy = facets.map(facet => facet.field)
+    let facetBy = facets.map((facet) => {
+      if (facet.sortBy) {
+        return `${facet.field}(sort_by: ${facet.sortBy})`
+      }
+      return facet.field
+    })
     if (query?.facet_by) {
       if (Array.isArray(query.facet_by)) {
         facetBy = [...facetBy, ...query.facet_by]
-      }
-      else {
+      } else {
         facetBy = [...facetBy, ...query.facet_by.split(',')]
       }
     }
@@ -44,26 +48,36 @@ export class PersonService extends BaseServiceTypeSense {
     if (query?.filter_by) {
       filterBy = [...filterBy, ...query.filter_by.split(' && ')]
     }
-
+    if (query?.q !== '*' && query?.q && query?.sort_by) {
+      delete query.sort_by
+    }
     const queries = [
       {
         ...query,
         facet_by: facetBy.join(','),
+        max_facet_values: 100,
         filter_by: filterBy.join(' && '),
       },
     ]
 
     for (const facet of facets) {
-      if (facet.query) {
-        const filterBy
-          = queries[0]?.filter_by
+      if (facet.query || facet.searchTerm) {
+        const facetBy = facet.sortBy
+          ? `${facet.field}(sort_by: ${facet.sortBy})`
+          : facet.field
+        let filterBy =
+          queries[0]?.filter_by
             ?.split(' && ')
-            .filter(f => f !== facet.query)
+            .filter((f) => f !== facet.query)
             .join(' && ') || ''
+        if (facet?.searchTerm) {
+          const searchFilter = `${facet.field}:*${facet.searchTerm}*`
+          filterBy = filterBy ? `${filterBy} && ${searchFilter}` : searchFilter
+        }
         queries.push({
           ...query,
           filter_by: filterBy,
-          facet_by: facet.field,
+          facet_by: facetBy,
           per_page: 0,
           max_facet_values: facet.perPage,
         })
@@ -74,12 +88,12 @@ export class PersonService extends BaseServiceTypeSense {
       hits: this.hits(results[0]?.hits) || [],
       found: results[0]?.found || 0,
       facets: facets.map((facet) => {
-        const filterResults = results.findLast(res =>
-          res.facet_counts?.some((f: any) => f.field_name === facet.field),
+        const filterResults = results.findLast((res) =>
+          res.facet_counts?.some((f: any) => f.field_name === facet.field)
         )
-        const result
-          = filterResults?.facet_counts?.find(
-            (f: any) => f.field_name === facet.field,
+        const result =
+          filterResults?.facet_counts?.find(
+            (f: any) => f.field_name === facet.field
           ) || null
         return {
           field: facet.field,
@@ -89,6 +103,7 @@ export class PersonService extends BaseServiceTypeSense {
       }),
     }
   }
+
 
 
   async getPersonByUrlKey(query: {}, urlKey: string): Promise<Person> {

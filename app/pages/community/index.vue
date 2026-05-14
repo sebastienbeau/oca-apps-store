@@ -68,11 +68,15 @@ useSeoMeta(content.value?.seo || {})
 const personService = useService('persons')
 const sortOptions = computed(() => {
   return [
+    {
+      label: t('person.sort.collaboration_index_desc'),
+      value: 'collaboration_index:desc',
+    },
     { label: t('person.sort.name_asc'), value: 'name:asc' },
     { label: t('person.sort.name_desc'), value: 'name:desc' },
   ]
 })
-const sortBy = ref('name:asc')
+const sortBy = ref('collaboration_index:desc')
 const query = computed(() => {
   return {
     q: searchTermsDebounced.value,
@@ -87,6 +91,7 @@ const facets: Facet[] = [
   {
     field: 'country.label',
     title: t('person.filters.countries'),
+    searchable: true,
   },
   {
     field: 'roles.name',
