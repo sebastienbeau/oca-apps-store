@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     'nuxt-seo-utils',
   ],
+
   image: {
     format: ['webp'],
     domains: ['odoo-community.org'],

@@ -1,6 +1,9 @@
 ---
-title: Title of the page
-description: meta description of the page
+title: OCA App Store 
+description: Discover open-source Odoo modules created, updated, and maintained by the Odoo Community Association (OCA).
+seo:
+  title: OCA App Store
+  description: Explore open-source Odoo modules created, updated, and maintained by the Odoo Community Association (OCA).
 ---
 
 

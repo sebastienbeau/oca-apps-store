@@ -63,6 +63,8 @@ const route = useRoute()
 const { data: content } = await useAsyncData(`community-modules`, () => {
   return queryCollection('docs').path(route.path).first()
 })
+useSeoMeta(content.value?.seo || {})
+
 const personService = useService('persons')
 const sortOptions = computed(() => {
   return [

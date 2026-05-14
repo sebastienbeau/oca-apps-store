@@ -1,6 +1,9 @@
 ---
 title: Open source Odoo Modules
 description: Explore open-source Odoo modules actively maintained by the Odoo Community Association (OCA).
+seo:
+  title: OCA Community
+  description: The vibrant community of developers and contributors behind the Odoo Community Association (OCA), driving innovation and collaboration in the world of open-source Odoo modules.
 ---
 
 ::u-page-section

@@ -177,6 +177,7 @@ export class CompanyService extends BaseServiceTypeSense {
     do {
       const res = await super.performSearch({
         q: '*',
+        filter_by: `sponsorship.level.id:>0`,
         group_by: "url_key",
         per_page: size,
         page,
@@ -189,7 +190,7 @@ export class CompanyService extends BaseServiceTypeSense {
       for (const hit of hits || []) {
         if (hit?.group_key?.[0]) {
           urls.push({
-            loc: `/integrators/${hit.group_key[0]}`,
+            loc: hit.group_key[0],
           })
         }
       }

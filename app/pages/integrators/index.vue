@@ -66,7 +66,7 @@ const route = useRoute()
 const { data: content } = await useAsyncData(`companies-modules`, () => {
   return queryCollection('docs').path(route.path).first()
 })
-
+useSeoMeta(content.value?.seo || {})
 const companyService = useService('companies')
 const sortOptions = computed(() => {
   return [

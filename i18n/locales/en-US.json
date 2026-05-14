@@ -257,6 +257,9 @@
     "members": {
       "title": " OCA members & contributors",
       "found": "1 profiles found | { count } profiles found"
+    },
+    "title": {
+      "default": "{ company } OCA Sponsor"
     }
   },
   "generic": {

@@ -5,10 +5,7 @@ const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('docs').path(route.path).first()
 })
 
-useSeoMeta({
-  title: page.value?.title,
-  description: page.value?.description,
-})
+useSeoMeta(page.value?.seo || {})
 </script>
 
 <template>

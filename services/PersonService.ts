@@ -127,7 +127,7 @@ export class PersonService extends BaseServiceTypeSense {
       for (const hit of hits || []) {
         if (hit?.group_key?.[0]) {
           urls.push({
-            loc: `/persons/${hit.group_key[0]}`,
+            loc: hit.group_key[0],
           })
         }
       }
@@ -192,12 +192,12 @@ export const PersonFactory = {
   },
   createPersonContact(json: any):
     | {
-        address: string
-        email: string
-        phone: string
-        city: string
-        website: string
-      }
+      address: string
+      email: string
+      phone: string
+      city: string
+      website: string
+    }
     | undefined {
     if (json?.contact) {
       return {

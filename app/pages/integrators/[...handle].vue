@@ -51,7 +51,7 @@ const breadcrumb = computed(() => {
 })
 
 useSeoMeta({
-  title: company.value?.name || '',
+  title: t('company.title.default', { company: company.value?.name }),
   description:
     company.value?.sponsorship?.shortDescription ||
     t('company.description.default', { company: company.value?.name }),

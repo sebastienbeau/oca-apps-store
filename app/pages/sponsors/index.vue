@@ -10,7 +10,7 @@
     :per-page="perPage"
   >
     <template #header>
-      <!-- <ContentRenderer v-if="content" :value="content" /> -->
+      <ContentRenderer v-if="content" :value="content" />
     </template>
     <template #actions>
       <UFormField>
@@ -55,7 +55,7 @@ const route = useRoute()
 const { data: content } = await useAsyncData(`sponsors-modules`, () => {
   return queryCollection('docs').path(route.path).first()
 })
-
+useSeoMeta(content.value?.seo || {})
 const companiesService = useService('companies')
 
 const searchTerms = ref('')
