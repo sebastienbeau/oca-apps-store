@@ -5,8 +5,8 @@
     :ui="{
       root: 'ring-0 relative pt-8',
       title:
-        'flex items-start justify-start md:col-span-1 gap-0 md:pb-4 w-full font-normal',
-      description: 'w-full px-4',
+        'max-md:px-0 flex items-start justify-start md:col-span-1 gap-0 md:pb-4 w-full font-normal',
+      description: 'w-full md:px-4',
       container:
         'flex-col-reverse justify-center items-center lg:grid-cols-3  md:grid-cols-3 lg:items-start',
       wrapper: 'md:col-span-2',
@@ -24,7 +24,7 @@
           {{ company.name }}
         </ProseH1>
 
-        <div class="flex items-start gap-5 pt-4 md:pt-4">
+        <div class="flex items-start gap-2 pt-4 md:pt-4">
           <template v-if="countries.length > 0">
             <UBadge
               v-for="(loc, i) in countries"
@@ -42,26 +42,26 @@
     </template>
     <template #description>
       <slot name="description">
-        <div
-          v-for="contact in company.contacts"
-          :key="contact.name"
-          class="flex gap-4 p-4 md:gap-6 md:pl-0"
-        >
-          <CompanyContact :contact="contact" company="company" />
-        </div>
-        <MDC
-          v-if="company.sponsorship?.description"
-          :value="company.sponsorship.description"
-        />
-        <div v-else>
-          {{ company?.sponsorship?.shortDescription }}
+        <div>
+          <div class="flex flex-wrap gap-4 p-4 md:gap-6 md:pl-0 max-md:px-0">
+            <template v-for="contact in company.contacts" :key="contact.name">
+              <CompanyContact :contact="contact" company="company" />
+            </template>
+          </div>
+          <MDC
+            v-if="company.sponsorship?.description"
+            :value="company.sponsorship.description"
+          />
+          <div v-else>
+            {{ company?.sponsorship?.shortDescription }}
+          </div>
         </div>
       </slot>
       <div class="flex flex-wrap justify-start gap-2 py-3">
         <CompanyStats :company="company" />
       </div>
     </template>
-    <div v-if="company?.logoUrls?.l" class="pb-8 md:pb-0">
+    <div v-if="company?.logoUrls?.l" class="pb-4 md:pb-0">
       <nuxt-img
         :src="company.logoUrls?.l"
         :alt="company.logoUrls?.alt"
@@ -82,12 +82,11 @@ const props = defineProps<{
 const countries = computed(() => {
   const countriesList: any[] = []
   if (!props.company.contacts) return []
-    props.company.contacts.map((contact) => {
-      return countriesList.push(contact.country)
-    })
-    
-    return countriesList
-  
+  props.company.contacts.map((contact) => {
+    return countriesList.push(contact.country)
+  })
+
+  return countriesList
 })
 const links = computed<UPageLink[]>(() => {
   const items: UPageLink[] = []

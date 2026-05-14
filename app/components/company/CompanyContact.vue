@@ -1,5 +1,5 @@
 <template>
-  <UPageCard v-if="displayCard" class="w-auto">
+  <UPageCard v-if="displayCard" class="w-auto max-md:w-full">
     <template #body>
       <UPageLinks
         :links="items"

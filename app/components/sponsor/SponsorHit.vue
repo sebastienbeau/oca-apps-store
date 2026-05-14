@@ -12,7 +12,7 @@
   >
     <template #header>
       <div class="flex flex-col items-start justify-between">
-        <div class="m-4 ml-0 flex min-h-28 items-center">
+        <div class="max-md:m-1 m-4 ml-0 flex min-h-28 items-center">
           <nuxt-img
             :src="sponsor?.logoUrls?.m"
             :alt="sponsor.name"
