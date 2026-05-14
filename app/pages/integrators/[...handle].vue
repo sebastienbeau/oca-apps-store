@@ -6,6 +6,7 @@
     <CompanyHeroBanner v-else-if="company" :company="company" />
     <CompanyHeroBanner v-else :company="company" />
     <CompanyContributor :company="company" />
+    <CompanyModulesList :company="company" />
   </div>
 </template>
 

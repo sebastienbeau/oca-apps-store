@@ -142,6 +142,26 @@ export class ModuleService extends BaseServiceTypeSense {
     return res
   }
 
+  async getModulesCreatedBy(
+    company: Company,
+    queryString: string,
+    page: number,
+    perPage: number
+  ): Promise<ModuleResult> {
+    const query: any = {
+      filter_by: `authors.url_key:="${company.urlKey}"`,
+      group_by: 'techname',
+      page: page,
+      per_page: perPage,
+    }
+    if (queryString) {
+      query.q = queryString
+      query.query_by = 'name'
+    }
+    const res = await this.search(query)
+    return res
+  }
+
   async facetSearch(
     query: any,
     facets: FacetSearchParam[]

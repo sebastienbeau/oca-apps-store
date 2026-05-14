@@ -258,6 +258,9 @@
       "title": " OCA members & contributors",
       "found": "1 profiles found | { count } profiles found"
     },
+    "modules": {
+      "title": "Modules created by "
+    },
     "title": {
       "default": "{ company } OCA Sponsor"
     }

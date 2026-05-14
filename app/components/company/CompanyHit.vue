@@ -24,7 +24,7 @@
           <div
             class="flex w-full justify-between text-lg font-semibold text-primary"
           >
-            <nuxt-link :to="displaySponsor ? `/integrators/${company.urlKey}` : ''">
+            <nuxt-link :to="displaySponsor ? `/${company.urlKey}` : ''">
               {{ company.name }}
             </nuxt-link>
             <UButton

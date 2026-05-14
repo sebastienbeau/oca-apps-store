@@ -1,5 +1,5 @@
 <template>
-  <div v-if="found > 0" class="p-4 py-10 md:py-[8rem]">
+  <div v-if="found > 0" class="pt-30 pb-4">
     <ProseH2 class="mb-4 text-3xl font-extrabold text-primary lg:text-4xl">
       <span class="pr-1 uppercase">
         {{ company.name }}
