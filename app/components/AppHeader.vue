@@ -20,6 +20,16 @@
 
     <template #right>
       <UButton
+        color="neutral"
+        variant="soft"
+        href="https://odoo-community.org/"
+        target="_blank"
+        class="lg:btn-lg btn-md hidden text-sm sm:flex md:text-base"
+      >
+        <UIcon name="external"></UIcon>
+        {{ $t('nav.oca.website') }}
+      </UButton>
+      <UButton
         color="secondary"
         href="https://odoo-community.org/get-involved/become-a-sponsor"
         target="_blank"
@@ -37,7 +47,7 @@
         <UButton
           color="neutral"
           variant="ghost"
-          to="https://github.com/nuxt/ui"
+          to="https://github.com/oca"
           target="_blank"
           icon="i-simple-icons-github"
           aria-label="GitHub"

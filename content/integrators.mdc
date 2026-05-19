@@ -14,7 +14,7 @@ description: Explore the list of companies around the world involved in the Odoo
 
 links:
   - label: 'How to contribute'
-    to: 'https://odoo-community.org/page/Contribute'
+    to: 'https://www.odoo-community.org/get-involved/contribute'
     target: '_blank'
     icon: 'contribute'
 

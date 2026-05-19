@@ -11,10 +11,13 @@ seo:
 orientation: vertical
 icon: 'community'
 description: Our community is the heart of our ecosystem, driving innovation and collaboration. Join us to contribute, learn, and grow together in the world of Open Source Odoo modules.
+ui:
+  container: 'md:py-8 lg:py-8 xl:py-8'
+
 
 links:
   - label: 'Join the Community'
-    to: 'https://odoo-community.org/page/Contribute'
+    to: 'https://www.odoo-community.org/get-involved/become-a-member'
     target: '_blank'
     icon: 'community'
 

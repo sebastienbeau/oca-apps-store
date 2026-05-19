@@ -7,21 +7,24 @@ description: Explore open-source Odoo modules actively maintained by the Odoo Co
 ---
 orientation: vertical
 icon: 'module'
+ui: {
+  container: 'md:py-8 lg:py-8 xl:py-8'
+}
 description: Discover open-source Odoo modules created, updated, and maintained by the Odoo Community Association (OCA).
 features:
   - title: "Diverse Modules"
-    description: "Explore a wide range of modules covering various business needs, all developed and maintained by the OCA community."
+    description: "Explore a wide range of Odoo apps."
     icon: 'i-lucide-package'
     
-  - title: "Community-Driven"
-    description: "Benefit from the collective expertise of the OCA community, ensuring high-quality and up-to-date modules."
+  - title: "OCA Community-Driven"
+    description: "Benefit from the expertise of the community."
     icon: 'i-lucide-users'
-  - title: "Free and Open Source"
-    description: "All modules are freely available and open source, allowing you to customize and extend them to meet your specific needs."
+  - title: "Free and Open Source Odoo Modules"
+    description: "All apps are open source and available for free"
     icon: 'i-lucide-unlock'
 links:
   - label: 'How to contribute'
-    to: 'https://odoo-community.org/page/Contribute'
+    to: 'https://www.odoo-community.org/get-involved/contribute
     target: '_blank'
     icon: 'contribute'
 

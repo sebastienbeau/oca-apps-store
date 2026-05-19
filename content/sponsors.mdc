@@ -9,16 +9,18 @@ seo:
 ::u-page-section
 ---
 icon: 'sponsor'
+
 description: 
   Sponsor the Odoo Community Association and align your brand with the leading open-source Odoo community ecosystem. Gain exposure to a diverse, active community of developers and businesses, while supporting the growth of flexible, high-quality Odoo apps. 
   
   Let’s build the future of open-source, together.
 links:
   - label: 'Become a sponsor'
-    to: 'https://odoo-community.org/page/Contribute'
+    to: 'https://www.odoo-community.org/get-involved/become-a-sponsor'
     target: '_blank'
     icon: 'sponsor'
 ui: 
+  container: 'md:py-8 lg:py-8 xl:py-8'
   title: 'flex items-center justify-center'
   description: 'flex flex-col items-center max-w-5xl mx-auto'
 ---

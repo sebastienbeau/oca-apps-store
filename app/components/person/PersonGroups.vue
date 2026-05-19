@@ -22,7 +22,7 @@
       <h3 class=" text-4xl text-center  font-bold text-primary-500 pb-6 ">{{ $t('person.work_group.title') }}<span class="block text-secondary ">{{ $t('person.work_group.title_emphasis') }}</span></h3>
       <div class="flex flex-wrap gap-2 md:gap-6 md:justify-center align-stretch justify-center">
         <template v-for="group in person.workGroupList" :key="group.id">
-          <div :class="cartSize"class="w-full md:w-1/4 min-h-64">
+          <div class="w-full md:w-1/3 min-h-64">
             <PersonWorkGroup :group="group"/>
           </div>
         </template>
@@ -46,11 +46,11 @@ const displayGrid = computed(() => {
   }
 })
 
-const cartSize = computed(() => {
-  if (props.person.pscList.length < 2 && props.person.pscList.length > 0 && props.person.workGroupList.length < 2 && props.person.workGroupList.length > 0) {
-    return 'md:w-full'
-  } else {
-    return 'w-full md:w-1/4'
-  }
-})
+// const cartSize = computed(() => {
+//   if (props.person.pscList.length < 2 && props.person.pscList.length > 0 && props.person.workGroupList.length < 2 && props.person.workGroupList.length > 0) {
+//     return 'md:w-full'
+//   } else {
+//     return 'w-full md:w-1/3'
+//   }
+// })
 </script>

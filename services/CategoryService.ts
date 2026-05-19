@@ -59,7 +59,7 @@ export class CategoryService extends BaseServiceTypeSense {
   }
 
   getAll(maxSize = 100): Promise<CategoryResult> {
-    const body = { q: '*', per_page: maxSize }
+    const body = { q: '*', sort_by: 'name:asc', per_page: maxSize }
     return this.search(body)
   }
 

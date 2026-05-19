@@ -5,7 +5,7 @@
     :items="[
       {
         label: person.company.name,
-        to: `/${person.company.urlKey}`,
+        to: person.company.urlKey && person.company.urlKey !== '' ? `/${person.company.urlKey}` : '',
         icon: 'company',
         click: (event) => {
           event.stopPropagation()

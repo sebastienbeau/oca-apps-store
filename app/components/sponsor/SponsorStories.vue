@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-48">
-    <ProseH2 class="py-4 text-2xl font-bold text-secondary">
+  <div class="pt-12">
+    <ProseH2 class="py-4 text-4xl font-bold text-secondary">
       {{ sponsor.name }} {{ $t('sponsors.stories.title') }}
     </ProseH2>
 
@@ -20,8 +20,9 @@
             body: 'pt-2',
           }"
           :title="story.title"
-          :to="story.relativeUrl"
+          :to="`https://www.odoo-community.org${story.relativeUrl}`"
           :description="story.teaser"
+          target="_blank"
           orientation="vertical"
           reverse
           :image="story.coverUrl"

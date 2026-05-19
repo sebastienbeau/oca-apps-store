@@ -12,8 +12,8 @@
         <ModuleImage :module="module" size="md" />
         <div>
           <div class="text-xl font-bold md:text-4xl">
-            Download
-            <span class="text-secondary">it</span>
+            Get the Odoo 
+            <span class="text-secondary">App</span>
           </div>
           <div class="flex gap-1">
             <UBadge
@@ -67,15 +67,27 @@
             />
           </template>
         </UFormField>
-        <UButton
-          v-if="module?.githubUrl"
-          color="info"
-          :href="module?.githubUrl"
-          target="_blank"
-          leading-icon="github"
-          class="px-10"
-          :label="t('modules.github.link')"
-        />
+        <div class="flex flex-col justify-end">
+          <UButton
+            v-if="module?.githubUrl"
+            color="info"
+            :href="module?.githubUrl"
+            target="_blank"
+            leading-icon="github"
+            class="px-10"
+            :label="t('modules.github.link')"
+          />
+
+          <UButton
+            href="https://www.odoo-community.org/how-to-download-an-oca-module-from-github"
+            target="_blank"
+            icon="help"
+            variant="link"
+            size="xs"
+            class="mx-auto"
+            :label="t('modules.runboat.how_to_download')"
+          />
+        </div>
       </div>
     </template>
   </UCard>

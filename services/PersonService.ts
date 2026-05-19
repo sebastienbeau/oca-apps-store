@@ -249,13 +249,13 @@ export const PersonFactory = {
   createPersonCompany(
     json: any
   ): { id: number; name: string; urlKey: string } | undefined {
-    if (json?.company.id && json?.company.name && json?.company.url_key) {
+   
       return {
-        id: json.company.id,
-        name: json.company.name,
-        urlKey: json.company.url_key,
+        id: json?.company?.id || '',
+        name: json?.company?.name || '',
+        urlKey: json?.company?.url_key || '',
       }
-    }
+    
   },
   createPersonRoles(json: any): PersonRole[] {
     if (json?.roles) {

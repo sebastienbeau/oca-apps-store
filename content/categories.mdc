@@ -18,7 +18,7 @@ features:
     icon: 'i-lucide-users'
 links:
   - label: 'How to contribute'
-    to: 'https://odoo-community.org/page/Contribute'
+    to: 'https://www.odoo-community.org/get-involved/contribute'
     target: '_blank'
     icon: 'contribute'
 

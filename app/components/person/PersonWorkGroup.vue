@@ -4,7 +4,7 @@
     :ui="{
       root: 'ring-0  bg-transparent rounded-sm  h-full',
       container: 'p-2 sm:p-4',
-      body: 'sm:px-0 sm:py-2 bg-transparent text-left w-full',
+      body: 'sm:px-0 sm:py-2 bg-transparent text-center w-full',
       header: 'sm:px-2 mb-2 w-full relative border-0 ',
       footer: 'p-0 w-full flex justify-center items-center w-full',
     }"
@@ -24,7 +24,7 @@
       </div>
     </template>
     <template #footer>
-      <UButton to="/abc" variant="outline" color="neutral" class="justify-center w-full"
+      <UButton to="/abc" variant="outline" color="neutral" class="justify-center "
      >
         {{ $t('generic.findOutMore') }}</UButton
       >

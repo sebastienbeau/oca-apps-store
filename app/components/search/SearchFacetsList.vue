@@ -20,7 +20,7 @@
         <slot name="item-content" :item="{ facet, component }">
           <div class="p-4">
             <div class="pb-4 text-sm font-bold">
-              {{ facet.title }} {{ facet.routeParam }}
+              {{ facet.title }} 
             </div>
             <component
               :is="component || 'SearchStringFacet'"

@@ -8,7 +8,7 @@
         {
           label: t('modules.maintainer.learn_more'),
           color: 'primary',
-          to: 'https://odoo-community.org/page/Contribute',
+          to: 'https://www.odoo-community.org/get-involved/contribute',
           icon: 'contribute',
         },
       ]"

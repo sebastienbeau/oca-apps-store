@@ -154,7 +154,7 @@ const getInvolvedLinks = ref<ButtonProps[]>([
   },
   {
     label: t('community.person.cta.CtaContributorsLabel'),
-    to: 'https://odoo-community.org/get-involved/contribute',
+    to: 'https://www.odoo-community.org/get-involved/contribute',
     color: 'neutral',
     variant: 'subtle',
     trailingIcon: 'i-lucide-arrow-right',
