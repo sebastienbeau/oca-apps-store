@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24">
-    <UPageSection :title="$t('categories.title')">
+    <UPageSection :title="$t('categories.title')" :ui="{ container : 'lg:py-6 xl:py-6 pt-16', wrapper: 'pt-20'}"  >
       <template #description>
         <p class="text-lg">
           {{ $t('nav.modules.categories.description') }}
@@ -21,38 +21,86 @@
       </template>
     </UPageSection>
 
-    <UPageGrid
-      v-if="categories?.hits?.length"
-      :ui="{
-        base: 'xl:grid-cols-4 py-10',
-      }"
-    >
-      <UPageCard
-        v-for="category in categories?.hits"
-        :key="category.id"
-        :title="category.name"
-        :href="`/categories/${category.urlKey}`"
+    <div v-if="categories?.hits?.length" class="px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-end pb-4">
+        <UFieldGroup>
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'list' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-list"
+            @click="displayMode = 'list'"
+          />
+          <UButton
+            color="neutral"
+            :variant="displayMode === 'grid' ? 'subtle' : 'outline'"
+            leading-icon="i-mdi-view-grid"
+            @click="displayMode = 'grid'"
+          />
+        </UFieldGroup>
+      </div>
+      
+      <UPageGrid
+        v-if="displayMode === 'grid'"
         :ui="{
-          container: 'p-3 sm:p-4',
-          leadingIcon: 'text-secondary',
-          title: 'text-primary font-normal flex items-center gap-1',
-          footer: 'flex-1 text-right w-full',
+          base: 'xl:grid-cols-4 py-10',
         }"
       >
-        <template #title>
-          <UIcon name="category" class="size-6 text-secondary" />
-          <span class="">{{ category.name }}</span>
-        </template>
-        <template #footer>
-          <UButton
-            variant="outline"
-            size="sm"
-            :to="category.urlKey"
-            :label="$t('category.explore')"
-          />
-        </template>
-      </UPageCard>
-    </UPageGrid>
+        <UPageCard
+          v-for="category in categories?.hits"
+          :key="category.id"
+          :title="category.name"
+          :href="`/categories/${category.urlKey}`"
+          :ui="{
+            container: 'p-3 sm:p-4',
+            leadingIcon: 'text-secondary',
+            title: 'text-primary font-normal flex items-center gap-1',
+            footer: 'flex-1 text-right w-full',
+          }"
+        >
+          <template #title>
+            <UIcon name="category" class="size-6 text-secondary" />
+            <span class="">{{ category.name }}</span>
+          </template>
+          <template #footer>
+            <UButton
+              variant="outline"
+              size="sm"
+              :to="category.urlKey"
+              :label="$t('category.explore')"
+            />
+          </template>
+        </UPageCard>
+      </UPageGrid>
+      
+      <div v-else class="space-y-4 py-10 lg:max-w-4xl mx-auto ">
+        <UCard
+          v-for="category in categories?.hits"
+          :key="category.id"
+          :ui="{
+            body: 'flex max-md:flex-col max-md:items-start md:justify-between hover:ring-2 hover:ring-primary-500',
+          }"
+        >
+          <div class="flex items-center gap-3">
+            <UIcon name="category" class="size-6 text-secondary" />
+            <nuxt-link
+              :to="`/categories/${category.urlKey}`"
+              class="text-lg font-normal text-primary hover:text-primary-600 transition-colors"
+            >
+              {{ category.name }}
+            </nuxt-link>
+          </div>
+          <div class="max-md:py-4 w-full text-right md:w-auto">
+            <UButton
+              variant="outline"
+              size="sm"
+              :to="category.urlKey"
+              :label="$t('category.explore')"
+            />
+
+          </div>
+        </UCard>
+      </div>
+    </div>
     <UEmpty
       v-else
       :title="$t('categories.empty.title')"
@@ -79,4 +127,8 @@ const { data: categories } = useAsyncData(
     watch: [() => searchTermsDebounced.value],
   }
 )
+
+const displayMode = useCookie<'grid' | 'list'>('categories_display_mode', {
+  default: () => 'list',
+})
 </script>

@@ -21,10 +21,12 @@ export default defineAppConfig({
       slots: {
         linkLabel: 'text-primary',
         linkLeadingIcon: 'text-primary',
-      }
+      },
     },
     prose: {
-      p: { base: 'leading-relaxed prose-a:text-primary prose-li:leading-tight prose-li:mt-0 prose-ul:mt-1 prose-ul:mb-4' },
+      p: {
+        base: 'leading-relaxed prose-a:text-primary prose-li:leading-tight prose-li:mt-0 prose-ul:mt-1 prose-ul:mb-4',
+      },
     },
     icons: {
       arrowDown: 'i-ph-arrow-down',
@@ -69,7 +71,6 @@ export default defineAppConfig({
       tip: 'i-ph-lightbulb',
       upload: 'i-ph-upload',
       warning: 'i-ph-warning',
-
     },
     changelogVersion: {
       slots: {
@@ -77,65 +78,66 @@ export default defineAppConfig({
         dotInner: 'bg-secondary',
         dot: 'ring-secondary/30',
         title: 'text-secondary',
-        header: 'bg-muted/50 py-5 px-6 rounded-xl rounded-tl-none ring-1 ring-muted/40',
-      }
+        header:
+          'bg-muted/50 py-5 px-6 rounded-xl rounded-tl-none ring-1 ring-muted/40',
+      },
     },
     pageSection: {
       slots: {
         container: 'lg:py-16 xl:py-20',
         leadingIcon: 'size-16 text-primary',
-        links: 'justify-end'
-      }
+        links: 'justify-end',
+      },
     },
     pageFeature: {
       slots: {
         leadingIcon: 'text-secondary',
-        title: 'text-primary-500',
-      }
+        title: 'text-primary',
+      },
     },
     pageHero: {
       slots: {
-        title: 'text-primary-500',
-      }
-    }
+        title: 'text-primary',
+      },
+    },
   },
 
   icon: {
     class: 'icon', // default <Icon> class applied
     mode: 'css', // default <Icon> mode applied
     aliases: {
-      'repository': 'ph:folders-duotone',
-      'filter': 'ph:funnel-simple',
-      'module': 'ph:package-duotone',
-      'sponsor': 'ph:hand-heart-duotone',
-      'companies': 'ph:buildings',
-      "company": 'ph:building',
-      "search": 'ph:magnifying-glass',
-      "community": 'ph:users-three',
-      "contribute": 'ph:rocket-launch',
-      "author": 'ph:user-gear',
-      "home": 'ph:house',
-      "person": 'ph:user',
-      "category": 'ph:squares-four-fill',
-      "grid": 'ph:dots-nine',
-      "list": 'ph:list-bullets',
-      "runboat": 'ph:boat-duotone',
-      "github": 'ph:github-logo',
-      "external": 'ph:arrow-square-out',
-      "location": 'ph:map-pin',
-      "phone": 'ph:phone',
-      "email": 'ph:envelope',
-      "website": 'ph:globe-simple',
-      "translation": 'ph:translate',
-      "psc": 'ph:shield-check',
-      "group": 'ph:users',
-      "members": 'ph:users',
-      "code": 'ph:code',
-      "award": 'ph:trophy',
-      "industries": 'ph:factory',
-      "back": 'ph:arrow-left',
-      "help": 'ph:question',
+      repository: 'ph:folders-duotone',
+      filter: 'ph:funnel-simple',
+      module: 'ph:package-duotone',
+      sponsor: 'ph:hand-heart-duotone',
+      companies: 'ph:buildings',
+      company: 'ph:building',
+      search: 'ph:magnifying-glass',
+      community: 'ph:users-three',
+      contribute: 'ph:rocket-launch',
+      author: 'ph:user-gear',
+      home: 'ph:house',
+      person: 'ph:user',
+      category: 'ph:squares-four-fill',
+      grid: 'ph:dots-nine',
+      list: 'ph:list-bullets',
+      runboat: 'ph:boat-duotone',
+      github: 'ph:github-logo',
+      external: 'ph:arrow-square-out',
+      location: 'ph:map-pin',
+      phone: 'ph:phone',
+      email: 'ph:envelope',
+      website: 'ph:globe-simple',
+      translation: 'ph:translate',
+      psc: 'ph:shield-check',
+      group: 'ph:users',
+      members: 'ph:users',
+      code: 'ph:code',
+      award: 'ph:trophy',
+      industries: 'ph:factory',
+      back: 'ph:arrow-left',
+      help: 'ph:question',
     },
-    cssLayer: 'base' // set the css layer to inject to
-  }
+    cssLayer: 'base', // set the css layer to inject to
+  },
 })

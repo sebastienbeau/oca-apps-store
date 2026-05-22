@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="sponsor?.sponsorship && sponsorLevel.level == '3'"
+    v-if="sponsor?.sponsorship && sponsorLevel.level == '1'"
     class="relative pt-14 pb-1 md:mt-8 md:pt-32 md:pb-12 md:mb-12"
   >
     <div
@@ -9,6 +9,7 @@
         backgroundColor: sponsorLevel?.color || '#FD9182',
       }"
     />
+    
     <div v-if="sponsor?.sponsorship?.industries.length > 0">
       <ProseH2 class="py-4 text-2xl font-bold text-secondary">
         {{ $t('sponsors.industry.title') }} {{ sponsor.name }}

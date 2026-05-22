@@ -1,5 +1,5 @@
 <template>
-  <div v-if="company">
+  <div v-if="company" class="max-md:w-full max-w-full">
     <UBreadcrumb :items="breadcrumb" class="mt-8 mb-6" />
     <USeparator />
     <SponsorDetail v-if="company && company?.sponsorship" :sponsor="company" />

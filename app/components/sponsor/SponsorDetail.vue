@@ -1,6 +1,6 @@
 <template>
-  <div v-if="sponsor">
-    <CompanyHeroBanner :company="sponsor">
+  <div v-if="sponsor" class="max-md:w-full max-md:max-w-full">
+    <CompanyHeroBanner :company="sponsor" class="max-md:w-full max-md:max-w-full">
       <template #left>
         <SponsorLogo
           v-if="sponsorLevel"

@@ -301,7 +301,7 @@
       "title": "{category} OCA modules - OCA Apps Store",
       "description": "Explore the {category} category of the OCA Apps Store and discover all the open-source Odoo modules developed by the OCA community in this category."
     },
-    "explore": "Explore Odoomodules"
+    "explore": "Explore Odoo modules"
   },
   "categories": {
     "title": "Categories",

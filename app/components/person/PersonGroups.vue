@@ -3,7 +3,7 @@
   <div v-if="person" class=" gap-2 md:gap-10 grid grid-cols-1 md:grid-cols-1 md:px-8 mx-auto" :class="displayGrid">
     <!-- <div class="md:py-4"  v-if="person?.pscList && person.pscList.length > 0" >
 
-      <h3 class="text-3xl text-primary-500 text-center md:text-start pb-6">
+      <h3 class="text-3xl text-primary text-center md:text-start pb-6">
         <span class="block text-secondary"> (PSC)</span>
         {{ $t('person.psc.title') }} 
         </h3>
@@ -19,7 +19,7 @@
     </div> -->
  
     <div v-if="person?.workGroupList && person.workGroupList.length > 0" class="md:py-4">
-      <h3 class=" text-4xl text-center  font-bold text-primary-500 pb-6 ">{{ $t('person.work_group.title') }}<span class="block text-secondary ">{{ $t('person.work_group.title_emphasis') }}</span></h3>
+      <h3 class=" text-4xl text-center  font-bold text-primary pb-6 ">{{ $t('person.work_group.title') }}<span class="block text-secondary ">{{ $t('person.work_group.title_emphasis') }}</span></h3>
       <div class="flex flex-wrap gap-2 md:gap-6 md:justify-center align-stretch justify-center">
         <template v-for="group in person.workGroupList" :key="group.id">
           <div class="w-full md:w-1/3 min-h-64">

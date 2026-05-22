@@ -82,6 +82,7 @@
 @layer theme {
   .dark {
     --ui-primary: #f3f4f6;
+    --ui-bg-primary-800:  #171717;
     --ui-secondary: var(--color-secondary-500);
     --ui-info: var(--color-info-200);
     --color-info: var(--color-info-200);

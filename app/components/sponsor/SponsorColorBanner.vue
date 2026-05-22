@@ -19,8 +19,8 @@
       </div>
       <div class="hidden md:block">
         <UButton
-          href="https://odoo-community.org/get-involved/become-a-sponsor"
-          :label="t('sponsors.become', { name: sponsorship?.name })"
+          :href="buttonUrl"
+          :label="t('sponsors.become', { name: sponsorship?.name }) + props.sponsorship?.level"
           color="neutral"
           variant="solid"
           icon="contribute"
@@ -38,6 +38,25 @@ const { t } = useI18n()
 const props = defineProps<{
   sponsorship: SponsorLevelsCollectionItem
 }>()
+
+const buttonUrl = computed(() => {
+  switch (props.sponsorship?.level) {
+    case '1':
+      return ' https://www.odoo-community.org/shop/26-spp-2026-oca-platinum-sponsorship-716967'
+
+    case '2':
+      return 'https://www.odoo-community.org/shop/26-spg-2026-oca-gold-sponsorship-716966'
+
+    case '3':
+      return 'https://www.odoo-community.org/shop/26-sps-2026-oca-silver-sponsorship-716965'
+
+    case '4':
+      return 'https://www.odoo-community.org/shop/26-spb-2026-oca-bronze-sponsorship-716964 '
+    
+    default:
+      return 'https://odoo-community.org/get-involved/become-a-sponsor'
+  }
+})
 </script>
 <style scoped>
 .background-style::before {
@@ -65,6 +84,6 @@ const props = defineProps<{
 }
 
 .bronze-image::before {
-  background-color: #faf7f0;
+  background-color: #e0c483;
 }
 </style>

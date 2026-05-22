@@ -1,7 +1,7 @@
 <template>
   <div class="subpixel-antialiased">
     <AppHeader />
-    <UContainer>
+    <UContainer class="max-md:overflow-x-hidden">
       <slot />
       <AppBottomNav />
     </UContainer>
@@ -9,4 +9,4 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts"></script> 

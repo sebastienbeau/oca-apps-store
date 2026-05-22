@@ -8,7 +8,7 @@
         'max-md:px-0 flex items-start justify-start md:col-span-1 gap-0 md:pb-4 w-full font-normal',
       description: 'w-full md:px-4',
       container:
-        'flex-col-reverse justify-center items-center lg:grid-cols-3  md:grid-cols-3 lg:items-start',
+        'max-md:w-full max-md:max-w-full flex-col-reverse justify-center items-center lg:grid-cols-3  md:grid-cols-3 lg:items-start',
       wrapper: 'md:col-span-2',
       body: 'w-full',
       header: 'p-0 relative',
@@ -24,7 +24,7 @@
           {{ company.name }}
         </ProseH1>
 
-        <div class="flex items-start gap-2 pt-4 md:pt-4">
+        <div class="flex items-start gap-2 pt-4 max-md:flex-wrap md:pt-4">
           <template v-if="countries.length > 0">
             <UBadge
               v-for="(loc, i) in countries"
