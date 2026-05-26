@@ -1,4 +1,3 @@
-import { moduleMaintainers } from './../models/Module'
 import type {
   Module,
   ModuleMaintainer,
@@ -7,6 +6,7 @@ import type {
   FacetSearchParam,
   FacetSearchResult,
   Person,
+  Company,
 } from '~~/models'
 import { BaseServiceTypeSense } from '~~/services'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
@@ -62,6 +62,7 @@ export class ModuleService extends BaseServiceTypeSense {
       ...{ q: '*', query_by: 'name' },
       ...body,
       group_by: 'techname',
+      group_limit: 99,
     }
     const result = await super.performSearch<any>(body)
     const hits = this.groupedHits(result?.grouped_hits) || []
@@ -102,6 +103,14 @@ export class ModuleService extends BaseServiceTypeSense {
     )
   }
 
+  /**
+   * Get modules that depend on a module
+   * @param module 
+   * @param queryString
+   * @param page 
+   * @param perPage 
+   * @returns 
+   */
   async getModuleUsedBy(
     module: Module,
     queryString: string,
@@ -122,6 +131,15 @@ export class ModuleService extends BaseServiceTypeSense {
     return res
   }
 
+  /**
+   * get modules maintained by a person
+   * 
+   * @param person 
+   * @param queryString 
+   * @param page 
+   * @param perPage 
+   * @returns 
+   */
   async getModulesMaintainedBy(
     person: Person,
     queryString: string,
@@ -142,6 +160,14 @@ export class ModuleService extends BaseServiceTypeSense {
     return res
   }
 
+  /**
+   * Get modules created by an company, using the authors field in typesense to find modules where the company is mentioned as an author.
+   * @param company 
+   * @param queryString 
+   * @param page 
+   * @param perPage 
+   * @returns 
+   */
   async getModulesCreatedBy(
     company: Company,
     queryString: string,
@@ -162,6 +188,14 @@ export class ModuleService extends BaseServiceTypeSense {
     return res
   }
 
+  /**
+   * Search for modules with facets, 
+   * allowing to perform multi-searches 
+   * to get facet counts and stats in the same time and modules results.
+   * @param query 
+   * @param facets 
+   * @returns 
+   */
   async facetSearch(
     query: any,
     facets: FacetSearchParam[]
@@ -169,6 +203,7 @@ export class ModuleService extends BaseServiceTypeSense {
     if (!query.sort_by) {
       delete query.sort_by
     }
+
     /** Build facet by query */
     let facetBy = facets.map((facet) => {
       if (facet.sortBy) {
@@ -176,6 +211,7 @@ export class ModuleService extends BaseServiceTypeSense {
       }
       return facet.field
     })
+
     if (query?.facet_by) {
       if (Array.isArray(query.facet_by)) {
         facetBy = [...facetBy, ...query.facet_by]
@@ -195,9 +231,11 @@ export class ModuleService extends BaseServiceTypeSense {
     if (query?.filter_by) {
       filterBy = [...filterBy, ...query.filter_by.split(' && ')]
     }
+
     if (query?.q !== '*' && query?.q && query?.sort_by) {
       delete query.sort_by
     }
+
     const queries = [
       {
         ...query,
@@ -205,6 +243,7 @@ export class ModuleService extends BaseServiceTypeSense {
         max_facet_values: 100,
         filter_by: filterBy.join(' && '),
         group_by: 'techname',
+        group_limit: 99,
       },
     ]
 
@@ -227,6 +266,7 @@ export class ModuleService extends BaseServiceTypeSense {
           filter_by: filterBy,
           facet_by: facetBy,
           group_by: 'techname',
+          group_limit: 99,
           per_page: 0,
           max_facet_values: facet.perPage,
         })

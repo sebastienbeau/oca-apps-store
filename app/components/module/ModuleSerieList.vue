@@ -33,16 +33,28 @@ const emits = defineEmits<{
   (e: 'select', serie: string): void
 }>()
 
+/**
+ * Extract the series from the moduleGrouped hits,
+ * ensuring uniqueness and sorting them in descending order.
+ * If there are more than 5 series, only return the top 5 and
+ * indicate how many additional series there are with a "+X" format.
+ */
 const series = computed(() => {
-  return props.moduleGrouped?.hits
+  const series = props.moduleGrouped?.hits
     ?.reduce((acc: { serie: string }[], hit) => {
       if (hit.serie && !acc.find((v) => v.serie === hit.serie)) {
         acc.push({ serie: hit.serie })
       }
       return acc
     }, [])
-    .sort((a, b) => parseFloat(a.serie) - parseFloat(b.serie))
+    .sort((a, b) => parseFloat(b.serie) - parseFloat(a.serie))
+  if (series?.length > 5) {
+    const remaining = series.length - 5
+    return series.slice(0, 5).concat({ serie: `+${remaining}` })
+  }
+  return series
 })
+
 const variant = (hit: Module) => {
   if (!props.selectedModule) {
     return 'subtle'

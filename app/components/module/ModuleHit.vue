@@ -113,8 +113,8 @@
           </UTooltip>
         </UAvatarGroup>
       </div>
-      <div v-if="module?.website" class="flex items-center gap-1">
-        <NuxtLink :to="module.website" target="_blank">
+      <div v-if="module?.githubUrl" class="flex items-center gap-1">
+        <NuxtLink :to="module.githubUrl" target="_blank">
           <UIcon
             name="github"
             class="mr-1 p-2 text-gray-900 not-only:inline-block"

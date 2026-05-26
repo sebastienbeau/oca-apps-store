@@ -2,7 +2,6 @@ import { BaseServiceTypeSense } from '~~/services'
 import type { Person, PersonResult, PersonRole, FacetSearchParam, FacetSearchResult } from '~~/models'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { SitemapUrlInput } from '#sitemap/types'
-import type { LogoUrl } from '~~/models/Person'
 
 interface PersonSchema {
   id: number
@@ -249,13 +248,13 @@ export const PersonFactory = {
   createPersonCompany(
     json: any
   ): { id: number; name: string; urlKey: string } | undefined {
-   
-      return {
-        id: json?.company?.id || '',
-        name: json?.company?.name || '',
-        urlKey: json?.company?.url_key || '',
-      }
-    
+
+    return {
+      id: json?.company?.id || '',
+      name: json?.company?.name || '',
+      urlKey: json?.company?.url_key || '',
+    }
+
   },
   createPersonRoles(json: any): PersonRole[] {
     if (json?.roles) {
