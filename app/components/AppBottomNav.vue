@@ -1,5 +1,7 @@
 <template>
-  <div class="fixed inset-x-0 bottom-0 z-50 border-t border-default bg-white dark:bg-muted px-3 lg:hidden ">
+  <div
+    class="fixed inset-x-0 bottom-0 z-50 border-t border-default bg-white px-3 lg:hidden dark:bg-muted"
+  >
     <div id="NavbarBottom" />
     <UNavigationMenu :items="items" :ui="ui" class="w-full" />
   </div>
@@ -18,24 +20,24 @@ const items: NavigationMenuItem[] = [
   {
     label: t('nav.modules.title'),
     to: localePath('/modules'),
-    icon: 'module'
+    icon: 'module',
   },
   {
     label: t('nav.community.title'),
     to: localePath('/community'),
-    icon: 'community'
+    icon: 'community',
   },
   {
     label: t('nav.sponsors.title'),
     to: localePath('/sponsors'),
-    icon: 'sponsor'
-  }
+    icon: 'sponsor',
+  },
 ]
 const ui = {
-  root: 'justify-around gap-2 w-full py-1',
+  root: 'justify-around gap-2 w-full py-1 ',
   item: 'py-0',
-  link: 'flex-col gap-1 px-3',
-  linkLeadingIcon: 'size-5',
-  linkLabel: 'text-[10px]/3 font-normal'
+  link: 'flex-col gap-1 px-5',
+  linkLeadingIcon: 'size-7',
+  linkLabel: 'text-[12px]/3 font-normal',
 }
 </script>
