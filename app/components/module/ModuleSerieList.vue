@@ -24,6 +24,7 @@ const props = withDefaults(
     moduleGrouped: ModuleGroupedHit
     selectedModule?: Module
     size: 'sm' | 'md' | 'lg'
+    limit?: number
   }>(),
   {
     size: 'md',
@@ -48,9 +49,9 @@ const series = computed(() => {
       return acc
     }, [])
     .sort((a, b) => parseFloat(b.serie) - parseFloat(a.serie))
-  if (series?.length > 5) {
-    const remaining = series.length - 5
-    return series.slice(0, 5).concat({ serie: `+${remaining}` })
+  if (props.limit && series?.length > props.limit) {
+    const remaining = series.length - props.limit
+    return series.slice(0, props.limit).concat({ serie: `+${remaining}` })
   }
   return series
 })

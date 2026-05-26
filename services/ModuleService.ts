@@ -44,6 +44,7 @@ export class ModuleService extends BaseServiceTypeSense {
       q: '*',
       filter_by: `techname:${urlKey}`,
       group_by: 'techname',
+      group_limit: 99,
       include_fields: '$ocastore_persons_en(*, strategy: merge)',
       sort_by: 'serie:desc',
     }

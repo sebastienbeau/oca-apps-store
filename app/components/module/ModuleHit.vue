@@ -79,7 +79,12 @@
         class="border-l-2 border-l-muted py-1 pl-2 text-xs text-dimmed"
       />
 
-      <ModuleSerieList :module-grouped="moduleGrouped" size="sm" class="pt-3" />
+      <ModuleSerieList
+        :module-grouped="moduleGrouped"
+        size="sm"
+        class="pt-3"
+        :limit="5"
+      />
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
