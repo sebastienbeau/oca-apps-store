@@ -1,6 +1,6 @@
 ---
 id: 'platinum'
-level: 0
+level: 1
 name: 'Platinum'
 title: 'Platinum Sponsors'
 color: "#616181"

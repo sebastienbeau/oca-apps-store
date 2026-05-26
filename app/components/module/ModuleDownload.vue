@@ -76,6 +76,7 @@
             leading-icon="github"
             class="px-10"
             :label="t('modules.github.link')"
+            size="lg"
           />
 
           <UButton

@@ -20,6 +20,7 @@ links:
     to: 'https://www.odoo-community.org/get-involved/become-a-member'
     target: '_blank'
     icon: 'community'
+    size: 'xl'
 
 ---
 #title

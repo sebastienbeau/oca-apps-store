@@ -7,8 +7,8 @@
     </div>
     <div class="relative pt-14 pb-1 md:pt-22 md:pb-22">
       <div
-        class="absolute top-0 left-1/2 -z-10 h-[100%] w-screen -translate-x-1/2 -skew-y-3 transform"
-        style="background-color: #fffbf5"
+        class="absolute top-0 left-1/2 -z-10 h-[100%] w-screen -translate-x-1/2 -skew-y-3 transform dark:bg-primary-500  bg-secondary-50"
+      
       />
       <div v-if="displayPersonGroups" class="d-block mx-w-sm mx-auto">
         <PersonGroups :person="person" />

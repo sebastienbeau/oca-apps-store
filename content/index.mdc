@@ -28,6 +28,7 @@ links:
   - label: 'See all the OCA Odoo Apps'
     to: '/modules'
     icon: 'contribute'
+    size: 'xl'
 
 ---
 

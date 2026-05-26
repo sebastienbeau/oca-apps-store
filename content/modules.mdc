@@ -24,9 +24,10 @@ features:
     icon: 'i-lucide-unlock'
 links:
   - label: 'How to contribute'
-    to: 'https://www.odoo-community.org/get-involved/contribute
+    to: 'https://www.odoo-community.org/get-involved/contribute'
     target: '_blank'
     icon: 'contribute'
+    size: 'xl'
 
 ---
 #title

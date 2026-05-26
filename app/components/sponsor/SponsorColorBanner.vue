@@ -1,16 +1,14 @@
 <template>
   <div class="relative pt-14 pb-1 md:pt-32 md:pb-10">
     <div
-      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform opacity-5"
-      :style="{
-        backgroundColor: sponsorship?.color || '#FD9182',
-      }"
+      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform  opacity-5 dark:opacity-60 "
+      :class="bcgSponsorColor"
     />
     <div class="flex justify-between gap-1">
       <div
         class="mb-2 text-3xl font-bold"
         :style="{
-          color: sponsorship?.color || '#FD9182',
+          color: sponsorship?.color || '#FD9182 ',
         }"
       >
         <slot name="title">
@@ -20,7 +18,7 @@
       <div class="hidden md:block">
         <UButton
           :href="buttonUrl"
-          :label="t('sponsors.become', { name: sponsorship?.name }) + props.sponsorship?.level"
+          :label="t('sponsors.become', { name: sponsorship?.name }) "
           color="neutral"
           variant="solid"
           icon="contribute"
@@ -39,6 +37,22 @@ const props = defineProps<{
   sponsorship: SponsorLevelsCollectionItem
 }>()
 
+
+const bcgSponsorColor = computed (() => {
+  switch(props.sponsorship.name) {
+    case 'Platinum':
+      return 'bg-platinum dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-platinum dark:to-transparent';
+    case 'Gold': 
+      return 'bg-gold dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-gold dark:to-transparent ';
+    case 'Silver': 
+      return 'bg-silver dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-silver dark:to-transparent';
+    case 'Bronze': 
+      return 'bg-bronze dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-bronze dark:to-transparent';
+    default: 
+    return ''
+
+  }
+})
 const buttonUrl = computed(() => {
   switch (props.sponsorship?.level) {
     case '1':

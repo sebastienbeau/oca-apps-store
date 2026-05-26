@@ -19,6 +19,7 @@ links:
     to: 'https://www.odoo-community.org/get-involved/become-a-sponsor'
     target: '_blank'
     icon: 'sponsor'
+    size: 'xl'
 ui: 
   container: 'md:py-8 lg:py-8 xl:py-8'
   title: 'flex items-center justify-center'

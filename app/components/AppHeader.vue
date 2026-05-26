@@ -65,11 +65,22 @@
           linkLabel: 'py-2',
         }"
       />
-      <div class="flex justify-center pt-4">
+      <div class="flex flex-col gap-4 justify-center pt-4">
+        <UButton
+          color="neutral"
+          variant="soft"
+          href="https://odoo-community.org/"
+          target="_blank"
+          class="lg:hidden btn-xl block max-md:w-full mx-auto text-center"
+        >
+          <UIcon name="external"></UIcon>
+          {{ $t('nav.oca.website') }}
+        </UButton>
         <UButton color="secondary" to="/become-sponsor" size="xl" block>
           <UIcon name="vaadin:diamond"></UIcon>
           {{ $t('nav.sponsors.become') }}
         </UButton>
+        
       </div>
       <LocaleSwitcher />
     </template>

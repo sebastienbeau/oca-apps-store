@@ -48,7 +48,8 @@
     "sort": {
       "name_asc": "Sort by name A-Z",
       "name_desc": "Sort by name Z-A",
-      "collaboration_index_desc": "OCA Collaboration Index"
+      "collaboration_index_desc": "OCA Collaboration Index",
+      "collaboration_index_explanation_btn": "What is the OCA Collaboration Index?"
     },
     "notFound": "Company not found"
   },

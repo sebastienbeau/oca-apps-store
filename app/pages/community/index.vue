@@ -22,12 +22,24 @@
     </template>
     <template #sort="{ sortOptions, value, change }">
       <div class="flex items-center gap-2">
-        <SearchSortSelector
-          :options="sortOptions"
-          :value="value"
-          class="my-4"
-          @change="change"
-        />
+        <div class="flex flex-col gap-0">
+          <SearchSortSelector
+            :options="sortOptions"
+            :value="value"
+            class="my-0"
+            @change="change"
+          />
+          <UButton
+            href="https://www.odoo-community.org/blog/news-updates-1/oca-new-kpi-s-for-ranking-our-contributors-195"
+            target="_blank"
+            icon="help"
+            variant="link"
+            size="xs"
+            class="mx-auto text-neutral"
+            :label="t('companies.sort.collaboration_index_explanation_btn')"
+          />
+        </div>
+
         <UFieldGroup class="hidden sm:flex">
           <UButton
             color="neutral"

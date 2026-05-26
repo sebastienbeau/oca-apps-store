@@ -7,7 +7,7 @@
       variant="solid"
       color="secondary"
       :href="module?.runboatURL"
-      :size="size"
+      size="lg"
       icon="runboat"
       target="_blank"
     >
@@ -29,14 +29,9 @@
 </template>
 <script setup lang="ts">
 import type { Module } from '~~/models'
-const props = withDefaults(
-  defineProps<{
-    module: Module | null
-    size?: 'sm' | 'md' | 'lg'
-  }>(),
-  {
-    size: 'md',
-  }
-)
+const props = defineProps<{
+      module: Module | null
+}>()
+
 const { t } = useI18n()
 </script>

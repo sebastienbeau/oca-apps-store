@@ -21,6 +21,7 @@ links:
     to: 'https://www.odoo-community.org/get-involved/contribute'
     target: '_blank'
     icon: 'contribute'
+    size: 'xl'
 
 ---
 #title

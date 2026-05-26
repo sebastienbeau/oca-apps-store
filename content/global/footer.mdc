@@ -1,5 +1,14 @@
 ::u-footer-columns
 ---
+ui: 
+ root: 'text-base'
+ center: 'text-base'
+ label: 'text-base'
+ list: 'text-base'
+ item: 'text-base'
+ link: 'text-base'
+
+
 columns:
   - label: 'Community'
     children:
@@ -30,8 +39,8 @@ columns:
       - label: 'Module by Category'
         to: '/apps/categories'
         icon: 'category'
-      - label: 'Contribute a Module'
-        to: 'https://odoo-community.org/get-involved/become-a-contributor'
+      - label: 'Contribute to a Module'
+        to: 'https://www.odoo-community.org/get-involved/contribute'
         icon: 'community'
   
 

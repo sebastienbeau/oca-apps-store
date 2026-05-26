@@ -49,7 +49,7 @@
           v-for="category in categories?.hits"
           :key="category.id"
           :title="category.name"
-          :href="`/categories/${category.urlKey}`"
+          :href="`/${category.urlKey}`"
           :ui="{
             container: 'p-3 sm:p-4',
             leadingIcon: 'text-secondary',
@@ -65,7 +65,7 @@
             <UButton
               variant="outline"
               size="sm"
-              :to="category.urlKey"
+              :to="`/${category.urlKey}`"
               :label="$t('category.explore')"
             />
           </template>
@@ -77,13 +77,13 @@
           v-for="category in categories?.hits"
           :key="category.id"
           :ui="{
-            body: 'flex max-md:flex-col max-md:items-start md:justify-between hover:ring-2 hover:ring-primary-500',
+            body: 'p-4 sm:p-4 flex max-md:flex-col max-md:items-start md:justify-between  ',
           }"
         >
           <div class="flex items-center gap-3">
             <UIcon name="category" class="size-6 text-secondary" />
             <nuxt-link
-              :to="`/categories/${category.urlKey}`"
+              :to="`/${category.urlKey}`"
               class="text-lg font-normal text-primary hover:text-primary-600 transition-colors"
             >
               {{ category.name }}
@@ -93,7 +93,7 @@
             <UButton
               variant="outline"
               size="sm"
-              :to="category.urlKey"
+              :to="`/${category.urlKey}`"
               :label="$t('category.explore')"
             />
 
