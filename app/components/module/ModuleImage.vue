@@ -2,12 +2,13 @@
   <div>
     <NuxtImg
       :class="sizeClasses"
-      :src="module?.iconUrl || '/img/oca_modules_logo_vertical.png'"
+      :src="imageSrc"
       :alt="module?.name"
       loading="lazy"
       fetchpriority="low"
       :sizes="sizeString"
     />
+    
   </div>
 </template>
 <script lang="ts" setup>
@@ -22,6 +23,16 @@ const props = withDefaults(
     size: 'md',
   }
 )
+
+const colorMode = useColorMode()
+
+const imageSrc = computed(() => {
+  if (props.module?.iconUrl) return props.module.iconUrl
+
+  return colorMode.value === 'dark'
+    ? '/img/oca_modules_logo_vertical_dark.png'
+    : '/img/oca_modules_logo_vertical.png'
+})
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':

@@ -4,7 +4,7 @@
     class="relative flex justify-end py-10 md:py-16"
   >
     <div
-      style="background-image: url(/logo-bg.png)"
+      :style="colorMode.value == 'dark' ? 'background-image: url(/logo-bg_dark.png)' : 'background-image: url(/logo-bg.png)'"
       class="max-lg:bg-size-full absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 transform bg-muted bg-size-[200px_auto] bg-no-repeat opacity-20 lg:block lg:bg-size-[400px_auto] lg:bg-position-[left_-200px_bottom_2rem]"
     />
 
@@ -24,5 +24,9 @@ import type { Module } from '~~/models'
 const props = defineProps<{
   module: Module | null
 }>()
+
+const colorMode = useColorMode()
+
+
 const { t } = useI18n()
 </script>
