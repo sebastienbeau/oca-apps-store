@@ -3,7 +3,7 @@
     reverse
     class=""
     :ui="{
-      root: 'ring-0 md:mt-6 bg-white shadow-md p-4',
+      root: 'ring-0 md:mt-6 bg-muted shadow-md p-4 px-10',
       body: 'bg-transparent',
       header: 'p-0 relative',
       footer: 'flex justify-center',
@@ -36,7 +36,8 @@
           >
             <UIcon name="website" class="text-gray-500" />
             <ULink
-              to="https://akretion.com"
+              v-if="person.contact.website"
+              :to="person.contact.website"
               target="_blank"
               class="text-sm hover:underline text-blue-500"
             >
@@ -49,7 +50,8 @@
           >
             <UIcon name="email" class="text-gray-500" />
             <ULink
-              to="mailto:contact@akretion.com"
+              v-if="person.contact.email"
+              :to="`mailto:${person.contact.email}`"
               target="_blank"
               class="text-sm text-blue-500 hover:underline"
             >

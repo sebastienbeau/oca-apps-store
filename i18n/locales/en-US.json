@@ -189,9 +189,11 @@
       "cta": {
         "groupsEmptyTitle": "This person is not yet part of a group",
         "groupsDescription": "Discover all available working groups and join the one that fits you best",
-        "getInvolvedTitle": "Help us make Odoo mightier together",
+        "groupsAllDescription": "Discover all available working groups",
+        "getInvolvedTitle": "Help us make the Odoo Community mightier together",
         "getInvolvedDescription": "Come lend a hand and help build the largest community of Odoo open-source enthusiasts. Whether you’re a developer, a consultant, a business user, or just an open-source enthusiast, we’d love to have you join us.",
         "ctaGroupsLabel": "Join one of the working groups",
+        "ctaGroupsInfoLabel": "OCA Working Groups",
         "CtaContributorsLabel": "Find out how to contribute",
         "CtaCrowdfundingLabel": "Participate to a crowdfunding",
         "ctaBecomeMemberLabel": "Get your membership"

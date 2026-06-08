@@ -33,7 +33,7 @@
           >
             <UIcon
               name="line-md:github"
-              class="mr-1 p-2 text-gray-900 not-only:inline-block"
+              class="mr-1 p-2 text-muted not-only:inline-block "
               width="16"
               height="16"
             />
@@ -75,7 +75,7 @@
     </UPageCard>
     <div
       v-if="displayCompanyContact"
-      class="md:absolute md:top-44 md:left-2/3 md:w-1/5"
+      class="md:absolute md:top-44 md:left-2/3 w-auto"
     >
       <PersonCompanyContact :person="person" />
     </div>

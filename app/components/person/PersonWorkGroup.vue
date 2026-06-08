@@ -18,17 +18,12 @@
     </template>
     <template #body v-if="group.description">
       <div class=" ">
-        <div class="align space-y-1 text-sm text-gray-500">
+        <div class="align space-y-1 text-base text-gray-500 dark:text-gray-400">
           {{ group.description }}
         </div>
       </div>
     </template>
-    <template #footer>
-      <UButton to="/abc" variant="outline" color="neutral" class="justify-center "
-     >
-        {{ $t('generic.findOutMore') }}</UButton
-      >
-    </template>
+    
   </UPageCard>
 </template>
 <script setup lang="ts">

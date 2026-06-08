@@ -5,7 +5,7 @@
   >
     <div
       :style="colorMode.value == 'dark' ? 'background-image: url(/logo-bg_dark.png)' : 'background-image: url(/logo-bg.png)'"
-      class="max-lg:bg-size-full absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 transform bg-muted bg-size-[200px_auto] bg-no-repeat opacity-20 lg:block lg:bg-size-[400px_auto] lg:bg-position-[left_-200px_bottom_2rem]"
+      class="max-lg:bg-size-full absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 transform  bg-size-[200px_auto] bg-no-repeat opacity-20 lg:block lg:bg-size-[400px_auto] lg:bg-position-[left_-200px_bottom_2rem]"
     />
 
     <div class="w-full lg:max-w-[75vw] xl:max-w-[75vw] 2xl:max-w-none">

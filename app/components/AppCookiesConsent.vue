@@ -28,7 +28,7 @@
             name="i-fluent-cookies-48-regular"
             class="mr-2 inline-block size-8"
           />
-          <div class="flex-1 font-heading text-xl font-extrabold">
+          <div class="flex-1 font-heading text-xl font-extrabold dark:text-white">
             {{ t('cookies_consent.title') }}
           </div>
           <UButton
