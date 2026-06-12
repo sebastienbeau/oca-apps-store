@@ -34,10 +34,10 @@ columns:
   - label: 'Our open source Odoo App'
     children:
       - label: 'Browse Modules'
-        to: '/apps'
+        to: '/modules'
         icon: 'module'
       - label: 'Module by Category'
-        to: '/apps/categories'
+        to: '/categories'
         icon: 'category'
       - label: 'Contribute to a Module'
         to: 'https://www.odoo-community.org/get-involved/contribute'

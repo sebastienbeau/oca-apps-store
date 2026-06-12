@@ -9,7 +9,7 @@
       <div class="flex h-full flex-col items-end justify-between">
         <div class="flex w-full items-center justify-between gap-4">
           <nuxt-img
-            v-if="sponsorLevel && sponsorLevel.level !== '4'"
+            v-if="sponsorLevel"
             :src="company?.logoUrls?.m"
             alt="Logo"
             class="ml-0 max-h-20 rounded-md object-contain p-4"

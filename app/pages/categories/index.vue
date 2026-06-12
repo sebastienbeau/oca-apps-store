@@ -84,7 +84,7 @@
             <UIcon name="category" class="size-6 text-secondary" />
             <nuxt-link
               :to="`/${category.urlKey}`"
-              class="text-lg font-normal text-primary hover:text-primary-600 transition-colors"
+              class="text-lg font-normal text-primary dark:hover:text-muted hover:text-primary-600 transition-colors"
             >
               {{ category.name }}
             </nuxt-link>
