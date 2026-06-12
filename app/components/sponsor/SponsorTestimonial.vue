@@ -1,7 +1,7 @@
 <template>
-  <div v-if="sponsor.sponsorship?.descriptionWhyOca" class="relative py-4">
+  <div v-if="sponsor.sponsorship?.descriptionWhyOca" class="relative py-18">
     <div
-      class="absolute -top-12 left-1/2 -z-10 h-[110%] w-screen -translate-x-1/2 transform bg-primary-500 mt-24"
+      class="absolute -top-12 left-1/2 -z-10 h-[100%] w-screen -translate-x-1/2 transform bg-primary-500 mt-24"
     />
     <img
       src="/img/oca_logo_bckg_white.png"

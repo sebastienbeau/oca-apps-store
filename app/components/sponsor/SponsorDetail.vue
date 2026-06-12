@@ -19,6 +19,9 @@
       v-if="sponsor.sponsorship?.stories?.length > 0"
       :sponsor="sponsor"
     />
+    <div v-else-if="sponsor.sponsorship.descriptionWhyOca " class="py-28">
+      
+    </div>
     <SponsorTestimonial :sponsor="sponsor" />
   </div>
 </template>

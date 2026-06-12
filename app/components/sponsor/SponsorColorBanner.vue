@@ -41,13 +41,13 @@ const props = defineProps<{
 const bcgSponsorColor = computed (() => {
   switch(props.sponsorship.name) {
     case 'Platinum':
-      return 'bg-platinum dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-platinum dark:to-transparent';
+      return 'bg-platinum opacity-10 dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-platinum dark:to-transparent';
     case 'Gold': 
-      return 'bg-gold dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-gold dark:to-transparent ';
+      return 'bg-gold opacity-10 dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-gold dark:to-transparent ';
     case 'Silver': 
-      return 'bg-silver dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-silver dark:to-transparent';
+      return 'bg-silver opacity-10 dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-silver dark:to-transparent';
     case 'Bronze': 
-      return 'bg-bronze dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-bronze dark:to-transparent';
+      return 'bg-bronze opacity-10 dark:bg-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-bronze dark:to-transparent';
     default: 
     return ''
 
