@@ -25,6 +25,7 @@ export interface Module {
   usedBy: string[]
   license: string
   summary: string
+  mustHave: boolean
   maturity: string
   authors: string[]
   publicURL: string
@@ -41,7 +42,7 @@ export interface Module {
     usage?: string //ModuleUsage
     contributors?: string //ModuleContributors
   }
-  maintainers: ModuleMaintainer[],
+  maintainers: ModuleMaintainer[]
   bugTracker: {
     url: string
     instructions: string

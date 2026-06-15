@@ -376,6 +376,7 @@ export const ModuleFactory = {
       maintainers: this.createModuleMaintainers(json?.maintainers || []),
       publicURL: json?.public_url,
       runboatURL: json?.runboat_url,
+      mustHave: json?.must_have,
       githubUrl: json?.github_url,
       readmeFragments: {
         description: json?.readme_fragments?.description,

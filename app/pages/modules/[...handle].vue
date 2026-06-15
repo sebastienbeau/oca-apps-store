@@ -28,6 +28,16 @@
               size="md"
               :label="module.repository.category.name"
             />
+            <UBadge
+              v-if="module.mustHave"
+              color="success"
+              variant="outline"
+              size="sm"
+              icon="lucide:check"
+              class="rounded-full ml-2"
+              :label="t('modules.filters.must_have')"
+            />
+  
             <UContentToc
               class="md:hidden"
               :links="links"
@@ -134,6 +144,7 @@
 
 <script lang="ts" setup>
 import type { ContentTocLink } from '@nuxt/ui'
+import { json } from 'stream/consumers'
 import type { ModuleGroupedHit, Module } from '~~/models'
 
 const { t } = useI18n()

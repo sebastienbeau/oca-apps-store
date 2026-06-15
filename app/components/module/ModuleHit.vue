@@ -51,6 +51,16 @@
                 />
               </UBadge>
             </NuxtLink>
+            <UBadge
+              v-if="module?.mustHave"
+              color="success"
+              variant="outline"
+              size="sm"
+              class=" rounded-full mt-1"
+              icon="lucide:check"
+              :label="t('modules.filters.must_have')"
+            >
+            </UBadge>
             <div
               v-if="module?.repository?.name"
               class="flex items-center gap-1 text-sm"

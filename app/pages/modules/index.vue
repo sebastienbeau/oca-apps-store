@@ -71,11 +71,12 @@ const { data: content } = await useAsyncData(`content-modules`, () => {
 const moduleService = useService('modules')
 const sortOptions = computed(() => {
   return [
+    { label: t('modules.sort.must_have'), value: 'must_have:desc' },
     { label: t('modules.sort.name_asc'), value: 'name:asc' },
-    { label: t('modules.sort.name_desc'), value: 'name:desc' },
+    { label: t('modules.sort.name_desc'), value: 'name:desc' }
   ]
 })
-const sortBy = ref('name:asc')
+const sortBy = ref('must_have:desc')
 const displayMode = useCookie<'grid' | 'list'>('modules_display_mode', {
   default: () => 'grid',
 })
@@ -113,6 +114,20 @@ const facets: Facet[] = [
     routeParam: 'repository',
     searchable: true,
   },
+  {
+    field: 'must_have',
+    title: t('modules.filters.must_have'),
+    transformItems: (items) => {
+      return items.map(item => {
+        if (item.value === 'true') {
+          return { ...item, label: t('modules.filters.must_have') };
+        } else if (item.value === 'false') {
+          return { ...item, label: t('modules.filters.others') };
+        }
+        return item;
+      });
+    },
+  }
 ]
 const searchFunction = async (
   query: any,

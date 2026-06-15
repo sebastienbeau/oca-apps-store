@@ -57,7 +57,8 @@
     "technical_name": "Technical name",
     "sort": {
       "name_asc": "Sort by name A-Z",
-      "name_desc": "Sort by name Z-A"
+      "name_desc": "Sort by name Z-A",
+      "must_have": "Must-have first"
     },
     "search": {
       "placeholder": "Search modules...",
@@ -68,7 +69,9 @@
     "filters": {
       "versions": "Versions",
       "category": "Category",
-      "repository": "Repository"
+      "repository": "Repository",
+      "must_have": "Must-have",
+      "others": "Others"
     },
     "version": {
       "label": "Module version",

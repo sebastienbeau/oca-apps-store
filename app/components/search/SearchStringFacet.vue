@@ -30,6 +30,7 @@
         />
         <div class="flex justify-end">
           <UButton
+            v-if="items.length >= 10"
             color="neutral"
             variant="link"
             size="xs"
