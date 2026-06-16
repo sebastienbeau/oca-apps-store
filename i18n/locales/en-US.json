@@ -221,7 +221,8 @@
       "roles": "Roles"
     },
     "search": {
-      "placeholder": "Search members and contributors..."
+      "placeholder": "Search members and contributors...",
+      "members_displayed": "Note: not all our contributors & members are displayed, only people who agreed are."
     },
     "modulesMaintained": {
       "title": "Modules maintained by "
