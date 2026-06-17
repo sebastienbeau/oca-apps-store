@@ -30,7 +30,10 @@
         {{ company.modulesCount }}
       </div>
       <div class="max-md:text-xs">
-        {{ $t('company.stats.modules') }}
+        <UTooltip :text="$t('company.stats.modules_tooltip')" :delay-duration="0">
+          <UButton variant="link">{{ $t('company.stats.modules') }}*</UButton>
+        </UTooltip>
+        
       </div>
     </div>
   </div>

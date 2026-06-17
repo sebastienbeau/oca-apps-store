@@ -1,6 +1,6 @@
 ---
 title: Odoo integrators and companies involved with the OCA ecosystem
-description: Explore the list of companies around the world involved with the Odoo Community Association (OCA).
+description: Explore the list of companies around the world involved with the Odoo Community Association (OCA). An OCA Integrator is a company linked to OCA contributions.
 seo:
   title: Odoo Community Association Integrators
   description: Explore the list of companies around the world involved with the Odoo Community Association (OCA).
@@ -10,7 +10,7 @@ seo:
 ---
 orientation: vertical
 icon: 'module'
-description: Explore the list of companies around the world involved with the Odoo Community Association (OCA). 
+description: Explore the list of companies around the world involved with the Odoo Community Association (OCA). An OCA Integrator is a company linked to OCA contributions.
 
 links:
   - label: 'How to contribute'

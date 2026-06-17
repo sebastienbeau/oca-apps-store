@@ -101,7 +101,7 @@ const props = defineProps<{
   company: Company
 }>()
 const onClick = (sponsorLevel: any) => {
-  if (!sponsorLevel || sponsorLevel.level == '4') return
+  if (!sponsorLevel) return
 
   navigateTo(`/${props.company.urlKey}`)
 }
@@ -109,7 +109,7 @@ const { $sponsor } = useNuxtApp()
 const sponsorLevel = $sponsor.getSponsorLevel(props.company)
 
 const displaySponsor = computed(() => {
-  if (sponsorLevel && sponsorLevel.level !== '4') {
+  if (sponsorLevel) {
     return true
   } else {
     return false

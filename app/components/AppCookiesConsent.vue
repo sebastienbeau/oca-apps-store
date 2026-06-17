@@ -163,8 +163,14 @@ const onSaveCookiePreferences = () => {
   openDialog.value = false
 }
 
+const onManage = () => {
+   openCookiePreferences.value = true
+    openDialog.value = true
+}
 const saveCookies = () => {
   localStorage.setItem('cookie-preferences', JSON.stringify(value.value))
+  openDialog.value = false
+
 }
 
 const items = computed<CheckboxGroupItem[]>(() => [

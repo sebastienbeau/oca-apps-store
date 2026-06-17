@@ -4,7 +4,7 @@
     class="relative pt-14 pb-1 md:mt-8 md:pt-32 md:pb-12 md:mb-12"
   >
     <div
-      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform opacity-20 dark:opacity-60"
+      class="absolute top-0 left-1/2 -z-10 h-[120%] w-screen -translate-x-1/2 -skew-y-3 transform opacity-10 dark:opacity-60"
       :class="bcgSponsorColor"
     />
     <div v-if="sponsor?.sponsorship?.industries.length > 0">

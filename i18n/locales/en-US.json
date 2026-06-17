@@ -261,6 +261,7 @@
       "members": "OCA Member(s)",
       "contributors": "Contributors",
       "modules": "Odoo Modules",
+      "modules_tooltip": "Modules created by this company",
       "collaboration_index": "OCA Collaboration Index"
     },
     "description": {

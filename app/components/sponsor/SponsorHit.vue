@@ -114,7 +114,7 @@ const props = defineProps<{
   sponsor: Sponsor
 }>()
 const isClickable = computed(() => {
-  const levelWithpage = [1, 2, 3]
+  const levelWithpage = [1, 2, 3, 4]
   return levelWithpage.includes(props.sponsor?.sponsorship?.level?.id)
 })
 
