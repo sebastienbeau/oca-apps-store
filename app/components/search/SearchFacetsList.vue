@@ -19,7 +19,6 @@
       <template #item-content="{ item: { facet, component } }">
         <slot name="item-content" :item="{ facet, component }">
           <div class="p-4">
-            
             <component
               :is="component || 'SearchStringFacet'"
               ref="facetComponents"
@@ -150,7 +149,7 @@ const { t } = useI18n()
 const items = computed<NavigationMenuItem[]>(() => {
   return props.facets.map((facet) => {
     const { results } = props
-    let component = resolveComponent('SearchStringFacet')
+    let component = facet?.component || resolveComponent('SearchStringFacet')
     const result = results?.facets?.find?.(
       (f: FacetWithResult['facets'][number]) => f.field === facet.field
     )

@@ -72,13 +72,15 @@
           </slot>
         </template>
         <template v-else>
-          <div class="pb-3">
-            <div class="text-xs text-muted">
-              {{
-                t('search.results.count', {
-                  count: results.found,
-                })
-              }}
+          <div class="min-h-8 pb-3">
+            <div v-if="!isLoading" class="text-xs text-muted">
+              <slot name="results-info" :results="results">
+                {{
+                  t('search.results.count', {
+                    count: results.found,
+                  })
+                }}
+              </slot>
             </div>
           </div>
           <slot

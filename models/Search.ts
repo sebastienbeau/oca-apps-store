@@ -1,3 +1,5 @@
+import type { ConcreteComponent } from "vue"
+
 export interface FacetSearchParam {
   field: string
   query: string
@@ -30,6 +32,7 @@ export interface FacetSearchResult<T> {
 export type Facet = {
   field: string
   title: string
+  component?: string | ConcreteComponent
   transformItems?: (
     items: { label?: string, value: string, count: number }[]
   ) => { label?: string, value: string, count: number }[]
