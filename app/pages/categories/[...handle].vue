@@ -85,7 +85,6 @@ const { data: category, error } = await useAsyncData(
   }
 )
 
-console.log('category', category.value, error.value)
 const moduleService = useService('modules')
 const sortOptions = computed(() => {
   return [

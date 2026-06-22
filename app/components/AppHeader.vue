@@ -65,13 +65,13 @@
           linkLabel: 'py-2',
         }"
       />
-      <div class="flex flex-col gap-4 justify-center pt-4">
+      <div class="flex flex-col justify-center gap-4 pt-4">
         <UButton
           color="neutral"
           variant="soft"
           href="https://odoo-community.org/"
           target="_blank"
-          class="lg:hidden btn-xl block max-md:w-full mx-auto text-center"
+          class="btn-xl mx-auto block text-center max-md:w-full lg:hidden"
         >
           <UIcon name="external"></UIcon>
           {{ $t('nav.oca.website') }}
@@ -80,9 +80,7 @@
           <UIcon name="vaadin:diamond"></UIcon>
           {{ $t('nav.sponsors.become') }}
         </UButton>
-        
       </div>
-      <LocaleSwitcher />
     </template>
     <template #bottom> </template>
   </UHeader>
@@ -90,7 +88,6 @@
 
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
-const { locale } = useI18n()
 const localePath = useLocalePath()
 const { t } = useI18n()
 const items: NavigationMenuItem[] = [

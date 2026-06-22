@@ -36,6 +36,12 @@ export class ModuleService extends BaseServiceTypeSense {
     }))
   }
 
+  /**
+   * Find a module by its url key, which is the techname field in typesense.
+   * @param urlKey The url key of the module
+   * @param serie  (Odoo version) 
+   * @returns 
+   */
   async findByURLKey(
     urlKey: string,
     serie?: string
@@ -56,6 +62,22 @@ export class ModuleService extends BaseServiceTypeSense {
     const groupedHits = this.groupedHits(result?.grouped_hits) || []
 
     return groupedHits?.[0] || null
+  }
+
+  /**
+   * Find a module by one of its redirect url key, and return the module url key to perform a 301 redirection.
+   * This is used to keep old urls working after a module has been renamed (and its techname changed) or to keep compatibility with old urls from the OCA website.
+   * @param urlKey The url key to search in the redirect_url_key field of typesense, which is an array of strings.
+   * @returns A single module that match the url key in its redirect_url_key field, or null if no module is found.
+   */
+  async findRedirectByURLKey(urlKey: string): Promise<Module[] | null> {
+    const body: any = {
+      q: urlKey,
+      query_by: 'redirect_url_key',
+      limit: 1,
+    }
+    const result = await super.performSearch(body)
+    return this.hits(result?.hits) || []
   }
 
   async search(body: any): Promise<ModuleResult> {
