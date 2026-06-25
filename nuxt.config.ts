@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     },
   },
   plugins: ['~/plugins/services/index', '~/plugins/sponsorship'],
-  ssr: true,
+  ssr: false,
   devtools: { enabled: true },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
