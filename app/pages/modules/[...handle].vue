@@ -21,13 +21,21 @@
                 </span>
               </ProseH1>
             </div>
-            <UBadge
+             <NuxtLink
               v-if="module?.repository?.category?.name"
-              color="secondary"
-              variant="soft"
-              size="md"
-              :label="module.repository.category.name"
-            />
+              @click.stop
+              :to="`/${module.repository.category.urlKey}`"
+            >
+              <UBadge
+                v-if="module?.repository?.category?.name"
+                color="secondary"
+                variant="soft"
+                size="md"
+                class="cursor-pointer"
+                :label="module.repository.category.name"
+                :to="`/${module.repository.category.urlKey}`"
+              />
+              </NuxtLink>
             <UBadge
               v-if="module.mustHave"
               color="success"

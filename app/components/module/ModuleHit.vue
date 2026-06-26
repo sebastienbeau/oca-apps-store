@@ -33,7 +33,7 @@
             <NuxtLink
               v-if="module?.repository?.category?.name"
               @click.stop
-              :to="`/categories/${module.repository.category.urlKey}`"
+              :to="`/${module.repository.category.urlKey}`"
             >
               <UBadge
                 v-if="module?.repository?.category?.name"
@@ -42,7 +42,7 @@
                 size="sm"
                 class="rounded-full"
                 @click.stop
-                :to="`/categories/${module.repository.category.urlKey}`"
+                :to="`/${module.repository.category.urlKey}`"
               >
                 <span
                   v-html="
