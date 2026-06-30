@@ -4,6 +4,10 @@
       v-model:open="openDialog"
       @close:prevent="onAcceptAll"
       :overlay="false"
+      :content="{
+        onOpenAutoFocus: (e: Event) => e.preventDefault(),
+        onCloseAutoFocus: (e: Event) => e.preventDefault(),
+      }"
       :ui="{
         content:
           'bg-linear-to-tl from-secondary-400/10 via-transparent to-primary-400/10 text-sm left-2 bottom-2 top-auto translate-x-0 translate-y-0 max-w-md w-full divide-none',
@@ -28,7 +32,9 @@
             name="i-fluent-cookies-48-regular"
             class="mr-2 inline-block size-8"
           />
-          <div class="flex-1 font-heading text-xl font-extrabold dark:text-white">
+          <div
+            class="flex-1 font-heading text-xl font-extrabold dark:text-white"
+          >
             {{ t('cookies_consent.title') }}
           </div>
           <UButton
@@ -61,7 +67,12 @@
     </UModal>
     <UModal
       v-model:open="openCookiePreferences"
+      @close-auto-focus="(e: Event) => e.preventDefault()"
       :overlay="true"
+      :content="{
+        onOpenAutoFocus: (e: Event) => e.preventDefault(),
+        onCloseAutoFocus: (e: Event) => e.preventDefault(),
+      }"
       :ui="{
         footer: 'p-2 sm:p-3 justify-end gap-2',
       }"
@@ -111,7 +122,7 @@ const value = ref<string[]>(['system'])
 
 const consent = useScriptTriggerConsent()
 
-const isGtmAccepted = computed(() => value.value.includes('gtm'))
+const isGtmAccepted = computed(() =>  Array.isArray(value.value) && value.value.includes('gtm'))
 
 const { proxy, load, remove } = useScriptGoogleTagManager({
   id: gtm.id, //
@@ -152,9 +163,9 @@ const onAcceptAll = () => {
 }
 
 const onReject = () => {
+  openDialog.value = false
   value.value = ['system']
   handleFinalConsent()
-  openDialog.value = false
 }
 
 const onSaveCookiePreferences = () => {
@@ -164,13 +175,13 @@ const onSaveCookiePreferences = () => {
 }
 
 const onManage = () => {
-   openCookiePreferences.value = true
-    openDialog.value = true
+  openCookiePreferences.value = true
+  openDialog.value = true
 }
+
 const saveCookies = () => {
   localStorage.setItem('cookie-preferences', JSON.stringify(value.value))
   openDialog.value = false
-
 }
 
 const items = computed<CheckboxGroupItem[]>(() => [

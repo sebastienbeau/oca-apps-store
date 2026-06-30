@@ -8,6 +8,15 @@ seo:
 
 ::u-page-section
 ---
+ui: 
+  container: 'py-2 md:py-2 lg:py-0 xl:py-6 px-4 sm:py-12 sm:px-2 gap-2'
+  title: 'flex items-center justify-center text-2xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-5xl'
+  description: 'flex flex-col items-center max-w-5xl mx-auto'
+  leading: 'mb-0'
+  body: 'mt-8'
+  footer: 'mt-6 xl:mt-16'
+  leadingIcon: 'size-14'
+
 orientation: vertical
 icon: 'module'
 description: Explore the list of companies around the world involved with the Odoo Community Association (OCA). An OCA Integrator is a company linked to OCA contributions.
@@ -21,6 +30,6 @@ links:
 
 ---
 #title
-[Odoo integrators and companies involved with the [OCA ecosystem]{.text-secondary}]{.text-primary.text-5xl}
+[Odoo integrators and companies involved with the [OCA ecosystem]{.text-secondary}]{.text-primary}
 
 ::

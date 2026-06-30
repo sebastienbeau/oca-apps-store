@@ -92,7 +92,7 @@ const query = reactive({
     'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage,authors.name,maintainers.name',
   query_by:
     'name,techname,repo.category.name,repo.name,summary,description,readme_fragments.usage,authors.name,maintainers.name',
-  query_by_weights: '10,8,4,3,2,1,1,1,1',
+  query_by_weights: '10,8,7,6,2,1,1,1,1',
 })
 
 const facets: Facet[] = [

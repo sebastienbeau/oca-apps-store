@@ -11,9 +11,14 @@ seo:
 orientation: vertical
 icon: 'community'
 description: Our community is the heart of our ecosystem, driving innovation and collaboration. Join us to contribute, learn, and grow together in the world of Open Source Odoo modules.
-ui:
-  container: 'md:py-8 lg:py-8 xl:py-8'
-
+ui: 
+  container: 'py-2 md:py-2 lg:py-0 xl:py-6 px-4 sm:py-12 sm:px-2 gap-2'
+  title: 'flex items-center justify-center text-2xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-5xl'
+  description: 'flex flex-col items-center max-w-5xl mx-auto'
+  leading: 'mb-0'
+  body: 'mt-8'
+  footer: 'mt-8 xl:mt-16'
+  leadingIcon: 'size-14'
 
 links:
   - label: 'Join the Community'
@@ -24,7 +29,7 @@ links:
 
 ---
 #title
-[Odoo Community Association [Members & Contributors]{.text-secondary}]{.text-primary.text-5xl}
+[Odoo Community Association [Members & Contributors]{.text-secondary}]{.text-primary}
 
 ::
 

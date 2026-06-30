@@ -10,7 +10,7 @@ useSeoMeta(page.value?.seo || {})
 
 <template>
   <UPage v-if="page">
-    <UPageBody>
+    <UPageBody :ui="{ base: 'p-0'}">
       <ContentRenderer :value="page" />
     </UPageBody>
   </UPage>

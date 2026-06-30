@@ -31,7 +31,7 @@ columns:
       - label: 'Our Sponsors'
         to: '/sponsors'
         icon: 'sponsor'
-  - label: 'Our open source Odoo App'
+  - label: 'Our pen Source Odoo App'
     children:
       - label: 'Browse Modules'
         to: '/modules'
@@ -50,7 +50,7 @@ columns:
 ![OCA Logo](/logo-light.png){.w-32.pb-5}
 The **Odoo Community Association (OCA)** is a non-profit organization
 that brings together developers, integrators, and users to collaborate
-on open-source modules for Odoo. Our **members** are the backbone of
+on Open Source modules for Odoo. Our **members** are the backbone of
 this community, contributing code, expertise, and resources to ensure
 the growth and sustainability of the OCA ecosystem.
 

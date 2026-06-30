@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "OCA Apps Store",
-    "description": "All the opens source Odoo modules and apps developed by the OCA community"
+    "description": "All the Opens Source Odoo modules and apps developed by the OCA community"
   },
   "nav": {
     "site": {
@@ -194,7 +194,7 @@
         "groupsDescription": "Discover all available working groups and join the one that fits you best",
         "groupsAllDescription": "Discover all available working groups",
         "getInvolvedTitle": "Help us make the Odoo Community mightier together",
-        "getInvolvedDescription": "Come lend a hand and help build the largest community of Odoo open-source enthusiasts. Whether you’re a developer, a consultant, a business user, or just an open-source enthusiast, we’d love to have you join us.",
+        "getInvolvedDescription": "Come lend a hand and help build the largest community of Odoo Open Source enthusiasts. Whether you’re a developer, a consultant, a business user, or just an Open Source enthusiast, we’d love to have you join us.",
         "ctaGroupsLabel": "Join one of the working groups",
         "ctaGroupsInfoLabel": "OCA Working Groups",
         "CtaContributorsLabel": "Find out how to contribute",
@@ -307,7 +307,7 @@
     "description": "Discover all OCA modules in the {category} category",
     "seo": {
       "title": "{category} OCA modules - OCA Apps Store",
-      "description": "Explore the {category} category of the OCA Apps Store and discover all the open-source Odoo modules developed by the OCA community in this category."
+      "description": "Explore the {category} category of the OCA Apps Store and discover all the Open Source Odoo modules developed by the OCA community in this category."
     },
     "explore": "Explore Odoo modules"
   },
