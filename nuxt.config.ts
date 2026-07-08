@@ -59,10 +59,10 @@ export default defineNuxtConfig({
     description:
       'OCA Appstore is the place to find and share Odoo apps, modules, and services developed by the Odoo Community Association (OCA).',
   },
-  sitemap: {
-    sources: ['/api/__sitemap__/urls'],
-    autoI18n: false,
-  },
+  // sitemap: {
+  //   sources: ['/api/__sitemap__/urls'],
+  //   autoI18n: false,
+  // },
   ui: {
     colorMode: true,
   },
