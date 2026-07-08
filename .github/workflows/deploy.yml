@@ -26,6 +26,7 @@ jobs:
           NUXT_PUBLIC_SEARCH_INDICES_PERSONS_EN: 'ocastore_persons_en_us'
           NUXT_PUBLIC_SEARCH_INDICES_MODULES_EN: 'ocastore_modules_en_us'
           NUXT_PUBLIC_SEARCH_INDICES_CATEGORIES_EN: 'ocastore_categories_en_us'
+      - run: printf 'User-agent: *\nDisallow: /\n' > public/robots.txt
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

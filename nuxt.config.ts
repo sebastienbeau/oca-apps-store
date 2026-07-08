@@ -47,7 +47,10 @@ export default defineNuxtConfig({
       class: 'bg-default',
     },
     head: {
-      meta: [{ name: 'theme-color', content: '#151B47' }],
+      meta: [
+          { name: 'theme-color', content: '#151B47' },
+          { name: 'robots', content: 'noindex, nofollow' },
+      ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
     },
   },
