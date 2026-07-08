@@ -19,7 +19,7 @@ jobs:
       - run: pnpm install
       - run: pnpx nuxt build --preset github_pages
         env:
-          # NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/oca-store
+          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
