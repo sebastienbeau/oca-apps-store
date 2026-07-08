@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - add-github-config
 jobs:
   build:
     runs-on: ubuntu-latest
